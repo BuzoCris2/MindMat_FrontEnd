@@ -1,0 +1,49 @@
+<form [formGroup]="productForm" class="row">
+    <div>
+      <h2 class="mb-0">Add Product</h2>
+    </div>
+    <div class="mb-2">
+        <label class="mb-1" for="name">Name*</label>
+        <input id="name" formControlName="name" type="text" class="form-control">
+        @if (productForm.controls['name'].invalid && (productForm.controls['name'].dirty || productForm.controls['name'].touched)) {
+          <p class="text-danger my-1">Name is required</p>
+        }
+      </div>
+    <div class="mb-2">
+      <label class="mb-1" for="description">Description*</label>
+      <input id="description" formControlName="description" type="text" class="form-control">
+      @if (productForm.controls['description'].invalid && (productForm.controls['description'].dirty || productForm.controls['description'].touched)) {
+        <p class="text-danger my-1">Description is required</p>
+      }
+    </div>
+    <div class="mb-2">
+        <label class="mb-1" for="price">Price*</label>
+        <input id="price" formControlName="price" type="number" class="form-control">
+        @if (productForm.controls['price'].invalid && (productForm.controls['price'].dirty || productForm.controls['price'].touched)) {
+          <p class="text-danger my-1">Price is required</p>
+        }
+      </div>
+    <div class="mb-2">
+        <label class="mb-1" for="stockQuantity">StockQuantity*</label>
+        <input id="stockQuantity" formControlName="stockQuantity" type="number" class="form-control">
+        @if (productForm.controls['stockQuantity'].invalid && (productForm.controls['stockQuantity'].dirty || productForm.controls['stockQuantity'].touched)) {
+          <p class="text-danger my-1">StockQuantity is required</p>
+        }
+      </div>
+      <div class="mb-2">
+        <label class="mb-1" for="category">Category*</label>
+        <select id="category" formControlName="categoryId" class="form-control">
+          <option value="" disabled>Select a category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>        
+        <p class="text-danger my-1" *ngIf="productForm.controls['categoryId'].invalid && 
+            (productForm.controls['categoryId'].dirty || productForm.controls['categoryId'].touched)">
+          Category is required
+        </p>        
+      </div>
+    <div class="d-flex justify-content-end">
+      <button (click)="callSave()" [disabled]="productForm.invalid" class="btn btn-primary" type="button">Save</button>
+    </div>
+  </form>
