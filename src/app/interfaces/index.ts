@@ -92,3 +92,18 @@ export interface ISearch {
   totalElements?: number;
   totalPages?:number;
 }
+
+export interface IGridCell {
+  row: number;
+  column: string; 
+  hasShip: number;
+  isHit: number;
+}
+
+export interface IShip {
+  id: number;
+  name: string;
+  size: number;
+  hitCount: number;
+  cellsOccupied: IGridCell[];
+}

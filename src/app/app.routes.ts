@@ -1,3 +1,4 @@
+import { MathleshipComponent } from './pages/mathleship/mathleship.component';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
@@ -133,6 +134,19 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'products',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'mathleship',
+        component: MathleshipComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'mathleship',
           showInSidebar: true
         }
       }
