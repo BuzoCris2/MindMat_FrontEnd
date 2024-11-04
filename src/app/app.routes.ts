@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
+import { MainComponent } from './pages/auth/main/main.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { SigUpComponent } from './pages/auth/sign-up/signup.component';
@@ -16,15 +18,30 @@ import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProductsComponent } from './pages/products/products.component';
 
 export const routes: Routes = [
+
   {
-    path: 'login',
-    component: LoginComponent,
+    path: '',
+    component: AuthLayoutComponent,  // Usar el contenedor común para autenticación
     canActivate: [GuestGuard],
-  },
-  {
-    path: 'signup',
-    component: SigUpComponent,
-    canActivate: [GuestGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'main', // Redirigir a 'main' dentro del contenedor de autenticación
+        pathMatch: 'full',
+      },
+      {
+        path: 'main',
+        component: MainComponent,
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'signup',
+        component: SigUpComponent,
+      },
+    ],
   },
   {
     path: 'access-denied',

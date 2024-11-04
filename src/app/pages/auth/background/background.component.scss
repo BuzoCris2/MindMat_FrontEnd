@@ -1,0 +1,65 @@
+.landing-container {
+  
+    background: url('../../../../assets/img/main/espacio.png') no-repeat center center/cover;
+    overflow: hidden;
+    position: relative;
+  }
+  .stars {
+    position: absolute;
+    width: 50px; 
+    height: 50px;
+    background: url('../../../../assets/img/main/estrella.png') no-repeat center/contain;
+    animation: shine 2s infinite alternate;
+    opacity: 0.9;
+  }
+  
+  .star-1 {
+    top: 10%;
+    left: 20%;
+  }
+  
+  .star-2 {
+    top: 20%;
+    left: 60%;
+  }
+  
+  .star-3 {
+    top: 60%;
+    left: 80%;
+  }
+  .star-4 {
+    top: 70%;
+    left: 10%;
+  }
+  @keyframes shine {
+    0% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  .meteor {
+    position: absolute;
+    width: 100px; 
+    height: 100px;
+    background: url('../../../../assets/img/main/meteoros.png') no-repeat center/contain;
+    top: -10%; /* Empieza fuera de la pantalla */
+    left: 100%; /* Empieza fuera de la pantalla */
+    animation: flyAcross 5s linear infinite;
+  }
+  
+  @keyframes flyAcross {
+    0% {
+      top: -20%;
+      left: 50%;
+      transform: rotate(15deg);
+      opacity: 1;
+    }
+    100% {
+      top: 60%;
+      left: -10%;
+      transform: rotate(15deg);
+      opacity:0;
+    }
+  }
