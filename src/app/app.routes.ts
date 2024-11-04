@@ -23,7 +23,7 @@ import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component'
 import { ReportsComponent } from './pages/reports/reports.component';
 
 
-export const routes: Routes = [
+//export const routes: Routes = [
 
 export const routes: Routes = [  
   {
