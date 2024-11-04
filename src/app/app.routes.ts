@@ -14,7 +14,11 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProductsComponent } from './pages/products/products.component';
+
+import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component';
+
 import { ReportsComponent } from './pages/reports/reports.component';
+
 
 export const routes: Routes = [
   {
@@ -144,6 +148,19 @@ export const routes: Routes = [
           showInSidebar: true
         }
       },
+      {
+        path: 'keyboard',
+        component: KeyboardComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'keyboard',
+          showInSidebar: true
+        }
+      }
     ],
   },
 ];
