@@ -1,0 +1,18 @@
+<div class="title-container">
+  <h1>Bienvenidos a MindMat</h1>
+  <h3>Comienza tu aventura!</h3>
+</div>
+<div class="container">
+  <div class="card" (mouseenter)="toggleHover('login')" (mouseleave)="toggleHover('login')" (click)="navigateTo('login')">
+    <div class="card-content">
+      <h2>Iniciar Sesión</h2>
+    </div>
+    <img src="../../../../assets/img/main/gato.png" alt="Gato" class="slide-image" [class.hovered]="hovered === 'login'">
+  </div>
+  <div class="card" (mouseenter)="toggleHover('signup')" (mouseleave)="toggleHover('signup')" (click)="navigateTo('signup')">
+    <div class="card-content">
+      <h2>Registrarse</h2>
+    </div>
+    <img src="../../../../assets/img/main/perro.png" alt="Perro" class="slide-image" [class.hovered]="hovered === 'signup'">
+  </div>
+</div>
