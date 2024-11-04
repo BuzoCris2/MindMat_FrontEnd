@@ -16,7 +16,7 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProductsComponent } from './pages/products/products.component';
 
-export const routes: Routes = [
+export const routes: Routes = [  
   {
     path: 'login',
     component: LoginComponent,
