@@ -1,3 +1,4 @@
+import { MathleshipComponent } from './pages/mathleship/mathleship.component';
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
 import { MainComponent } from './pages/auth/main/main.component';
@@ -24,6 +25,7 @@ import { ReportsComponent } from './pages/reports/reports.component';
 
 export const routes: Routes = [
 
+export const routes: Routes = [  
   {
     path: '',
     component: AuthLayoutComponent,  // Usar el contenedor común para autenticación
@@ -175,6 +177,19 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'keyboard',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'mathleship',
+        component: MathleshipComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'mathleship',
           showInSidebar: true
         }
       }
