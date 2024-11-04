@@ -14,7 +14,7 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProductsComponent } from './pages/products/products.component';
-
+import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component';
 export const routes: Routes = [
   {
     path: 'login',
@@ -133,6 +133,19 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'products',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'keyboard',
+        component: KeyboardComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'keyboard',
           showInSidebar: true
         }
       }
