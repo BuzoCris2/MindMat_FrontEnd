@@ -1,11 +1,13 @@
-.login-container {
+.register-container {
   height: 100vh;
-  // background-image: url("../../../../assets/img/login/login-bg.jpg");
   background-position: left;
   background-size: cover;
   background-repeat: no-repeat;
-  padding: 20px 20%;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &::before {
     content: '';
     position: absolute;
@@ -13,39 +15,148 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según necesites */
+    background: rgba(0, 0, 0, 0.5);
     z-index: 1;
   }
-  .login-card {
+
+  .register-card {
     position: relative;
     z-index: 2;
-    width: 50%;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
-    margin: 0 auto;
+    display: flex;
+    width: 100%; 
+    max-width: 800px; 
     background-color: #fff;
+    box-shadow: 0 0 37px rgba(8, 21, 66, 0.1);
+    overflow: hidden;
+    border-radius: 15px;
   }
-  .invalid-feedback {
-    position: absolute;
-    margin-top: 0px;
+
+  .register-form {
+    width: 50%;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
-  @media screen and (min-width: 801px) and (max-width: 1500px) {
-    padding: 20px 5%;
-    .login-card {
-      width: 60%;
-      .login-main {
-        padding: 0px;
+
+  .register-content {
+    width: 100%;
+  }
+
+  .register-title {
+    margin-bottom: 20px;
+    h4 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.8rem;
+      color: #333;
+    }
+    small {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      color: #666;
+      a.login-link {
+        color: #6C8CFF;
+        text-decoration: underline;
       }
     }
   }
-  @media screen and (max-width: 800px) {
-    padding: 20px 5%;
-    .login-card {
-      width: 100%;
-      .login-main {
-        padding: 0px;
+
+  .input-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+
+  .input-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+
+
+    .input-label {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .input-field {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+      &:focus {
+        border-color: #6C8CFF;
+        outline: none;
       }
+      margin-bottom: 0;
+    }
+
+    .input-error-message {
+      font-size: 0.9rem;
+      color: #d9534f;
+    }
+
+    .input-invalid {
+      border-color: #d9534f;
+    }
+
+    .input-valid {
+      border-color: #28a745;
+    }
+  }
+
+  .register-actions {
+    margin-top: 20px;
+    .register-button {
+      background-color: #fff;
+      color: #6C8CFF;
+      border: 3px solid #6C8CFF;
+      border-radius: 10px;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      padding: 10px;
+      width: 100%;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      &:hover {
+        background-color: #6C8CFF;
+        color: #fff;
+      }
+    }
+  }
+
+  .register-image {
+    width: 50%;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .register-wrapper {
+      flex-direction: column;
+      padding: 20px;
+    }
+    .register-card {
+      flex-direction: column;
+      width: 100%;
+    }
+    .register-form {
+      width: 100%;
+      padding: 20px;
+    }
+    .register-image {
+      width: 100%;
+      padding: 10px;
     }
   }
 }

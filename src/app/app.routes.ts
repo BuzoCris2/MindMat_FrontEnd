@@ -1,4 +1,7 @@
+import { MathleshipComponent } from './pages/mathleship/mathleship.component';
 import { Routes } from '@angular/router';
+import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
+import { MainComponent } from './pages/auth/main/main.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { SigUpComponent } from './pages/auth/sign-up/signup.component';
@@ -15,16 +18,37 @@ import { OrdersComponent } from './pages/orders/orders.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProductsComponent } from './pages/products/products.component';
 
-export const routes: Routes = [
+import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component';
+
+import { ReportsComponent } from './pages/reports/reports.component';
+
+
+//export const routes: Routes = [
+
+export const routes: Routes = [  
   {
-    path: 'login',
-    component: LoginComponent,
+    path: '',
+    component: AuthLayoutComponent,  // Usar el contenedor común para autenticación
     canActivate: [GuestGuard],
-  },
-  {
-    path: 'signup',
-    component: SigUpComponent,
-    canActivate: [GuestGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'main', // Redirigir a 'main' dentro del contenedor de autenticación
+        pathMatch: 'full',
+      },
+      {
+        path: 'main',
+        component: MainComponent,
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'signup',
+        component: SigUpComponent,
+      },
+    ],
   },
   {
     path: 'access-denied',
@@ -102,9 +126,7 @@ export const routes: Routes = [
         component: OrdersComponent,
         data: { 
           authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
+            IRoleType.admin
           ],
           name: 'orders',
           showInSidebar: true
@@ -115,9 +137,7 @@ export const routes: Routes = [
         component: CategoriesComponent,
         data: { 
           authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
+            IRoleType.admin
           ],
           name: 'categories',
           showInSidebar: true
@@ -128,11 +148,48 @@ export const routes: Routes = [
         component: ProductsComponent,
         data: { 
           authorities: [
+            IRoleType.admin
+          ],
+          name: 'products',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'reports',
+        component: ReportsComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user
+          ],
+          name: 'reports',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'keyboard',
+        component: KeyboardComponent,
+        data: { 
+          authorities: [
             IRoleType.admin, 
             IRoleType.superAdmin,
             IRoleType.user,
           ],
-          name: 'products',
+          name: 'keyboard',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'mathleship',
+        component: MathleshipComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'mathleship',
           showInSidebar: true
         }
       }

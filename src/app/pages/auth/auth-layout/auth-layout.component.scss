@@ -1,0 +1,14 @@
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+  }
+  
+  .auth-content {
+    width: 75%; /* Esto ajustará el contenido para ocupar el 50% del ancho */
+    max-width: 75%; /* Máximo ancho para evitar que crezca demasiado en pantallas grandes */
+    min-width: 300px; /* Mínimo ancho para mantener la usabilidad en pantallas pequeñas */
+    padding: 20px;
+  }
