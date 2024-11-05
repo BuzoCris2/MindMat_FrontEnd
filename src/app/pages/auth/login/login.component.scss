@@ -1,11 +1,13 @@
 .login-container {
-  height: 100vh;
-  // background-image: url("../../../../assets/img/login/login-bg.jpg");
+  min-height: 100vh;
   background-position: left;
   background-size: cover;
   background-repeat: no-repeat;
-  padding: 20px 20%;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &::before {
     content: '';
     position: absolute;
@@ -13,34 +15,111 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Ajusta la opacidad según necesites */
+    background: rgba(0, 0, 0, 0.5);
     z-index: 1;
   }
+
   .login-card {
     position: relative;
     z-index: 2;
-    width: 50%;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 37px rgba(8, 21, 66, 0.05);
-    margin: 0 auto;
+    display: flex;
+    width: 100%; 
+    max-width: 750px; 
     background-color: #fff;
-  }
-  @media screen and (min-width: 801px) and (max-width: 1500px) {
-    padding: 20px 5%;
-    .login-card {
-      width: 60%;
+    box-shadow: 0 0 37px rgba(8, 21, 66, 0.1);
+    overflow: hidden;
+    border-radius: 15px; // Esquinas redondeadas
+
+    .login-image {
+      width: 50%;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .login-form {
+      width: 50%;
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-top: 15px;
+
+
       .login-main {
-        padding: 0px;
+        h4 {
+          font-family: 'Fredoka', sans-serif;
+          font-size: 1.8rem;
+          color: #333;
+        }
+
+        small {
+          font-family: 'Fredoka', sans-serif;
+          font-size: 1rem;
+          color: #666;
+        }
+
+        .form-label {
+          font-family: 'Fredoka', sans-serif;
+          font-size: 1rem;
+          color: #333;
+        }
+
+        .btn-primary {
+          background-color: #fff;
+          color: #6C8CFF;
+          border: 3px solid #6C8CFF;
+          border-radius: 10px;
+          font-family: 'Fredoka', sans-serif;
+          font-size: 1.2rem;
+          font-weight:500;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background-color: #6C8CFF;
+            color: #fff;
+          }
+        }
+
+        .text-muted {
+          margin-top: 15px;  
+          margin-bottom: 5px;
+          font-family: 'Fredoka', sans-serif;
+          font-size: 0.9rem;
+          text-align: center; 
+        }
+
+        .register-link {
+          color: #6C8CFF;
+          text-decoration: underline;
+          font-family: 'Fredoka', sans-serif;
+          display: block;
+          margin-top: 0;
+          text-align: center; 
+        }
       }
     }
   }
+
   @media screen and (max-width: 800px) {
     padding: 20px 5%;
     .login-card {
+      flex-direction: column;
       width: 100%;
-      .login-main {
-        padding: 0px;
+
+      .login-image {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .login-form {
+        width: 100%;
+        padding: 20px;
       }
     }
   }
