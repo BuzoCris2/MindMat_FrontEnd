@@ -2,7 +2,15 @@
 <div class="row p-4">
 </div>
 <div class="row p-4 ">
-    <h1>Test</h1>
+    <div *ngIf="currentTextIndex === 0">
+        <h1>xd</h1>
+    </div>
+    <div *ngIf="currentTextIndex === 1">
+        <h2>xd</h2>
+    </div>
+    <div *ngIf="currentTextIndex === 2">
+        <h3>xd</h3>
+    </div>
     <div class="col-12 display-key-board">
         <app-key
             name="1"
@@ -15,12 +23,14 @@
             value="Csharp"
             backgroundColor="orangered"
             color="white"
+
         />
         <app-key
             name="3"
             value="D"
             backgroundColor="gold"
             color="black"
+
         />
         <app-key
             name="4"
@@ -83,5 +93,6 @@
             color="white"
         />
     </div>
+    <app-games-knoledge-base (textIndexChange)="updateTextIndex($event)"></app-games-knoledge-base>
 </div>
 }
