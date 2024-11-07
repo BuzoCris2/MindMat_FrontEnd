@@ -42,7 +42,7 @@ export class UsersComponent {
     avatarId: ['', Validators.required]
   });
   
-
+  
   constructor() {
     this.userService.search.page = 1;
     this.userService.getAll();
@@ -54,13 +54,13 @@ export class UsersComponent {
   }
 
   callEdition(user: IUser) {
-    this.userForm.controls['id'].setValue(user.id ? JSON.stringify(user.id) : '');
-    this.userForm.controls['email'].setValue(user.email ? user.email : '');
-    this.userForm.controls['name'].setValue(user.name ? JSON.stringify(user.name) : '');
-    this.userForm.controls['lastname'].setValue(user.lastname ? JSON.stringify(user.lastname) : '');
-    this.userForm.controls['password'].setValue(user.password ? JSON.stringify(user.password) : '');
-    this.userForm.controls['active'].setValue(user.active ? JSON.stringify(user.active): '');
-    this.userForm.controls['avatarId'].setValue(user.avatarId ? JSON.stringify(user.avatarId): '');
+    this.userForm.controls['id'].setValue(user.id ? String(user.id) : ''); // Convertir a string
+    this.userForm.controls['email'].setValue(user.email || '');
+    this.userForm.controls['name'].setValue(user.name || '');
+    this.userForm.controls['lastname'].setValue(user.lastname || '');
+    this.userForm.controls['password'].setValue(user.password || '');
+    this.userForm.controls['active'].setValue(user.active ? String(user.active) : ''); // Convertir a string
+    this.userForm.controls['avatarId'].setValue(user.avatarId ? String(user.avatarId) : ''); // Convertir a string
     this.modalService.displayModal('md', this.addUsersModal);
   }
 
