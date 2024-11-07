@@ -84,7 +84,7 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
-        component: CategoriesComponent,
+        component: DashboardComponent,
         data: { 
           authorities: [
             IRoleType.admin, 
