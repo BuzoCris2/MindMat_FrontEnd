@@ -39,7 +39,8 @@ export class UsersComponent {
     password: ['', Validators.required],
     updatedAt: ['', Validators.required],
     active: ['', Validators.required],
-    avatarId: ['', Validators.required]
+    avatarId: ['', Validators.required],
+    role: ['', Validators.required]
   });
   
   
@@ -54,13 +55,14 @@ export class UsersComponent {
   }
 
   callEdition(user: IUser) {
-    this.userForm.controls['id'].setValue(user.id ? String(user.id) : ''); // Convertir a string
+    this.userForm.controls['id'].setValue(user.id ? String(user.id) : '');
     this.userForm.controls['email'].setValue(user.email || '');
     this.userForm.controls['name'].setValue(user.name || '');
     this.userForm.controls['lastname'].setValue(user.lastname || '');
     this.userForm.controls['password'].setValue(user.password || '');
-    this.userForm.controls['active'].setValue(user.active ? String(user.active) : ''); // Convertir a string
-    this.userForm.controls['avatarId'].setValue(user.avatarId ? String(user.avatarId) : ''); // Convertir a string
+    this.userForm.controls['active'].setValue(user.active ? String(user.active) : '');
+    this.userForm.controls['avatarId'].setValue(user.avatarId ? String(user.avatarId) : '');
+    this.userForm.controls['role'].setValue(user.role ? user.role.name : '');
     this.modalService.displayModal('md', this.addUsersModal);
   }
 

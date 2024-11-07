@@ -27,7 +27,8 @@ export class UserFormComponent {
       password: this.userForm.controls['password'].value,
       updatedAt: this.userForm.controls['updatedAt'].value,
       active: this.userForm.controls['active'].value,
-      avatarId : this.userForm.controls['avatarId'].value
+      avatarId : this.userForm.controls['avatarId'].value,
+      role: this.userForm.controls['role'].value
     }
     if(this.userForm.controls['id'].value) {
       order.id = this.userForm.controls['id'].value;
