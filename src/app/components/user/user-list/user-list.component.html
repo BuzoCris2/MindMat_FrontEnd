@@ -1,3 +1,5 @@
+<h2>{{title}}</h2>
+
 <div class="table-container table-responsive">
   <table class="table table-striped">
     <thead>
@@ -14,8 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (item of users; track item.id) {
-        <tr>
+        <tr *ngFor="let item of users; trackBy: trackById">
           <th scope="row">{{item.id}}</th>
           <td>{{item.name}}</td>
           <td>{{item.lastname}}</td>
@@ -25,19 +26,17 @@
           <td>{{item.active}}</td>
           <td>{{item.avatarId}}</td>
           <td>
-            <button (click)="callModalAction.emit(item);" class="btn btn-warning me-2" type="button"><i class="fas fa-pen"></i></button>
+            <button (click)="callModalAction.emit(item)" class="btn btn-warning me-2" type="button"><i class="fas fa-pen"></i></button>
             <button (click)="callDeleteAction.emit(item)" class="btn btn-danger" type="button"><i class="fas fa-trash"></i></button>
           </td>
-        </tr>
-      } @empty {
-        <tr>
-          <td colspan="7">
+      </tr>
+        <tr *ngIf="!users || users.length === 0">
+          <td colspan="9">
             <div class="d-flex justify-content-center align-items-center w-100">
-              <p class="mb-0">There are not users</p>
+              <p class="mb-0">There are no users</p>
             </div>
           </td>
         </tr>
-      }
     </tbody>
   </table>
 </div>

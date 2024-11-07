@@ -8,6 +8,8 @@ import { UserService } from '../../services/user.service';
 import { ModalService } from '../../services/modal.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IUser } from '../../interfaces';
+import { CategoriesFormComponent } from '../../components/categories/categories-form/categories-form.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-users',
@@ -17,7 +19,9 @@ import { IUser } from '../../interfaces';
     PaginationComponent,
     ModalComponent,
     LoaderComponent,
-    UserFormComponent
+    UserFormComponent,
+    CategoriesFormComponent,
+    CommonModule
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
@@ -29,14 +33,15 @@ export class UsersComponent {
   public fb: FormBuilder = inject(FormBuilder);
   userForm = this.fb.group({
     id: [''],
-    email: ['', Validators.required, Validators.email],
+    email: ['', [Validators.required, Validators.email]],  // Cambiar a un array
     name: ['', Validators.required],
     lastname: ['', Validators.required],
     password: ['', Validators.required],
     updatedAt: ['', Validators.required],
     active: ['', Validators.required],
     avatarId: ['', Validators.required]
-  })
+  });
+  
 
   constructor() {
     this.userService.search.page = 1;
@@ -56,6 +61,10 @@ export class UsersComponent {
     this.userForm.controls['password'].setValue(user.password ? JSON.stringify(user.password) : '');
     this.userForm.controls['active'].setValue(user.active ? JSON.stringify(user.active): '');
     this.userForm.controls['avatarId'].setValue(user.avatarId ? JSON.stringify(user.avatarId): '');
+    this.modalService.displayModal('md', this.addUsersModal);
+  }
+
+  openAddCategoryModal() {
     this.modalService.displayModal('md', this.addUsersModal);
   }
 
