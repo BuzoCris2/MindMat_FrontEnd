@@ -16,6 +16,7 @@ export interface IUser {
   active?: boolean;
   createdAt?: string;
   updatedAt?: string;
+  avatarId? : number
   authorities?: IAuthority[];
   role?: IRole
 }
