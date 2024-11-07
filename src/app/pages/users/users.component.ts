@@ -34,6 +34,8 @@ export class UsersComponent {
     lastname: ['', Validators.required],
     password: ['', Validators.required],
     updatedAt: ['', Validators.required],
+    active: ['', Validators.required],
+    avatarId: ['', Validators.required]
   })
 
   constructor() {
@@ -52,6 +54,8 @@ export class UsersComponent {
     this.userForm.controls['name'].setValue(user.name ? JSON.stringify(user.name) : '');
     this.userForm.controls['lastname'].setValue(user.lastname ? JSON.stringify(user.lastname) : '');
     this.userForm.controls['password'].setValue(user.password ? JSON.stringify(user.password) : '');
+    this.userForm.controls['active'].setValue(user.active ? JSON.stringify(user.active): '');
+    this.userForm.controls['avatarId'].setValue(user.avatarId ? JSON.stringify(user.avatarId): '');
     this.modalService.displayModal('md', this.addUsersModal);
   }
 

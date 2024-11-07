@@ -8,6 +8,8 @@
         <th scope="col">email</th>
         <th scope="col">Created</th>
         <th scope="col">Updated</th>
+        <th scope="col">Active Status</th>
+        <th scope="col">Avatar Id</th>
         <th class="text-center" scope="col">Actions</th>
       </tr>
     </thead>
@@ -20,6 +22,8 @@
           <td>{{item.email}}</td>
           <td>{{item.createdAt | date: 'dd/MM/yyyy HH:mm'}}</td>
           <td>{{item.updatedAt | date: 'dd/MM/yyyy HH:mm'}}</td>
+          <td>{{item.active}}</td>
+          <td>{{item.avatarId}}</td>
           <td>
             <button (click)="callModalAction.emit(item);" class="btn btn-warning me-2" type="button"><i class="fas fa-pen"></i></button>
             <button (click)="callDeleteAction.emit(item)" class="btn btn-danger" type="button"><i class="fas fa-trash"></i></button>
