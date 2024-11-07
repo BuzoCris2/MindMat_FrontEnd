@@ -21,28 +21,28 @@
   </div>
   <div class="mb-2">
     <label class="mb-1" for="lastname">Lastname*</label>
-    <input id="lastname" formControlLastname="lastname" type="text" class="form-control">
+    <input id="lastname" formControlName="lastname" type="text" class="form-control">
     @if (userForm.controls['lastname'].invalid && (userForm.controls['lastname'].dirty || userForm.controls['lastname'].touched)) {
       <p class="text-danger my-1">Lastname is required</p>
     }
   </div>
   <div class="mb-2">
     <label class="mb-1" for="name">Password*</label>
-    <input  id="password" formControlpassword="password" type="password" class="form-control">
+    <input  id="password" formControlName="password" type="password" class="form-control">
     @if (userForm.controls['password'].invalid && (userForm.controls['password'].dirty || userForm.controls['password'].touched)) {
       <p class="text-danger my-1">Password is required</p>
     }
   </div>
   <div class="mb-2">
     <label class="mb-1" for="active">Active status*</label>
-    <input id="active" formControlActive="active" type="number" class="form-control">
+    <input id="active" formControlName="active" type="number" class="form-control">
     @if (userForm.controls['active'].invalid && (userForm.controls['active'].dirty || userForm.controls['active'].touched)) {
       <p class="text-danger my-1">Active status is required</p>
     }
   </div>
   <div class="mb-2">
     <label class="mb-1" for="avatarId">Avatar Id*</label>
-    <input id="avatarId" formControlAvatarId="avatarId" type="number" class="form-control">
+    <input id="avatarId" formControlName="avatarId" type="number" class="form-control">
     @if (userForm.controls['avatarId'].invalid && (userForm.controls['avatarId'].dirty || userForm.controls['avatarId'].touched)) {
       <p class="text-danger my-1">Avatar Id is required</p>
     }
