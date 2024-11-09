@@ -105,7 +105,7 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'profile',
-          showInSidebar: false
+          showInSidebar: true
         }
       },
       {

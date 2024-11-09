@@ -3,18 +3,24 @@ import { MathleshipService } from '../../services/mathleship.service';
 import { TimerComponent } from '../../components/timer/timer.component';
 import { CommonModule } from '@angular/common';
 import { IShip, IGridCell } from '../../interfaces';
+import { AlertModalComponent } from '../../components/alert/alert-modal.component';
 
 @Component({
   selector: 'app-mathleship',
   standalone: true,
   templateUrl: './mathleship.component.html',
   styleUrls: ['./mathleship.component.scss'],
-  imports: [CommonModule, TimerComponent]
+  imports: [CommonModule, TimerComponent, AlertModalComponent]
 })
 export class MathleshipComponent implements OnInit {
   //board: string[][] = Array.from({ length: 6 }, () => Array(6).fill(''));
   board: string[][] = [];
-  timerValue: string = '03:00'; // Valor inicial del temporizador
+  timerValue: string = '03:00'; 
+
+  showAlert = false;
+  alertType: 'time' | 'error' | 'success' = 'success';
+  alertTitle = '¡Éxito!';
+  alertMessage = 'Campo avatarId actualizado con éxito';
 
   constructor(private mathleshipService: MathleshipService) {}
 

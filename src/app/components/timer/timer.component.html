@@ -2,3 +2,12 @@
   <div class="timer-minutes">{{ minutes }}</div>
   <div class="timer-seconds">{{ seconds }}</div>
 </div>
+
+<app-alert-modal
+      *ngIf="showAlert"
+      [alertType]="alertType"
+      [title]="alertTitle"
+      [message]="alertMessage"
+      [buttonText]="alertButtonText"
+      (closeAlert)="closeAlertModal()">
+  </app-alert-modal>
