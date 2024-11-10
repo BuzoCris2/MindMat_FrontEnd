@@ -1,0 +1,67 @@
+.stage-one-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.color-palette {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.color-item {
+  width: 50px;
+  height: 50px;
+  margin: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.color-item:hover {
+  transform: scale(1.1);
+}
+
+.buckets {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.bucket {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  display: inline-block;
+  border: 2px solid #000;
+  background-color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.bucket.selected {
+  border-color: #ff0; /* Resaltar el borde del bote seleccionado */
+  transform: scale(1.1);
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
