@@ -1,1 +1,41 @@
-<button (click)="onRotateText()">Mostrar siguiente texto</button>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_back,arrow_forward,cancel,check_circle" />
+<div #navigationPanel class="display-navigation">
+    <div class="button-container">
+        <button #previousPage disabled class="next-previous" (click)="previousItem()"><span class="material-symbols-outlined icon-left">
+            arrow_back
+            </span>Anterior</button>
+        <h1>~{{currentIndex+1}}~</h1>
+        <button #nextPage class="next-previous" (click)="nextItem()">Siguiente<span class="material-symbols-outlined icon-right">
+            arrow_forward
+            </span></button>
+        <button #sendPage class="send display-none" (click)="popUpGame()"><span class="material-symbols-outlined icon-left">
+            check_circle
+            </span>Comenzar</button>
+    </div>
+
+    
+</div>
+
+<ng-template #addTestModal>
+    <app-modal
+    [hideConfirmAction] = "true"
+    [hideFooter]= "true"
+    hide
+    modalBodyClass="none"
+    modalContentClass="modal-content"
+    >
+    <div class="modal-content-custom">
+        <h1>¿Deseas jugar?</h1>
+        <p>Si continuas, no podrás acceder al contenido informativo hasta terminar el juego.</p>
+        <div class="modal-button-container">
+            <button class="cancel" (click)="cancelGame()"><span class="material-symbols-outlined icon-left">
+                cancel
+            </span>Cancelar</button>
+            <button #startGame class="send" (click)="nextItem()"><span class="material-symbols-outlined icon-left">
+                check_circle
+                </span>Comenzar</button>
+        </div>
+    </div>
+    </app-modal>
+</ng-template>
