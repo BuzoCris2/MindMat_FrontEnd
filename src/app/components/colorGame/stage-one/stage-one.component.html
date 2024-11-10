@@ -11,12 +11,10 @@
     </div>
   
     <div class="buckets">
-      <!-- Mostrar los botes -->
-      <div *ngFor="let bucket of emptyBuckets" 
-           class="bucket"
+      <div *ngFor="let bucket of emptyBuckets; let i = index" 
+           class="bucket" 
            [ngStyle]="{'background-color': bucket.color}"
-           (click)="selectBucket(bucket.id)"
-           [class.selected]="bucket.selected">
+           (click)="selectBucket(i)">
       </div>
     </div>
     

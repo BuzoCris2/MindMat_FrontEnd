@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./stage-one.component.scss']
 })
 export class StageOneComponent {
-  // Colores disponibles
+  // Colores disponibles (primarios, secundarios y terciarios)
   colors = [
     { name: 'Red', color: 'red', unlocked: true },
     { name: 'Blue', color: 'blue', unlocked: true },
@@ -19,46 +19,37 @@ export class StageOneComponent {
     { name: 'Green', color: 'green', unlocked: false },
     { name: 'Brown', color: 'brown', unlocked: false },
     { name: 'Cyan', color: 'cyan', unlocked: false },
-    { name: 'Magenta', color: 'magenta', unlocked: false }
+    { name: 'Magenta', color: 'magenta', unlocked: false },
+    { name: 'Violet', color: 'violet', unlocked: false },
+    { name: 'Fuchsia', color: 'fuchsia', unlocked: false },
+    { name: 'Cerulean', color: 'cerulean', unlocked: false }
   ];
 
-  // Botes vacíos (7 botes)
-  emptyBuckets = [
-    { id: 1, color: 'white', selected: false },
-    { id: 2, color: 'white', selected: false },
-    { id: 3, color: 'white', selected: false },
-    { id: 4, color: 'white', selected: false },
-    { id: 5, color: 'white', selected: false },
-    { id: 6, color: 'white', selected: false },
-    { id: 7, color: 'white', selected: false }
-  ];
+  // Estado de los botes, cada uno con su color inicial
+  emptyBuckets = Array(8).fill(null).map(() => ({ color: 'white' }));
 
-  // Estado del bote seleccionado
-  selectedBucketId: number | null = null;
+  // Bote seleccionado (índice)
+  selectedBucketIndex: number | null = null;
 
-  // Función para seleccionar un bote
-  selectBucket(bucketId: number) {
-    // Si el bote ya está seleccionado, deseleccionarlo
-    this.selectedBucketId = this.selectedBucketId === bucketId ? null : bucketId;
-  }
-
-  // Función para mezclar los colores
+  // Función para mezclar los colores en el bote seleccionado
   mixColors(color: string) {
-    if (this.selectedBucketId !== null) {
-      const selectedBucket = this.emptyBuckets.find(bucket => bucket.id === this.selectedBucketId);
-      if (selectedBucket) {
-        // Si el bote está vacío, asignar el primer color
-        if (selectedBucket.color === 'white') {
-          selectedBucket.color = color;
-        } else {
-          // Si ya tiene un color, mezclarlo con el nuevo color
-          selectedBucket.color = this.blendColors(selectedBucket.color, color);
-        }
+    if (this.selectedBucketIndex !== null) {
+      const selectedBucket = this.emptyBuckets[this.selectedBucketIndex];
+
+      // Si el bote está vacío, asignamos el color inicial
+      if (selectedBucket.color === 'white') {
+        selectedBucket.color = color;
+      } else {
+        // Si el bote tiene un color, mezclamos con el nuevo color
+        selectedBucket.color = this.blendColors(selectedBucket.color, color);
       }
+
+      // Desbloquear nuevos colores al hacer la mezcla
+      this.unlockColors(selectedBucket.color);
     }
   }
 
-  // Función para mezclar los colores
+  // Lógica de mezcla de colores
   blendColors(color1: string, color2: string): string {
     const colorCombinations: { [key: string]: string } = {
       'redblue': 'purple',
@@ -67,9 +58,6 @@ export class StageOneComponent {
       'bluered': 'purple',
       'yellowred': 'orange',
       'yellowblue': 'green',
-      'redgreen': 'brown',
-      'bluegreen': 'brown',
-      'yellowgreen': 'brown'
     };
 
     // Combina los colores y retorna el resultado
@@ -77,9 +65,57 @@ export class StageOneComponent {
     return colorCombinations[combination] || 'brown'; // Si no hay combinación específica, se usa un color genérico
   }
 
+  // Función para desbloquear colores (secundarios y terciarios)
+  unlockColors(color: string) {
+    // Cuando se desbloquea un color, lo marcamos como 'unlocked'
+    switch(color) {
+      case 'purple':
+        this.setColorUnlocked('purple');
+        break;
+      case 'orange':
+        this.setColorUnlocked('orange');
+        break;
+      case 'green':
+        this.setColorUnlocked('green');
+        break;
+      case 'brown':
+        this.setColorUnlocked('brown');
+        break;
+      case 'cyan':
+        this.setColorUnlocked('cyan');
+        break;
+      case 'magenta':
+        this.setColorUnlocked('magenta');
+        break;
+      case 'violet':
+        this.setColorUnlocked('violet');
+        break;
+      case 'fuchsia':
+        this.setColorUnlocked('fuchsia');
+        break;
+      case 'cerulean':
+        this.setColorUnlocked('cerulean');
+        break;
+    }
+  }
+
+  // Helper para marcar un color como desbloqueado
+  setColorUnlocked(color: string) {
+    const colorToUnlock = this.colors.find(c => c.color === color);
+    if (colorToUnlock) {
+      colorToUnlock.unlocked = true;
+    }
+  }
+
+  // Función para seleccionar un bote (para aplicar la mezcla)
+  selectBucket(index: number) {
+    this.selectedBucketIndex = index;
+  }
+
   // Función para reiniciar el juego
   resetGame() {
-    this.emptyBuckets.forEach(bucket => bucket.color = 'white');
-    this.selectedBucketId = null;
+    this.emptyBuckets = Array(8).fill(null).map(() => ({ color: 'white' }));
+    this.colors.forEach(color => color.unlocked = false); // Resetear los colores desbloqueados
+    this.selectedBucketIndex = null; // Resetear el índice del bote seleccionado
   }
 }
