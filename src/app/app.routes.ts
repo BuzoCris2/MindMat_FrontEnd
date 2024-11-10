@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
+import { AuthLayoutComponent } from './components/auth/auth-layout/auth-layout.component';
 import { MainComponent } from './pages/auth/main/main.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
@@ -26,12 +26,12 @@ export const routes: Routes = [
 
   {
     path: '',
-    component: AuthLayoutComponent,  // Usar el contenedor común para autenticación
+    component: AuthLayoutComponent,  
     canActivate: [GuestGuard],
     children: [
       {
         path: '',
-        redirectTo: 'main', // Redirigir a 'main' dentro del contenedor de autenticación
+        redirectTo: 'main', 
         pathMatch: 'full',
       },
       {

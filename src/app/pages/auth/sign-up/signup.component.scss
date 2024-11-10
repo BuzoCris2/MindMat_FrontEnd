@@ -42,7 +42,37 @@
   .register-content {
     width: 100%;
   }
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
 
+    .modal-content {
+      position: relative;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+    }
+  }
   .register-title {
     margin-bottom: 20px;
     h4 {
@@ -60,7 +90,32 @@
       }
     }
   }
-
+  .input-wrapper {
+    position: relative;
+  }
+  
+  .input-with-icon {
+    position: relative;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding-right: 40px; /* Espacio para el botón del ojo */
+  }
+  
+  .toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Ajusta según necesites */
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    color: #6C8CFF;
+  }
+  
+  
   .input-group {
     display: flex;
     gap: 20px;
