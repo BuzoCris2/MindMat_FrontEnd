@@ -31,59 +31,61 @@ export class StageOneComponent {
   // Bote seleccionado (índice)
   selectedBucketIndex: number | null = null;
 
-  // Función para mezclar los colores en el bote seleccionado
   mixColors(color: string) {
     if (this.selectedBucketIndex !== null) {
       const selectedBucket = this.emptyBuckets[this.selectedBucketIndex];
-
-      // Si el bote está vacío, asignamos el color inicial
+  
       if (selectedBucket.color === 'white') {
         selectedBucket.color = color;
       } else {
-        // Si el bote tiene un color, mezclamos con el nuevo color
-        selectedBucket.color = this.blendColors(selectedBucket.color, color);
+        const { name, hex } = this.blendColors(selectedBucket.color, color);
+        selectedBucket.color = hex; // Muestra el color mezclado en el bote
+        this.unlockColors(name); // Desbloquea el color usando su nombre
       }
-
-      // Desbloquear nuevos colores al hacer la mezcla
-      this.unlockColors(selectedBucket.color);
     }
   }
-
-  // Lógica de mezcla de colores (primarios, secundarios y terciarios)
-  blendColors(color1: string, color2: string): string {
+  
+  blendColors(color1: string, color2: string): { name: string; hex: string } {
+    const colorsHexMap: { [key: string]: string } = {
+      'red-orange': '#E42D24',
+      'amber': '#FFD400',
+      'yellow-green': '#78B833',
+      'blue-green': '#0090B3',
+      'blue-purple': '#603085',
+      'red-purple': '#C00040',
+    };
+  
     const colorCombinations: { [key: string]: string } = {
-      // Primarios -> Secundarios
       'redblue': 'purple',
       'redyellow': 'orange',
       'blueyellow': 'green',
       'bluered': 'purple',
       'yellowred': 'orange',
       'yellowblue': 'green',
-
-      // Secundarios -> Terciarios
-      'redorange': '#E42D24',
-      'orangered': '#E42D24',
-      'yelloworange': '#FFD400',
-      'orangeyellow': '#FFD400',
-      'yellowgreen': '#78B833',
-      'greenyellow': '#78B833',
-      'bluegreen': '#0090B3',
-      'greenblue': '#0090B3',
-      'bluepurple': '#603085',
-      'purpleblue': '#603085',
-      'redpurple': '#C00040',
-      'purplered': '#C00040',
+  
+      'redorange': 'red-orange',
+      'orangered': 'red-orange',
+      'yelloworange': 'amber',
+      'orangeyellow': 'amber',
+      'yellowgreen': 'yellow-green',
+      'greenyellow': 'yellow-green',
+      'bluegreen': 'blue-green',
+      'greenblue': 'blue-green',
+      'bluepurple': 'blue-purple',
+      'purpleblue': 'blue-purple',
+      'redpurple': 'red-purple',
+      'purplered': 'red-purple',
     };
-
-    // Combina los colores y retorna el resultado
+  
     const combination = `${color1}${color2}`.toLowerCase();
-    return colorCombinations[combination] || 'brown'; // Si no hay combinación específica, se usa un color genérico
-  }
+    const colorName = colorCombinations[combination] || 'brown';
+    const colorHex = colorsHexMap[colorName] || colorName;
+  
+    return { name: colorName, hex: colorHex };
+  }  
 
-  // Función para desbloquear colores (secundarios y terciarios)
   unlockColors(color: string) {
-    // Cuando se desbloquea un color, lo marcamos como 'unlocked'
-    switch(color) {
+    switch (color) {
       case 'purple':
         this.setColorUnlocked('purple');
         break;
