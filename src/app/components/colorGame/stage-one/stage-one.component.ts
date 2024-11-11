@@ -39,50 +39,58 @@ export class StageOneComponent {
         selectedBucket.color = color;
       } else {
         const { name, hex } = this.blendColors(selectedBucket.color, color);
-        selectedBucket.color = hex; // Muestra el color mezclado en el bote
-        this.unlockColors(name); // Desbloquea el color usando su nombre
+        selectedBucket.color = hex; // Color visual
+        this.unlockColors(name);    // Desbloqueo por nombre
       }
     }
   }
   
+
   blendColors(color1: string, color2: string): { name: string; hex: string } {
-    const colorsHexMap: { [key: string]: string } = {
-      'red-orange': '#E42D24',
-      'amber': '#FFD400',
-      'yellow-green': '#78B833',
-      'blue-green': '#0090B3',
-      'blue-purple': '#603085',
-      'red-purple': '#C00040',
-    };
-  
-    const colorCombinations: { [key: string]: string } = {
-      'redblue': 'purple',
-      'redyellow': 'orange',
-      'blueyellow': 'green',
-      'bluered': 'purple',
-      'yellowred': 'orange',
-      'yellowblue': 'green',
-  
-      'redorange': 'red-orange',
-      'orangered': 'red-orange',
-      'yelloworange': 'amber',
-      'orangeyellow': 'amber',
-      'yellowgreen': 'yellow-green',
-      'greenyellow': 'yellow-green',
-      'bluegreen': 'blue-green',
-      'greenblue': 'blue-green',
-      'bluepurple': 'blue-purple',
-      'purpleblue': 'blue-purple',
-      'redpurple': 'red-purple',
-      'purplered': 'red-purple',
-    };
-  
-    const combination = `${color1}${color2}`.toLowerCase();
-    const colorName = colorCombinations[combination] || 'brown';
-    const colorHex = colorsHexMap[colorName] || colorName;
-  
-    return { name: colorName, hex: colorHex };
-  }  
+  const colorsHexMap: { [key: string]: string } = {
+    'red': '#FF0000',
+    'blue': '#0000FF',
+    'yellow': '#FFFF00',
+    'orange': '#FFA500',
+    'green': '#008000',
+    'purple': '#800080',
+    'red-orange': '#E42D24',
+    'amber': '#FFD400',
+    'yellow-green': '#78B833',
+    'blue-green': '#0090B3',
+    'blue-purple': '#603085',
+    'red-purple': '#C00040',
+    'brown': '#8B4513'
+  };
+
+  const colorCombinations: { [key: string]: string } = {
+    'redblue': 'purple',
+    'redyellow': 'orange',
+    'blueyellow': 'green',
+    'bluered': 'purple',
+    'yellowred': 'orange',
+    'yellowblue': 'green',
+    
+    'redorange': 'red-orange',
+    'orangered': 'red-orange',
+    'yelloworange': 'amber',
+    'orangeyellow': 'amber',
+    'yellowgreen': 'yellow-green',
+    'greenyellow': 'yellow-green',
+    'bluegreen': 'blue-green',
+    'greenblue': 'blue-green',
+    'bluepurple': 'blue-purple',
+    'purpleblue': 'blue-purple',
+    'redpurple': 'red-purple',
+    'purplered': 'red-purple',
+  };
+
+  const combination = `${color1}${color2}`.toLowerCase();
+  const colorName = colorCombinations[combination] || 'brown';
+  const colorHex = colorsHexMap[colorName] || '#8B4513'; // Usa marrón como default
+
+  return { name: colorName, hex: colorHex };
+}
 
   unlockColors(color: string) {
     switch (color) {
@@ -123,6 +131,26 @@ export class StageOneComponent {
       colorToUnlock.unlocked = true;
     }
   }
+
+  colorHex(colorName: string): string {
+    const colorsHexMap: { [key: string]: string } = {
+      'red': '#FF0000',
+      'blue': '#0000FF',
+      'yellow': '#FFFF00',
+      'orange': '#FFA500',
+      'green': '#008000',
+      'purple': '#800080',
+      'red-orange': '#E42D24',
+      'amber': '#FFD400',
+      'yellow-green': '#78B833',
+      'blue-green': '#0090B3',
+      'blue-purple': '#603085',
+      'red-purple': '#C00040',
+      'brown': '#8B4513'
+    };
+    return colorsHexMap[colorName] || '#8B4513'; // Default color if not found
+  }
+  
 
   // Función para seleccionar un bote (para aplicar la mezcla)
   selectBucket(index: number) {
