@@ -32,7 +32,7 @@
             <label>Nombre</label>
             <div class="info-box">
               <ng-container *ngIf="user && editingField === 'name'; else viewModeName">
-                <input [(ngModel)]="user.name" (blur)="saveField('name', user?.name || '')" />
+                <input [(ngModel)]="user.name" (blur)="saveField('name', user.name || '')" />
                 <span class="edit-icons">
                   <img src="assets/img/Various/yesIcon.png" alt="Confirm" class="icon" (click)="confirmEdit('name')" />
                   <img src="assets/img/Various/noIcon.png" alt="Cancel" class="icon" (click)="cancelEdit()" />
@@ -50,7 +50,7 @@
             <label>Apellido</label>
             <div class="info-box">
               <ng-container *ngIf="user && editingField === 'lastname'; else viewModeLastName">
-                <input [(ngModel)]="user.lastname" (blur)="saveField('lastname', user?.lastname || '')" />
+                <input [(ngModel)]="user.lastname" (blur)="saveField('lastname', user.lastname || '')" />
                 <span class="edit-icons">
                   <img src="assets/img/Various/yesIcon.png" alt="Confirm" class="icon" (click)="confirmEdit('lastname')" />
                   <img src="assets/img/Various/noIcon.png" alt="Cancel" class="icon" (click)="cancelEdit()" />
@@ -71,7 +71,7 @@
           <label>Correo</label>
           <div class="info-box">
             <ng-container *ngIf="user && editingField === 'email'; else viewModeEmail">
-              <input [(ngModel)]="user.email" (blur)="saveField('email', user?.email || '')" />
+              <input [(ngModel)]="user.email" (blur)="saveField('email', user.email || '')" />
               <span class="edit-icons">
                 <img src="assets/img/Various/yesIcon.png" alt="Confirm" class="icon" (click)="confirmEdit('email')" />
                 <img src="assets/img/Various/noIcon.png" alt="Cancel" class="icon" (click)="cancelEdit()" />

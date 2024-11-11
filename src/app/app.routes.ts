@@ -22,6 +22,7 @@ import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component'
 
 import { ReportsComponent } from './pages/reports/reports.component';
 
+import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
 
 //export const routes: Routes = [
 
@@ -105,7 +106,7 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'profile',
-          showInSidebar: true
+          showInSidebar: false
         }
       },
       {
@@ -190,6 +191,16 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'mathleship',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'user-dashboard',
+        component: UserDashboardComponent,
+        canActivate: [AuthGuard], 
+        data: { 
+          authorities: [IRoleType.user], 
+          name: 'Panel Juegos',
           showInSidebar: true
         }
       }
