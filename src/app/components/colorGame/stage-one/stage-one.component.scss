@@ -11,6 +11,20 @@
   flex-wrap: wrap;
   margin-right: 20px; /* Espacio entre la paleta y los botes */
   gap: 10px;
+  position: relative;
+  z-index: 10; /* Asegura que la paleta de colores esté encima del panel de información */
+}
+
+.color-info-panel {
+  width: 250px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute; /* No interfiere con los clics en la paleta */
+  top: 0;
+  left: 300px; /* Coloca el panel a la derecha de la paleta */
+  z-index: 5;
 }
 
 .color-item {
