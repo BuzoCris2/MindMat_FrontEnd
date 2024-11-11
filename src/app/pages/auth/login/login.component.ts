@@ -54,7 +54,7 @@ export class LoginComponent {
   }
 
   private translateErrorMessage(errorMessage: string): string {
-      return 'Credenciales inválidas. Verifica tu correo electrónico y contraseña.';
+      return 'Credenciales inválidas. Verifica tu correo electrónico y la contraseña.';
   }
 
   public togglePasswordVisibility(fieldNumber: number) {

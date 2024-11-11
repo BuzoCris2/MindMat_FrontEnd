@@ -16,6 +16,8 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProductsComponent } from './pages/products/products.component';
+import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 
 import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component';
 
@@ -45,6 +47,14 @@ export const routes: Routes = [
       {
         path: 'signup',
         component: SigUpComponent,
+      },
+      {
+        path: 'forgot-password', 
+        component: ForgotPasswordComponent,
+      },
+      {
+        path: 'reset-password', 
+        component: ResetPasswordComponent,
       },
     ],
   },

@@ -48,7 +48,9 @@
                 Iniciar Sesión
               </button>
               <div class="form-links">
-              <p class="text-muted mt-3">¿Olvidaste tu contraseña?</p>
+                <p class="text-muted mt-3">
+                  ¿Olvidaste tu contraseña? <a routerLink="/forgot-password">Recupérala aquí</a>
+                </p>
               <p class="text-muted mt-2">¿Aún no has comenzado tu aventura?</p>
               <a href="/signup" class="register-link">Regístrate aquí</a>
             </div>
@@ -63,9 +65,8 @@
 <!-- Error Modal -->
 <div *ngIf="showErrorModal" class="error-modal">
   <div class="error-modal-content">
-    <span class="close-button" (click)="closeErrorModal()">&times;</span>
     <h3>¡Error al iniciar sesión!</h3>
     <p>{{ translatedLoginError }}</p>
+    <button (click)="closeErrorModal()" class="ok-button">OK</button>
   </div>
 </div>
-

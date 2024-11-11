@@ -1,8 +1,5 @@
 .register-container {
   height: 100vh;
-  background-position: left;
-  background-size: cover;
-  background-repeat: no-repeat;
   position: relative;
   display: flex;
   align-items: center;
@@ -23,8 +20,8 @@
     position: relative;
     z-index: 2;
     display: flex;
-    width: 100%; 
-    max-width: 800px; 
+    width: 100%;
+    max-width: 800px;
     background-color: #fff;
     box-shadow: 0 0 37px rgba(8, 21, 66, 0.1);
     overflow: hidden;
@@ -39,30 +36,41 @@
     justify-content: center;
   }
 
-  .register-content {
-    width: 100%;
-  }
   .modal {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(31, 32, 103, 0.8); // Fondo con el color principal de tu guía y opacidad
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
-
-    .modal-content {
-      position: relative;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
+  }
+  
+  .modal-content {
+    background: #FFF5F5; // Fondo claro del modal
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    font-family: 'Fredoka', sans-serif; // Tipografía principal
+    color: #1F2067; // Color de texto según la guía
+  
+    h3 {
+      font-size: 1.8rem;
+      color: #FF6C6C; // Color de advertencia para títulos de error o éxito
+      margin-bottom: 20px;
+    }
+  
+    p {
+      font-size: 1rem;
+      color: #1F2067; // Color principal para el texto
+      margin-bottom: 20px;
+    }
 
       .close-button {
         position: absolute;
@@ -71,51 +79,44 @@
         font-size: 1.5rem;
         cursor: pointer;
       }
+      .ok-button {
+        background-color: #FF6C6C; // Color del botón de negación
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-family: 'Fredoka', sans-serif;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    
+        &:hover {
+          background-color: #D9534F; // Cambia ligeramente el tono en hover
+        }
     }
   }
+
   .register-title {
     margin-bottom: 20px;
+
     h4 {
       font-family: 'Fredoka', sans-serif;
       font-size: 1.8rem;
       color: #333;
     }
+
     small {
       font-family: 'Fredoka', sans-serif;
       font-size: 1rem;
       color: #666;
+
       a.login-link {
         color: #6C8CFF;
         text-decoration: underline;
       }
     }
   }
-  .input-wrapper {
-    position: relative;
-  }
-  
-  .input-with-icon {
-    position: relative;
-  }
-  
-  .input-field {
-    width: 100%;
-    padding-right: 40px; /* Espacio para el botón del ojo */
-  }
-  
-  .toggle-password {
-    position: absolute;
-    top: 50%;
-    right: 10px; /* Ajusta según necesites */
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    outline: none;
-    color: #6C8CFF;
-  }
-  
-  
+
   .input-group {
     display: flex;
     gap: 20px;
@@ -127,7 +128,6 @@
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
-
 
     .input-label {
       font-family: 'Fredoka', sans-serif;
@@ -142,29 +142,39 @@
       border-radius: 5px;
       border: 1px solid #ccc;
       transition: border-color 0.3s ease;
+      width: 100%;
+      padding-right: 40px;
       &:focus {
         border-color: #6C8CFF;
         outline: none;
       }
-      margin-bottom: 0;
     }
 
     .input-error-message {
       font-size: 0.9rem;
       color: #d9534f;
     }
+  }
 
-    .input-invalid {
-      border-color: #d9534f;
-    }
+  .input-with-icon {
+    position: relative;
 
-    .input-valid {
-      border-color: #28a745;
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      outline: none;
+      color: #6C8CFF;
     }
   }
 
   .register-actions {
     margin-top: 20px;
+
     .register-button {
       background-color: #fff;
       color: #6C8CFF;
@@ -186,7 +196,6 @@
 
   .register-image {
     width: 50%;
-    height: auto;
     align-items: center;
     justify-content: center;
     img {
@@ -201,14 +210,17 @@
       flex-direction: column;
       padding: 20px;
     }
+
     .register-card {
       flex-direction: column;
       width: 100%;
     }
+
     .register-form {
       width: 100%;
       padding: 20px;
     }
+
     .register-image {
       width: 100%;
       padding: 10px;

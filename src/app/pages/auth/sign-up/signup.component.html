@@ -110,9 +110,9 @@
   <!-- Error Modal -->
   <div *ngIf="showErrorModal" class="modal">
     <div class="modal-content">
-      <span class="close-button" (click)="closeErrorModal()">&times;</span>
       <h3>¡Error al registrarse!</h3>
       <p>{{ translatedSignUpError }}</p>
+      <button (click)="closeErrorModal()" class="ok-button">OK</button>
     </div>
-  </div>
+  </div>  
 </div>
