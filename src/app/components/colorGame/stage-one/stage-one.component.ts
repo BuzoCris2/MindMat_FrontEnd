@@ -14,15 +14,15 @@ export class StageOneComponent {
     { name: 'Red', color: 'red', unlocked: true },
     { name: 'Blue', color: 'blue', unlocked: true },
     { name: 'Yellow', color: 'yellow', unlocked: true },
-    { name: 'Purple', color: 'purple', unlocked: false },
     { name: 'Orange', color: 'orange', unlocked: false },
     { name: 'Green', color: 'green', unlocked: false },
-    { name: 'Brown', color: 'brown', unlocked: false },
-    { name: 'Cyan', color: 'cyan', unlocked: false },
-    { name: 'Magenta', color: 'magenta', unlocked: false },
-    { name: 'Violet', color: 'violet', unlocked: false },
-    { name: 'Fuchsia', color: 'fuchsia', unlocked: false },
-    { name: 'Cerulean', color: 'cerulean', unlocked: false }
+    { name: 'Purple', color: 'purple', unlocked: false },
+    { name: 'Red Orange', color: 'red-orange', unlocked: false },
+    { name: 'Amber', color: 'amber', unlocked: false },
+    { name: 'Yellow Green', color: 'yellow-green', unlocked: false },
+    { name: 'Blue Green', color: 'blue-green', unlocked: false },
+    { name: 'Blue Purple', color: 'blue-purple', unlocked: false },
+    { name: 'Red Purple', color: 'red-purple', unlocked: false }
   ];
 
   // Estado de los botes, cada uno con su color inicial
@@ -49,15 +49,30 @@ export class StageOneComponent {
     }
   }
 
-  // Lógica de mezcla de colores
+  // Lógica de mezcla de colores (primarios, secundarios y terciarios)
   blendColors(color1: string, color2: string): string {
     const colorCombinations: { [key: string]: string } = {
+      // Primarios -> Secundarios
       'redblue': 'purple',
       'redyellow': 'orange',
       'blueyellow': 'green',
       'bluered': 'purple',
       'yellowred': 'orange',
       'yellowblue': 'green',
+
+      // Secundarios -> Terciarios
+      'redorange': '#E42D24',
+      'orangered': '#E42D24',
+      'yelloworange': '#FFD400',
+      'orangeyellow': '#FFD400',
+      'yellowgreen': '#78B833',
+      'greenyellow': '#78B833',
+      'bluegreen': '#0090B3',
+      'greenblue': '#0090B3',
+      'bluepurple': '#603085',
+      'purpleblue': '#603085',
+      'redpurple': '#C00040',
+      'purplered': '#C00040',
     };
 
     // Combina los colores y retorna el resultado
@@ -78,23 +93,23 @@ export class StageOneComponent {
       case 'green':
         this.setColorUnlocked('green');
         break;
-      case 'brown':
-        this.setColorUnlocked('brown');
+      case 'red-orange':
+        this.setColorUnlocked('red-orange');
         break;
-      case 'cyan':
-        this.setColorUnlocked('cyan');
+      case 'amber':
+        this.setColorUnlocked('amber');
         break;
-      case 'magenta':
-        this.setColorUnlocked('magenta');
+      case 'yellow-green':
+        this.setColorUnlocked('yellow-green');
         break;
-      case 'violet':
-        this.setColorUnlocked('violet');
+      case 'blue-green':
+        this.setColorUnlocked('blue-green');
         break;
-      case 'fuchsia':
-        this.setColorUnlocked('fuchsia');
+      case 'blue-purple':
+        this.setColorUnlocked('blue-purple');
         break;
-      case 'cerulean':
-        this.setColorUnlocked('cerulean');
+      case 'red-purple':
+        this.setColorUnlocked('red-purple');
         break;
     }
   }
