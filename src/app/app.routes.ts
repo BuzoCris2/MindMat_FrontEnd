@@ -21,6 +21,7 @@ import { ProductsComponent } from './pages/products/products.component';
 import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component';
 
 import { ReportsComponent } from './pages/reports/reports.component';
+import { ColorGamePageComponent } from './pages/color-game/color-game.component';
 
 
 //export const routes: Routes = [
@@ -192,7 +193,20 @@ export const routes: Routes = [
           name: 'mathleship',
           showInSidebar: true
         }
-      }
+      },
+      {
+        path: 'colorgame',
+        component: ColorGamePageComponent,
+        data: {
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'color game',
+          showInSidebar: true  // Corregido el nombre aquí
+        }
+      }      
     ],
   },
 ];
