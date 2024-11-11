@@ -22,7 +22,7 @@ import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component'
 
 import { ReportsComponent } from './pages/reports/reports.component';
 
-import { UserDashboardComponent } from './pages/user-dashboard/user-dashboard.component';
+import { UserDashboardComponent } from './pages/game-panel/user-dashboard.component';
 
 //export const routes: Routes = [
 
