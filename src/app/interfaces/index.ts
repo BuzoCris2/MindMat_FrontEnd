@@ -50,6 +50,7 @@ export interface IRole {
   updatedAt: string;
 }
 
+//Este es el Game que habría que borrar
 export interface IGame {
   id?: number;
   name?: string;
@@ -58,6 +59,14 @@ export interface IGame {
   description?: string;
   createdAt?: string;
   updatedAt?: string;
+}
+
+//Este es el Game que estamos usando
+export interface Game {
+  id: number;
+  name: string;
+  categories: string[];
+  route: string;
 }
 
 export interface IOrder {
