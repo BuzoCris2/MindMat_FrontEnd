@@ -127,10 +127,9 @@ export class StageOneComponent {
     this.selectedBucketIndex = index;
   }
 
-  // Función para reiniciar el juego
   resetGame() {
     this.emptyBuckets = Array(8).fill(null).map(() => ({ color: 'white' }));
-    this.colors.forEach(color => color.unlocked = false); // Resetear los colores desbloqueados
     this.selectedBucketIndex = null; // Resetear el índice del bote seleccionado
+    // Los colores desbloqueados se mantienen como están
   }
 }

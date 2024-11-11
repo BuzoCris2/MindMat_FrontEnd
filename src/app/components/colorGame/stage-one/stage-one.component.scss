@@ -1,22 +1,22 @@
 .stage-one-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
+  align-items: flex-start;
+  padding: 20px;
 }
 
 .color-palette {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-right: 20px; /* Espacio entre la paleta y los botes */
+  gap: 10px;
 }
 
 .color-item {
   width: 50px;
   height: 50px;
-  margin: 10px;
+  margin: 5px;
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -31,14 +31,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 20px;
+  gap: 10px;
+  flex-grow: 1; /* Asegura que los botes ocupen el espacio restante */
 }
 
 .bucket {
   width: 100px;
   height: 100px;
-  margin: 10px;
-  display: inline-block;
   border: 2px solid #000;
   background-color: white;
   cursor: pointer;
