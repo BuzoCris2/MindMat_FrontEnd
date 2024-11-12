@@ -6,9 +6,9 @@ import { GamesKnoledgeBaseComponent } from '../../../components/game/games-knole
   selector: 'app-keyboard',
   standalone: true,
   imports: [
+    CommonModule,
     KeyComponent,
-    GamesKnoledgeBaseComponent,
-    CommonModule
+    GamesKnoledgeBaseComponent
   ],
   templateUrl: './keyboard.component.html',
   styleUrl: './keyboard.component.scss'
