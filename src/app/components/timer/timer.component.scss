@@ -1,0 +1,32 @@
+.timer-container {
+  width: 300px; // Ajusta el ancho al tamaño de tu imagen
+  height: 140px; // Ajusta el alto al tamaño de tu imagen
+  background-image: url('/assets/img/Temporizador.png'); // Ruta a la imagen
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.timer-minutes,
+.timer-seconds {
+  font-size: 2em;
+  color: #FFFFFF;
+  font-weight: bold;
+  font-family: Audiowide;
+}
+
+.timer-minutes {
+  position: absolute;
+  left: 38px;
+  top: 78px;
+}
+
+.timer-seconds {
+  position: absolute;
+  right: 130px;
+  top: 78px;
+}

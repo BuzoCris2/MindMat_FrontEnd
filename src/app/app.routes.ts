@@ -1,3 +1,4 @@
+import { MathleshipComponent } from './pages/mathleship/mathleship.component';
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './components/auth/auth-layout/auth-layout.component';
 import { MainComponent } from './pages/auth/main/main.component';
@@ -22,10 +23,13 @@ import { ResetPasswordComponent } from './pages/auth/reset-password/reset-passwo
 import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component';
 
 import { ReportsComponent } from './pages/reports/reports.component';
+import { ColorGamePageComponent } from './pages/color-game/color-game.component';
 
+import { UserDashboardComponent } from './pages/game-panel/user-dashboard.component';
 
-export const routes: Routes = [
+//export const routes: Routes = [
 
+export const routes: Routes = [  
   {
     path: '',
     component: AuthLayoutComponent,  
@@ -187,7 +191,43 @@ export const routes: Routes = [
           name: 'keyboard',
           showInSidebar: true
         }
-      }
+      },
+      {
+        path: 'mathleship',
+        component: MathleshipComponent,
+        data: { 
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'mathleship',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'user-dashboard',
+        component: UserDashboardComponent,
+        canActivate: [AuthGuard], 
+        data: { 
+          authorities: [IRoleType.user], 
+          name: 'Panel Juegos',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'colorgame',
+        component: ColorGamePageComponent,
+        data: {
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'color game',
+          showInSidebar: true  // Corregido el nombre aquí
+        }
+      }      
     ],
   },
 ];

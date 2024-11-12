@@ -45,6 +45,32 @@
                 Ingrese un correo válido
               </div>
             </div>
+            <div class="input-wrapper">
+              <label for="active" class="input-label">
+                Avatar Id
+              </label>
+              <input #active="ngModel" type="number" class="input-field" id="active" name="active"
+                placeholder="1" [(ngModel)]="user.active" (blur)="active.control.markAsTouched()" [ngClass]="{
+                  'input-invalid': active.invalid && active.touched,
+                  'input-valid': active.valid && active.touched
+                }" required />
+              <div *ngIf="active.invalid && active.touched" class="input-error-message">
+                Ingrese active status correcto
+              </div>
+            </div>
+            <div class="input-wrapper">
+              <label for="avatarId" class="input-label">
+                Avatar Id
+              </label>
+              <input #avatarId="ngModel" type="number" class="input-field" id="avatarId" name="avatarId"
+                placeholder="1" [(ngModel)]="user.avatarId" (blur)="avatarId.control.markAsTouched()" [ngClass]="{
+                  'input-invalid': avatarId.invalid && avatarId.touched,
+                  'input-valid': avatarId.valid && avatarId.touched
+                }" required />
+              <div *ngIf="avatarId.invalid && avatarId.touched" class="input-error-message">
+                Ingrese avatarId correcto
+              </div>
+            </div>
 
             <div class="input-wrapper password-wrapper">
               <label for="password" class="input-label">Contraseña</label>
