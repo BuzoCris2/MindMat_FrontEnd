@@ -1,6 +1,6 @@
 import { MathleshipComponent } from './pages/mathleship/mathleship.component';
 import { Routes } from '@angular/router';
-import { AuthLayoutComponent } from './pages/auth/auth-layout/auth-layout.component';
+import { AuthLayoutComponent } from './components/auth/auth-layout/auth-layout.component';
 import { MainComponent } from './pages/auth/main/main.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
@@ -17,24 +17,27 @@ import { GamesComponent } from './pages/games/games.component';
 import { OrdersComponent } from './pages/orders/orders.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { ProductsComponent } from './pages/products/products.component';
+import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 
 import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component';
 
 import { ReportsComponent } from './pages/reports/reports.component';
 import { ColorGamePageComponent } from './pages/color-game/color-game.component';
 
+import { UserDashboardComponent } from './pages/game-panel/user-dashboard.component';
 
 //export const routes: Routes = [
 
 export const routes: Routes = [  
   {
     path: '',
-    component: AuthLayoutComponent,  // Usar el contenedor común para autenticación
+    component: AuthLayoutComponent,  
     canActivate: [GuestGuard],
     children: [
       {
         path: '',
-        redirectTo: 'main', // Redirigir a 'main' dentro del contenedor de autenticación
+        redirectTo: 'main', 
         pathMatch: 'full',
       },
       {
@@ -48,6 +51,14 @@ export const routes: Routes = [
       {
         path: 'signup',
         component: SigUpComponent,
+      },
+      {
+        path: 'forgot-password', 
+        component: ForgotPasswordComponent,
+      },
+      {
+        path: 'reset-password', 
+        component: ResetPasswordComponent,
       },
     ],
   },
@@ -191,6 +202,16 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'mathleship',
+          showInSidebar: true
+        }
+      },
+      {
+        path: 'user-dashboard',
+        component: UserDashboardComponent,
+        canActivate: [AuthGuard], 
+        data: { 
+          authorities: [IRoleType.user], 
+          name: 'Panel Juegos',
           showInSidebar: true
         }
       },

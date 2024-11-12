@@ -1,0 +1,17 @@
+<div class="avatar-selector-container">
+  <div class="avatar-row">
+    <div *ngFor="let avatar of avatars.slice(0, 4)" class="avatar" 
+         [class.selected]="avatar.id === selectedAvatarId" 
+         (click)="selectAvatar(avatar.id)">
+      <img [src]="avatar.src" [alt]="'Avatar ' + avatar.id" class="img-fluid">
+    </div>
+  </div>
+  <div class="avatar-row">
+    <div *ngFor="let avatar of avatars.slice(4)" class="avatar" 
+         [class.selected]="avatar.id === selectedAvatarId" 
+         (click)="selectAvatar(avatar.id)">
+      <img [src]="avatar.src" [alt]="'Avatar ' + avatar.id" class="img-fluid">
+    </div>
+    <button (click)="confirmSelection()" class="btn-primary">Listo</button>
+  </div>
+</div>

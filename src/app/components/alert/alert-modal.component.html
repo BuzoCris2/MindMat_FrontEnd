@@ -1,0 +1,9 @@
+<div class="alert-modal-container">
+    <div class="alert-content">
+      <img [src]="gifSource" alt="Alert Icon" class="alert-gif" />
+      <h2 [style.color]="titleColor">{{ title }}</h2>
+      <p>{{ message }}</p>
+      <button class="btn-close" (click)="closeModal()">{{ buttonText }}</button>
+    </div>
+  </div>
+  

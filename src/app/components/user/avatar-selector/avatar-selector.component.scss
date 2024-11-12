@@ -1,0 +1,71 @@
+::ng-deep .modal-content {
+  width: 1400px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 30px;
+}
+
+::ng-deep .modal.show .modal-dialog {
+  transform: none;
+  display: flex;
+  justify-content: center;
+}
+
+.avatar-selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+  width: 1000px;
+}
+
+/* Filas de avatares */
+.avatar-row {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  border-radius: 35px;
+  cursor: pointer;
+  padding: 5px;
+  transition: border-color 0.3s;
+  display: inline-block;
+}
+
+.avatar.selected {
+  border: 5px solid var(--color-azul);
+  padding: 0;
+}
+
+.img-fluid {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 30px;
+}
+
+.btn-primary {
+  width: 200px;
+  font-size: 18px;
+  margin-top: 10px;
+  padding: 20px;
+  align-self: center;
+  font-family: Fredoka;
+  font-weight: 500;
+  font-size: 30px;
+  background-color: transparent;
+  color: var(--color-azul);
+  transition: 0.3s;
+  border: 5px solid var(--color-azul);
+  border-radius: 13px;
+}
+
+.btn-primary:hover{
+  background-color: var(--color-azul);
+  color: var(--color-claro);
+}

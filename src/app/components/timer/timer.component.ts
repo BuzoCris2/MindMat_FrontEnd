@@ -1,10 +1,11 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AlertModalComponent } from '../../components/alert/alert-modal.component';
 
 @Component({
   selector: 'app-timer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,AlertModalComponent],
   templateUrl: './timer.component.html',
   styleUrls: ['./timer.component.scss']
 })
@@ -15,6 +16,12 @@ export class TimerComponent implements OnInit, OnDestroy {
   seconds: string = '00';
 
   private timerInterval: any;
+
+  showAlert = false;
+  alertType: 'time' | 'error' | 'success' = 'success';
+  alertTitle = '¡Éxito!';
+  alertMessage = 'Campo avatarId actualizado con éxito';
+  alertButtonText = 'Cerrar';
 
   ngOnInit(): void {
     this.currentTime = this.initialTime;
@@ -29,7 +36,7 @@ export class TimerComponent implements OnInit, OnDestroy {
         this.updateDisplayTime();
       } else {
         clearInterval(this.timerInterval);
-        alert('Tiempo terminado');
+        this.triggerAlert('time', '¡Oh, no!', 'El tiempo del juego se ha acabado', 'Reintentar');
       }
     }, 1000);
   }
@@ -43,5 +50,17 @@ export class TimerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.timerInterval);
+  }
+
+  triggerAlert(type: 'time' | 'error' | 'success', title: string, message: string, buttonText: string) {
+    this.alertType = type;
+    this.alertTitle = title;
+    this.alertMessage = message;
+    this.alertButtonText = buttonText;
+    this.showAlert = true;
+  }
+
+  closeAlertModal() {
+    this.showAlert = false;
   }
 }

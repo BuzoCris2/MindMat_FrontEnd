@@ -13,45 +13,60 @@
               <h4>¡Sigamos con la aventura!</h4>
             </div>
 
-            <div class="form-group mb-3">
-              <label for="email" class="form-label mb-2">
-                Correo electrónico
-              </label>
-              <input #email="ngModel" type="text" class="form-control" id="email" name="email"
+            <div class="input-wrapper">
+              <label for="email" class="input-label">Correo electrónico</label>
+              <input #email="ngModel" type="text" class="input-field" id="email" name="email"
                 placeholder="tucorreo@gmail.com" [(ngModel)]="loginForm.email" [ngClass]="{
                   'is-invalid': email.invalid && email.touched,
                   'is-valid': email.valid && email.touched
                 }" required />
-              <div *ngIf="email.invalid" class="invalid-feedback">
-                Por favor ingresa un correo válido
+              <div *ngIf="email.invalid && email.touched" class="input-error-message">
+                Por favor ingresa un correo 
               </div>
             </div>
-
-            <div class="form-group mb-4">
-              <label for="password" class="form-label mb-2">Contraseña</label>
-              <div class="form-input position-relative">
-                <input #password="ngModel" type="password" class="form-control" id="password" name="password"
-                  placeholder="**************" [(ngModel)]="loginForm.password" [ngClass]="{
-                    'is-invalid': password.invalid && password.touched,
-                    'is-valid': password.valid && password.touched
+            <div class="input-wrapper password-wrapper">
+              <label for="password" class="input-label">Contraseña</label>
+              <div class="input-with-icon">
+                <input #password="ngModel" [type]="showPassword1 ? 'text' : 'password'" class="input-field"
+                  id="password" name="password" placeholder="************" [(ngModel)]="loginForm.password"
+                  (blur)="password.control.markAsTouched()" [ngClass]="{
+                    'input-invalid': password.invalid && password.touched,
+                    'input-valid': password.valid && password.touched
                   }" required />
-                <div *ngIf="password.invalid" class="invalid-feedback">
-                  Por favor ingresa una contraseña válida
-                </div>
+                <button type="button" class="toggle-password" (click)="togglePasswordVisibility(1)">
+                  <span class="material-icons">{{ showPassword1 ? 'visibility_off' : 'visibility' }}</span>
+                </button>
+              </div>
+              <div *ngIf="password.invalid && password.touched" class="input-error-message">
+                Por favor ingresa una contraseña 
               </div>
             </div>
+            
 
             <div class="form-group mb-0 text-center">
               <button class="btn btn-primary btn-block w-100 login-button" type="submit">
                 Iniciar Sesión
               </button>
-              <p class="text-muted mt-3">¿Olvidaste tu contraseña?</p>
+              <div class="form-links">
+                <p class="text-muted mt-3">
+                  ¿Olvidaste tu contraseña? <a routerLink="/forgot-password">Recupérala aquí</a>
+                </p>
               <p class="text-muted mt-2">¿Aún no has comenzado tu aventura?</p>
               <a href="/signup" class="register-link">Regístrate aquí</a>
+            </div>
             </div>
           </form>
         </div>
       </div>
     </div>
+  </div>
+
+
+<!-- Error Modal -->
+<div *ngIf="showErrorModal" class="error-modal">
+  <div class="error-modal-content">
+    <h3>¡Error al iniciar sesión!</h3>
+    <p>{{ translatedLoginError }}</p>
+    <button (click)="closeErrorModal()" class="ok-button">OK</button>
   </div>
 </div>

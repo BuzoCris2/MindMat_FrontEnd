@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { IAuthority, ILoginResponse, IResponse, IRoleType, IUser } from '../interfaces';
 import { Observable, firstValueFrom, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +12,12 @@ export class AuthService {
   private expiresIn! : number;
   private user: IUser = {email: '', authorities: []};
   private http: HttpClient = inject(HttpClient);
+  private router: Router = inject(Router);
 
   constructor() {
     this.load();
   }
+
 
   public save(): void {
     if (this.user) localStorage.setItem('auth_user', JSON.stringify(this.user));
@@ -123,5 +126,13 @@ export class AuthService {
       isAdmin = userAuthorities?.some(item => item.authority == IRoleType.admin || item.authority == IRoleType.superAdmin);
     }          
     return allowedUser && isAdmin;
+  }
+  
+  public requestPasswordReset(email: string): Observable<any> {
+    return this.http.post('auth/request-password-reset', { email }, { observe: 'response', responseType: 'text'  });
+  }
+
+  public resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post('auth/reset-password', { token, newPassword }, { responseType: 'text' });
   }
 }

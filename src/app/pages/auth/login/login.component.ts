@@ -13,8 +13,11 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class LoginComponent {
   public loginError!: string;
+  public translatedLoginError!: string;
+  public showErrorModal: boolean = false;
   @ViewChild('email') emailModel!: NgModel;
   @ViewChild('password') passwordModel!: NgModel;
+  public showPassword1: boolean = false;
 
   public loginForm: { email: string; password: string } = {
     email: '',
@@ -22,7 +25,7 @@ export class LoginComponent {
   };
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private authService: AuthService
   ) {}
 
@@ -37,8 +40,26 @@ export class LoginComponent {
     if (this.emailModel.valid && this.passwordModel.valid) {
       this.authService.login(this.loginForm).subscribe({
         next: () => this.router.navigateByUrl('/app/dashboard'),
-        error: (err: any) => (this.loginError = err.error.description),
+        error: (err: any) => {
+          this.loginError = err?.error?.description;
+          this.translatedLoginError = this.translateErrorMessage(this.loginError);
+          this.showErrorModal = true;
+        },
       });
     }
   }
+
+  public closeErrorModal() {
+    this.showErrorModal = false;
+  }
+
+  private translateErrorMessage(errorMessage: string): string {
+      return 'Credenciales inválidas. Verifica tu correo electrónico y la contraseña.';
+  }
+
+  public togglePasswordVisibility(fieldNumber: number) {
+    if (fieldNumber === 1) {
+      this.showPassword1 = !this.showPassword1;
+    }
+}
 }

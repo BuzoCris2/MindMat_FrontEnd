@@ -11,9 +11,7 @@
 
             <div class="input-group">
               <div class="input-wrapper">
-                <label for="name" class="input-label">
-                  Nombre
-                </label>
+                <label for="name" class="input-label">Nombre</label>
                 <input #name="ngModel" type="text" class="input-field" id="name" name="name"
                   placeholder="Nombre" [(ngModel)]="user.name" (blur)="name.control.markAsTouched()" [ngClass]="{
                     'input-invalid': name.invalid && name.touched,
@@ -24,9 +22,7 @@
                 </div>
               </div>
               <div class="input-wrapper">
-                <label for="lastname" class="input-label">
-                  Apellido
-                </label>
+                <label for="lastname" class="input-label">Apellido</label>
                 <input #lastname="ngModel" type="text" class="input-field" id="lastname" name="lastname"
                   placeholder="Apellido" [(ngModel)]="user.lastname" (blur)="lastname.control.markAsTouched()" [ngClass]="{
                     'input-invalid': lastname.invalid && lastname.touched,
@@ -37,10 +33,9 @@
                 </div>
               </div>
             </div>
+            
             <div class="input-wrapper">
-              <label for="email" class="input-label">
-                Correo electrónico
-              </label>
+              <label for="email" class="input-label">Correo electrónico</label>
               <input #email="ngModel" type="text" class="input-field" id="email" name="email"
                 placeholder="correoejemplo@gmail.com" [(ngModel)]="user.email" (blur)="email.control.markAsTouched()" [ngClass]="{
                   'input-invalid': email.invalid && email.touched,
@@ -77,15 +72,39 @@
               </div>
             </div>
 
-            <div class="input-wrapper">
+            <div class="input-wrapper password-wrapper">
               <label for="password" class="input-label">Contraseña</label>
-              <input #password="ngModel" type="password" class="input-field" id="password" name="password"
-                placeholder="************" [(ngModel)]="user.password" (blur)="password.control.markAsTouched()" [ngClass]="{
-                  'input-invalid': password.invalid && password.touched,
-                  'input-valid': password.valid && password.touched
-                }" required />
+              <div class="input-with-icon">
+                <input #password="ngModel" [type]="showPassword1 ? 'text' : 'password'" class="input-field"
+                  id="password" name="password" placeholder="************" [(ngModel)]="user.password"
+                  (blur)="password.control.markAsTouched()" [ngClass]="{
+                    'input-invalid': password.invalid && password.touched,
+                    'input-valid': password.valid && password.touched
+                  }" required />
+                <button type="button" class="toggle-password" (click)="togglePasswordVisibility(1)">
+                  <span class="material-icons">{{ showPassword1 ? 'visibility_off' : 'visibility' }}</span>
+                </button>
+              </div>
               <div *ngIf="password.invalid && password.touched" class="input-error-message">
                 Ingrese la contraseña correcta.
+              </div>
+            </div>
+
+            <div class="input-wrapper password-wrapper">
+              <label for="confirm-password" class="input-label">Confirmar Contraseña</label>
+              <div class="input-with-icon">
+                <input [type]="showPassword2 ? 'text' : 'password'" class="input-field" id="confirm-password"
+                  name="confirmPassword" placeholder="************" [(ngModel)]="confirmPassword"
+                  (blur)="confirmPasswordTouched = true" [ngClass]="{
+                    'input-invalid': confirmPasswordTouched && confirmPassword !== user.password,
+                    'input-valid': confirmPasswordTouched && confirmPassword === user.password
+                  }" required />
+                <button type="button" class="toggle-password" (click)="togglePasswordVisibility(2)">
+                  <span class="material-icons">{{ showPassword2 ? 'visibility_off' : 'visibility' }}</span>
+                </button>
+              </div>
+              <div *ngIf="confirmPasswordTouched && confirmPassword !== user.password" class="input-error-message">
+                Las contraseñas no coinciden.
               </div>
             </div>
 
@@ -99,9 +118,27 @@
       </div>
       <div class="register-image">
         <a routerLink="/">
-        <img src="../../../../assets/img/signup/cohete.png" alt="Cohete">
+          <img src="../../../../assets/img/signup/cohete.png" alt="Cohete">
         </a>
       </div>
     </div>
   </div>
+
+  <!-- Success Modal -->
+  <div *ngIf="showSuccessModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" (click)="closeSuccessModal()">&times;</span>
+      <h3>¡Registro exitoso!</h3>
+      <p>Serás redirigido a la página de inicio de sesión en unos segundos...</p>
+    </div>
+  </div>
+
+  <!-- Error Modal -->
+  <div *ngIf="showErrorModal" class="modal">
+    <div class="modal-content">
+      <h3>¡Error al registrarse!</h3>
+      <p>{{ translatedSignUpError }}</p>
+      <button (click)="closeErrorModal()" class="ok-button">OK</button>
+    </div>
+  </div>  
 </div>
