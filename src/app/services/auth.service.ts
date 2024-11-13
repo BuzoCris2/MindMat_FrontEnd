@@ -147,16 +147,7 @@ export class AuthService {
   }
 
   public signup(user: IUser): Observable<ILoginResponse> {
-  return this.http.post<ILoginResponse>('/auth/signup', user).pipe(
-    catchError((error: HttpErrorResponse) => {
-      if (error.status === 409) {
-        // Devuelve un error específico para capturarlo en el componente
-        return throwError(() => new Error('Correo ya utilizado'));
-      }
-      // Otro mensaje para cualquier error diferente al conflicto
-      return throwError(() => new Error('Ocurrió un error en el registro. Por favor, intenta nuevamente.'));
-    })
-  );
-}
+    return this.http.post<ILoginResponse>('auth/signup', user);
+  }
 
 }
