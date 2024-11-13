@@ -2692,7 +2692,7 @@ var BidiModule = _BidiModule;
 })();
 
 // node_modules/@angular/cdk/fesm2022/cdk.mjs
-var VERSION = new Version("17.3.10");
+var VERSION = new Version("17.3.9");
 
 // node_modules/@angular/material/fesm2022/core.mjs
 var _c0 = ["*", [["mat-option"], ["ng-container"]]];

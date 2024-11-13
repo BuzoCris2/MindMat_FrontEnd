@@ -1,0 +1,101 @@
+.topbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #1F2067; // Color del topbar
+  padding: 10px 20px;
+  font-family: 'Fredoka', sans-serif;
+
+  .profile-section {
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+
+    .profile-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      border: 2px solid #40C7E5; // Borde azul claro alrededor del avatar
+      margin-right: 10px;
+    }
+
+    .profile-info {
+      p {
+        margin: 0;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+      .user-points {
+        color: #FFE76C; // Color amarillo para los puntos
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .menu-icons {
+    display: flex;
+    align-items: center;
+
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #ffffff;
+      margin: 0 15px;
+
+      .icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 5px;
+      }
+
+      span {
+        font-size: 0.9rem;
+      }
+
+      &:hover {
+        color: #FFE76C; // Cambia a color amarillo al pasar el cursor
+      }
+    }
+  }
+
+  .logout-section {
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+
+    .profile-dropdown {
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background: #fff;
+      color: #1F2067;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      min-width: 150px;
+      display: none;
+      z-index: 1000;
+
+      li {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+          background-color: #f0f0f0;
+        }
+
+        i {
+          margin-right: 10px;
+        }
+      }
+    }
+
+    &:hover .profile-dropdown {
+      display: block;
+    }
+  }
+}
