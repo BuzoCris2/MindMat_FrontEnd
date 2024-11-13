@@ -1,74 +1,121 @@
-
-<div class="row info-container">
-  <div class="col-6">
-    <div class="shadow-sm bg-body rounded px-4 py-4 h-100">
-      <div>
-        <i class="fa-solid fa-user-tie"></i>
-      </div>
-      <div class="border-bottom my-3">
-        <label>Name:</label>
-        <p>{{profileService.user$().name}}</p>
-      </div>
-      <div class="border-bottom my-3">
-        <label>Lastname:</label>
-        <p>{{profileService.user$().lastname}}</p>
-      </div>
-      <div class="border-bottom my-3">
-        <label>email:</label>
-        <p>{{profileService.user$().email}}</p>
-      </div>
-      <div class=" my-3">
-        <label>Last update:</label>
-        <p>{{profileService.user$().updatedAt | date:'dd/MM/YYYY'}}</p>
-      </div>
+<div class="profile-wrapper">
+  <div class="profile-container">
+    <!-- Columna izquierda con la imagen de avatar -->
+    <div class="profile-left">
+      <img [src]="getAvatarUrl()" alt="Avatar" class="avatar-img" />
+      <img src="assets/img/Various/pencilEdit.png" alt="Edit Icon" class="avatar-edit-icon" (click)="editAvatar()" />
     </div>
-  </div>
-  <div class="col-6">
-    <div class="row">
-      <div class="col-12 shadow-sm bg-body rounded px-4 py-4 mb-3">
-        <label>Rol:</label>
-        <div class="border-bottom my-3">
-          <label>Name:</label>
-          <p>{{profileService.user$().role?.name}}</p>
+    <!-- Modal selección de avatar -->
+    <ng-template #avatarSelectorModal>
+      <app-modal [hideFooter]="true" (callCancelMethod)="closeAvatarSelector()" modalContentClass="custom-modal-size">
+        <app-avatar-selector
+          (avatarSelected)="onAvatarSelected($event)"
+          (close)="closeAvatarSelector()">
+        </app-avatar-selector>
+      </app-modal>
+    </ng-template>
+    <!-- Modal de alerta -->
+    <app-alert-modal
+      *ngIf="showAlert"
+      [alertType]="alertType"
+      [title]="alertTitle"
+      [message]="alertMessage"
+      [buttonText]="alertButtonText"
+      (closeAlert)="closeAlertModal()">
+  </app-alert-modal>
+    <!-- Columna derecha con la información -->
+    <div class="profile-right">
+      <div class="profile-info">
+        <!-- Fila para Nombre y Apellido -->
+        <div class="info-row">
+          <div class="info-column">
+            <label>Nombre</label>
+            <div class="info-box">
+              <ng-container *ngIf="user && editingField === 'name'; else viewModeName">
+                <input [(ngModel)]="user.name" (blur)="saveField('name', user.name || '')" />
+                <span class="edit-icons">
+                  <img src="assets/img/Various/yesIcon.png" alt="Confirm" class="icon" (click)="confirmEdit('name')" />
+                  <img src="assets/img/Various/noIcon.png" alt="Cancel" class="icon" (click)="cancelEdit()" />
+                </span>
+              </ng-container>
+              <ng-template #viewModeName>
+                <span>{{ user?.name }}</span>
+                <span class="edit-icon" (click)="enableEdit('name')">
+                  <img src="assets/img/Various/pencilEdit.png" alt="Edit">
+                </span>
+              </ng-template>
+            </div>
+          </div>
+          <div class="info-column">
+            <label>Apellido</label>
+            <div class="info-box">
+              <ng-container *ngIf="user && editingField === 'lastname'; else viewModeLastName">
+                <input [(ngModel)]="user.lastname" (blur)="saveField('lastname', user.lastname || '')" />
+                <span class="edit-icons">
+                  <img src="assets/img/Various/yesIcon.png" alt="Confirm" class="icon" (click)="confirmEdit('lastname')" />
+                  <img src="assets/img/Various/noIcon.png" alt="Cancel" class="icon" (click)="cancelEdit()" />
+                </span>
+              </ng-container>
+              <ng-template #viewModeLastName>
+              <span>{{ user?.lastname }}</span>
+              <span class="edit-icon" (click)="enableEdit('lastname')">
+                <img src="assets/img/Various/pencilEdit.png" alt="Edit">
+              </span>
+            </ng-template>
+            </div>
+          </div>
         </div>
-        <div class="border-bottom my-3">
-          <label>Description:</label>
-          <p>{{profileService.user$().role?.description}}</p>
-        </div>
-        <div class=" my-3">
-          <label>Last update:</label>
-          <p>{{profileService.user$().role?.updatedAt | date:'dd/MM/YYYY'}}</p>
+        
+        <!-- Fila para Correo -->
+        <div class="info-row" style="flex-direction: column;">
+          <label>Correo</label>
+          <div class="info-box">
+            <ng-container *ngIf="user && editingField === 'email'; else viewModeEmail">
+              <input [(ngModel)]="user.email" (blur)="saveField('email', user.email || '')" />
+              <span class="edit-icons">
+                <img src="assets/img/Various/yesIcon.png" alt="Confirm" class="icon" (click)="confirmEdit('email')" />
+                <img src="assets/img/Various/noIcon.png" alt="Cancel" class="icon" (click)="cancelEdit()" />
+              </span>
+            </ng-container>
+            <ng-template #viewModeEmail>
+            <span>{{ user?.email }}</span>
+            <span class="edit-icon" (click)="enableEdit('email')">
+              <img src="assets/img/Various/pencilEdit.png" alt="Edit">
+            </span>
+          </ng-template>
+          </div>
         </div>
       </div>
-      <div class="col-12 shadow-sm bg-body rounded px-4 py-4">
-        <label>Last actions:</label>
-        <div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Date</th>
-                <th scope="col">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>10/06/2024</td>
-                <td>Deleted user</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>10/06/2024</td>
-                <td>Deleted user</td>
-              </tr>
-              <tr>
-                <th scope="row">1</th>
-                <td>10/06/2024</td>
-                <td>Deleted user</td>
-              </tr>
-            </tbody>
-          </table>
+
+      <!-- Logros para estudiantes -->
+      <div *ngIf="user?.role?.id === 1" class="profile-achievements">
+        <div class="profile-info">
+          <div class="info-row">
+            <div class="info-column changingColumn">
+              <label>Logros</label>
+              <p>Has conseguido un total de 7 estampillas</p>
+              <button class="action-button">Ver logros</button>
+            </div>
+            <div class="info-column">
+              <img src="assets/img/Characters/crocodileCharacter2.png" alt="Achievement Icon" class="achievement-icon" />
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Equipos para docentes -->
+      <div *ngIf="user?.role?.id === 2" class="profile-teams">
+        <div class="profile-info">
+          <div class="info-row">
+            <div class="info-column changingColumn">
+              <label>Equipos</label>
+              <p>Usted está a cargo de 2 equipos</p>
+              <button class="action-button">Ver equipos</button>
+            </div>
+            <div class="info-column">
+              <img src="assets/img/Characters/birdCharacter2.png" alt="Achievement Icon" class="achievement-icon" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

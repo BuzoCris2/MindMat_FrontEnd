@@ -1,7 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { IAuthority, ILoginResponse, IResponse, IRoleType, IUser } from '../interfaces';
-import { Observable, firstValueFrom, of, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, firstValueFrom, of, tap, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +13,12 @@ export class AuthService {
   private expiresIn! : number;
   private user: IUser = {email: '', authorities: []};
   private http: HttpClient = inject(HttpClient);
+  private router: Router = inject(Router);
 
   constructor() {
     this.load();
   }
+
 
   public save(): void {
     if (this.user) localStorage.setItem('auth_user', JSON.stringify(this.user));
@@ -90,9 +94,6 @@ export class AuthService {
     return permittedRoutes;
   }
 
-  public signup(user: IUser): Observable<ILoginResponse> {
-    return this.http.post<ILoginResponse>('auth/signup', user);
-  }
 
   public logout() {
     this.accessToken = '';
@@ -124,4 +125,29 @@ export class AuthService {
     }          
     return allowedUser && isAdmin;
   }
+  
+  public requestPasswordReset(email: string): Observable<any> {
+    return this.http.post('auth/request-password-reset', { email }, { observe: 'response', responseType: 'text'  });
+  }
+
+  public resetPassword(token: string, newPassword: string): Observable<any> {
+    return this.http.post('auth/reset-password', { token, newPassword }, { responseType: 'text' });
+  }
+  public checkEmailExists(email: string): Observable<boolean> {
+    return this.http.get('/auth/check-email', { params: { email }, observe: 'response' })
+      .pipe(
+        map(response => false), // Correo disponible
+        catchError((err) => {
+          if (err.status === 409) {
+            return of(true); // Correo ya utilizado
+          }
+          return of(false); // Otros errores se interpretan como "correo disponible"
+        })
+      );
+  }
+
+  public signup(user: IUser): Observable<ILoginResponse> {
+    return this.http.post<ILoginResponse>('auth/signup', user);
+  }
+
 }

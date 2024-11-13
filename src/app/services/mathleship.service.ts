@@ -16,10 +16,16 @@ export class MathleshipService {
     return this.http.get<IShip[]>(`${this.baseUrl}/initialize`);
   }
 
-  attackCell(row: number, column: number): Observable<any> {
+  attackCell(row: number, column: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/attack`, { row, column });
   }
 
+  getShips(): Observable<IShip[]> {
+    console.log("Llamada al backend para obtener los barcos");
+    return this.http.get<IShip[]>(`${this.baseUrl}/initialize`);
+  }
+  
+  
   get board$() {
     return this.boardSignal;
   }

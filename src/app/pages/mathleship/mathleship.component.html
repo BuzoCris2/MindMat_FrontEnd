@@ -35,9 +35,24 @@
   </div>
   <div class="right-column">
     <!-- Temporizador -->
-    <app-timer [initialTime]="70"></app-timer>
+    <app-timer [initialTime]="60"></app-timer>
     
-    <!-- Aquí irán las imágenes de los barcos y las operaciones matemáticas en el futuro -->
+    <div class="ships-container">
+      <img src="assets/img/mathleship/barco4.png" alt="Barco 4" class="ship-image" />
+      <img src="assets/img/mathleship/barco3.png" alt="Barco 3" class="ship-image" />
+      <img src="assets/img/mathleship/barco2.png" alt="Barco 2" class="ship-image" />
+      <img src="assets/img/mathleship/barco1.png" alt="Barco 1" class="ship-image" />
+    </div>
+    
+    <!-- Sección de operación matemática -->
+    <div class="math-operation" *ngIf="mathVisible">
+      <div class="number">{{ number1 }}</div>
+      <div class="operator">{{ operator }}</div>
+      <div class="number">{{ number2 }}</div>
+      <div class="equals">=</div>
+      <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
+      <button (click)="submitAnswer()" class="btn-ready">Listo</button>
+    </div>
   </div>
 </div>
 

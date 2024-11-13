@@ -18,8 +18,12 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent {
-  @Input() title: string  = '';
+  @Input() title: string = '';
   @Input() users: IUser[] = [];
   @Output() callModalAction: EventEmitter<IUser> = new EventEmitter<IUser>();
   @Output() callDeleteAction: EventEmitter<IUser> = new EventEmitter<IUser>();
+
+  public trackById(index: number, item: IUser): number {
+    return item.id || 0;
+  }
 }
