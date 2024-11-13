@@ -49,6 +49,7 @@ export class ProfileService extends BaseService<IUser> {
   public updateUserField(field: string, newValue: string): Observable<IResponse<IUser>> {
     const data = { [field]: newValue };
     return this.http.patch<IResponse<IUser>>(`${this.source}`, data);
+    
   }
   
   

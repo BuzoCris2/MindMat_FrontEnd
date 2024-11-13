@@ -9,7 +9,7 @@
   </div>
 
   <div class="game-list" *ngIf="showGameList">
-    <h2>Juegos de {{ selectedCategoryGames[0]?.categories }}</h2>
+    <h2>Juegos de {{ selectedCategoryGames[0].categories }}</h2>
     <ul>
       <li *ngFor="let game of selectedCategoryGames" (click)="playGame(game.route)">
         {{ game.name }}
