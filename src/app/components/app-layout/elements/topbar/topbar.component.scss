@@ -1,9 +1,13 @@
 .topbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; 
+  background-color: #1F2067;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  background-color: #1F2067; // Color del topbar
   padding: 10px 20px;
   font-family: 'Fredoka', sans-serif;
 
@@ -13,10 +17,10 @@
     color: #ffffff;
 
     .profile-avatar {
-      width: 50px;
-      height: 50px;
+      width: 55px;
+      height: 55px;
       border-radius: 8px;
-      border: 2px solid #40C7E5; // Borde azul claro alrededor del avatar
+      border: 2px solid #40C7E5;
       margin-right: 10px;
     }
 
@@ -28,7 +32,7 @@
       }
 
       .user-points {
-        color: #FFE76C; // Color amarillo para los puntos
+        color: #FFE76C;
         font-size: 1rem;
       }
     }
@@ -47,9 +51,9 @@
       margin: 0 15px;
 
       .icon {
-        width: 40px;
-        height: 40px;
-        margin-bottom: 5px;
+        width: 55px;
+        height: 55px;
+     
       }
 
       span {
@@ -57,45 +61,41 @@
       }
 
       &:hover {
-        color: #FFE76C; // Cambia a color amarillo al pasar el cursor
+        color: #FFE76C;
       }
     }
   }
 
-  .logout-section {
+  .profile-logout-section {
     display: flex;
     align-items: center;
     color: #ffffff;
+    margin-right: -10px;
 
-    .profile-dropdown {
-      position: absolute;
-      top: 60px;
-      right: 20px;
-      background: #fff;
-      color: #1F2067;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      min-width: 150px;
-      display: none;
-      z-index: 1000;
-
-      li {
-        padding: 10px;
-        display: flex;
-        align-items: center;
-
-        &:hover {
-          background-color: #f0f0f0;
-        }
-
-        i {
-          margin-right: 10px;
-        }
+    .profile-icon {
+      margin-right: 10px;
+      .icon-small {
+        width: 55px;
+        height: 55px;
       }
     }
 
-    &:hover .profile-dropdown {
-      display: block;
+    .logout-button {
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 12.5px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      i {
+        margin-right: 5px;
+      }
+
+      &:hover {
+        color: #FFE76C;
+      }
     }
   }
 }
