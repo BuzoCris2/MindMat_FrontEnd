@@ -41,7 +41,6 @@
                 Por favor ingresa una contraseña 
               </div>
             </div>
-            
 
             <div class="form-group mb-0 text-center">
               <button class="btn btn-primary btn-block w-100 login-button" type="submit">
@@ -61,12 +60,13 @@
     </div>
   </div>
 
-
-<!-- Error Modal -->
-<div *ngIf="showErrorModal" class="error-modal">
-  <div class="error-modal-content">
-    <h3>¡Error al iniciar sesión!</h3>
-    <p>{{ translatedLoginError }}</p>
-    <button (click)="closeErrorModal()" class="ok-button">OK</button>
-  </div>
+  <!-- Componente de alerta -->
+  <app-alert-modal
+    *ngIf="showAlert"
+    [alertType]="alertType"
+    [title]="alertTitle"
+    [message]="alertMessage"
+    [buttonText]="alertButtonText"
+    (closeAlert)="closeAlertModal()">
+  </app-alert-modal>
 </div>

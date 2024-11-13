@@ -13,10 +13,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { GuestGuard } from './guards/guest.guard';
 import { IRoleType } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { GamesComponent } from './pages/games/games.component';
-import { OrdersComponent } from './pages/orders/orders.component';
-import { CategoriesComponent } from './pages/categories/categories.component';
-import { ProductsComponent } from './pages/products/products.component';
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 
@@ -91,7 +87,6 @@ export const routes: Routes = [
             IRoleType.superAdmin
           ],
           name: 'Users',
-          showInSidebar: true
         }
       },
       {
@@ -104,7 +99,6 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'Dashboard',
-          showInSidebar: true
         }
       },
       {
@@ -117,53 +111,6 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'profile',
-          showInSidebar: false
-        }
-      },
-      {
-        path: 'games',
-        component: GamesComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-            IRoleType.user,
-          ],
-          name: 'games',
-          showInSidebar: true
-        }
-      },
-      {
-        path: 'orders',
-        component: OrdersComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin
-          ],
-          name: 'orders',
-          showInSidebar: true
-        }
-      },
-      {
-        path: 'categories',
-        component: CategoriesComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin
-          ],
-          name: 'categories',
-          showInSidebar: true
-        }
-      },
-      {
-        path: 'products',
-        component: ProductsComponent,
-        data: { 
-          authorities: [
-            IRoleType.admin
-          ],
-          name: 'products',
-          showInSidebar: true
         }
       },
       {
@@ -176,7 +123,6 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'reports',
-          showInSidebar: true
         }
       },
       {
@@ -189,7 +135,6 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'keyboard',
-          showInSidebar: true
         }
       },
       {
@@ -202,7 +147,6 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'mathleship',
-          showInSidebar: true
         }
       },
       {
@@ -212,7 +156,6 @@ export const routes: Routes = [
         data: { 
           authorities: [IRoleType.user], 
           name: 'Panel Juegos',
-          showInSidebar: true
         }
       },
       {
@@ -225,7 +168,6 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'color game',
-          showInSidebar: true  // Corregido el nombre aquí
         }
       }      
     ],

@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { IAuthority, ILoginResponse, IResponse, IRoleType, IUser } from '../interfaces';
-import { Observable, firstValueFrom, of, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { Observable, firstValueFrom, of, tap, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -93,9 +94,6 @@ export class AuthService {
     return permittedRoutes;
   }
 
-  public signup(user: IUser): Observable<ILoginResponse> {
-    return this.http.post<ILoginResponse>('auth/signup', user);
-  }
 
   public logout() {
     this.accessToken = '';
@@ -135,4 +133,30 @@ export class AuthService {
   public resetPassword(token: string, newPassword: string): Observable<any> {
     return this.http.post('auth/reset-password', { token, newPassword }, { responseType: 'text' });
   }
+  public checkEmailExists(email: string): Observable<boolean> {
+    return this.http.get('/auth/check-email', { params: { email }, observe: 'response' })
+      .pipe(
+        map(response => false), // Correo disponible
+        catchError((err) => {
+          if (err.status === 409) {
+            return of(true); // Correo ya utilizado
+          }
+          return of(false); // Otros errores se interpretan como "correo disponible"
+        })
+      );
+  }
+
+  public signup(user: IUser): Observable<ILoginResponse> {
+  return this.http.post<ILoginResponse>('/auth/signup', user).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 409) {
+        // Devuelve un error específico para capturarlo en el componente
+        return throwError(() => new Error('Correo ya utilizado'));
+      }
+      // Otro mensaje para cualquier error diferente al conflicto
+      return throwError(() => new Error('Ocurrió un error en el registro. Por favor, intenta nuevamente.'));
+    })
+  );
+}
+
 }
