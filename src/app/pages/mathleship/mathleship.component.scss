@@ -116,3 +116,48 @@
 .right-column app-timer {
   margin-bottom: 20px;
 }
+
+.ships-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.ship-image {
+  width: 60px;
+  height: auto;
+  opacity: 0.5;
+}
+
+.math-operation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .number, .operator, .equals {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--color-oscuro);
+  }
+
+  .answer-input {
+    width: 50px;
+    text-align: center;
+    font-size: 20px;
+    padding: 5px;
+  }
+
+  .btn-ready {
+    background-color: var(--color-azul);
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: var(--color-grisOscuro);
+    }
+  }
+}

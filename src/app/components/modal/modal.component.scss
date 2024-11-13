@@ -9,6 +9,10 @@
   }
 }
 
+.modal-content{
+  border-style: none;
+}
+
 .modal-content.custom-bg {
   background-color: var(--bg-color);
 }
