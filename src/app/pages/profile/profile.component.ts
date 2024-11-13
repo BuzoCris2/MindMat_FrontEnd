@@ -5,8 +5,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AvatarSelectorComponent } from '../../components/user/avatar-selector/avatar-selector.component';
 import { ModalService } from '../../services/modal.service';
+import { AuthService } from '../../services/auth.service';
 import { ModalComponent } from '../../components/modal/modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
 
 
@@ -39,7 +40,9 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     public profileService: ProfileService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -91,6 +94,13 @@ export class ProfileComponent implements OnInit {
       this.profileService.updateUserField(field, newValue).subscribe({
         next: () => {
           this.triggerAlert('success', '¡Éxito!', `Tu información ha sido actualizada correctamente.`,'Continuar');
+
+          if (field === 'email') {
+            setTimeout(() => {
+              this.authService.logout();
+              this.router.navigate(['/main']);
+            }, 4000);
+          }
         },
         error: (error) => {
           this.triggerAlert('error', 'Error', `No se pudo actualizar el campo ${field}. ${error.message}`);
