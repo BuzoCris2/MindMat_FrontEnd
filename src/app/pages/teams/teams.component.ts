@@ -7,18 +7,22 @@ import { LoaderComponent } from "../../components/loader/loader.component";
 import { PaginationComponent } from "../../components/pagination/pagination.component";
 import { TeamFormComponent } from "../../components/team/team-form/team-form.component";
 import { TeamListComponent } from "../../components/team/team-list/team-list.component";
+import { AuthService } from '../../services/auth.service';
+import { ModalComponent } from "../../components/modal/modal.component";
 
 @Component({
   selector: 'app-teams',
   standalone: true,
   imports: [
-    LoaderComponent, PaginationComponent, TeamFormComponent, TeamListComponent
-  ],
+    LoaderComponent, PaginationComponent, TeamFormComponent, TeamListComponent,
+    ModalComponent
+],
   templateUrl: './teams.component.html',
   styleUrl: './teams.component.scss'
 })
 export class TeamsComponent {
   public teamService: TeamService = inject(TeamService);
+  public authService: AuthService = inject(AuthService);
   public modalService: ModalService = inject(ModalService);
   @ViewChild('addTeamsModal') public addTeamsModal: any;
   public fb: FormBuilder = inject(FormBuilder);
@@ -31,7 +35,7 @@ export class TeamsComponent {
   
   constructor() {
     this.teamService.search.page = 1;
-    this.teamService.getAll();
+    this.teamService.getAllByUser();
   }
 
   saveTeam(team: ITeam) {

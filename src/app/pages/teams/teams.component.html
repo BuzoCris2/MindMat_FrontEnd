@@ -16,6 +16,8 @@
       @if(teamService.teams$().length) {
           <app-pagination
             [service]="teamService"
+            [customCall]="true"
+            (callCustomPaginationMethod)="authService.isSuperAdmin() ? teamService.getAll(): teamService.getAllByUser()"
           />
         }
     </div>
@@ -24,6 +26,12 @@
   }
   
   <ng-template #addTeamsModal>
-    
+    <app-modal [hideFooter]="true">
+      <div>
+        <app-team-form>
+          
+        </app-team-form>
+      </div>
+    </app-modal>
   </ng-template>
   

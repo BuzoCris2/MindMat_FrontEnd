@@ -110,7 +110,9 @@
             <div class="info-column changingColumn">
               <label>Equipos</label>
               <p>Usted está a cargo de 2 equipos</p>
-              <button class="action-button">Ver equipos</button>
+              <button class="action-button"><a *ngIf="shouldDisplayRoute('teams')" [routerLink]="'/app/teams'" routerLinkActive="active" class="action-link">
+                Ver equipos
+              </a></button>
             </div>
             <div class="info-column">
               <img src="assets/img/Characters/birdCharacter2.png" alt="Achievement Icon" class="achievement-icon" />

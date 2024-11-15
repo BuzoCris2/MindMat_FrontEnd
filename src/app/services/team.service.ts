@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { BaseService } from './base-service';
 import { ISearch, ITeam } from '../interfaces';
 import { AlertService } from './alert.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class TeamService extends BaseService<ITeam>{
     size: 5
   }
   public totalItems: any = [];
+  private authService: AuthService = inject(AuthService);
   private alertService: AlertService = inject(AlertService);
 
   getAll() {
@@ -40,6 +42,30 @@ export class TeamService extends BaseService<ITeam>{
       error: (err: any) => {
         console.error('Error al obtener los datos:', err);
       },
+    });
+  }
+  
+  getAllByUser() {
+    this.findAllWithParamsAndCustomSource(`byTeacher/${this.authService.getUser()?.id}`, { page: this.search.page, size: this.search.size }).subscribe({
+      next: (response: any) => {
+        console.log('Respuesta del servidor:', response);
+        
+        // Ajustar asignación según el formato
+        if (Array.isArray(response)) {
+          this.teamListSignal.set(response); // Si la respuesta es un arreglo directo
+        } else if (response.data) {
+          this.teamListSignal.set(response.data); // Si la respuesta tiene una propiedad `data`
+        } else {
+          console.warn('Formato inesperado de respuesta:', response);
+          this.teamListSignal.set([]); // Si la respuesta no es válida, se asegura de que el signal no quede con undefined
+        }
+        
+        console.log('Datos actualizados en teamListSignal:', this.teamListSignal());
+      },
+      error: (err: any) => {
+        console.error('Error al obtener los datos:', err);
+        this.teamListSignal.set([]); // Asegurarse de que no quede undefined si hay error
+      }
     });
   }
   

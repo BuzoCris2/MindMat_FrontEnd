@@ -7,7 +7,7 @@ import { AvatarSelectorComponent } from '../../components/user/avatar-selector/a
 import { ModalService } from '../../services/modal.service';
 import { AuthService } from '../../services/auth.service';
 import { ModalComponent } from '../../components/modal/modal.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
 
 
@@ -20,6 +20,7 @@ import { AlertModalComponent } from '../../components/alert/alert-modal.componen
     ModalComponent,
     AvatarSelectorComponent,
     AlertModalComponent,
+    RouterLink
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
@@ -139,5 +140,12 @@ export class ProfileComponent implements OnInit {
 
   closeAlertModal() {
     this.showAlert = false;
+  }
+
+  public shouldDisplayRoute(route: 'teams'): boolean {
+    const routesAvailableForUser = {
+      'teams': true
+    };
+    return routesAvailableForUser[route];
   }
 }
