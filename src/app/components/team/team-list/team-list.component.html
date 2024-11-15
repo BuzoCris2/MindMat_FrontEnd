@@ -1,0 +1,35 @@
+<h2>{{title}}</h2>
+
+
+<div class="table-container table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">description</th>
+          <th scope="col">Teacher Leader</th>
+          <th class="text-center" scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of teams; trackBy: trackById">
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.teacherLeader.name}} {{item.teacherLeader.lastname}}</td>
+            <td>
+              <button (click)="callModalAction.emit(item)" class="btn btn-warning me-2" type="button"><i class="fas fa-pen"></i></button>
+              <button (click)="callDeleteAction.emit(item)" class="btn btn-danger" type="button"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+          <tr *ngIf="!teams || teams.length === 0">
+            <td colspan="9">
+              <div class="d-flex justify-content-center align-items-center w-100">
+                <p class="mb-0">There are no teams</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  </div>

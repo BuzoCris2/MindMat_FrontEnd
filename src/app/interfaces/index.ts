@@ -122,9 +122,7 @@ export interface ITeam {
   id: number; // El ID del equipo
   name: string; // Nombre del equipo
   description: string; // Descripción del equipo
-  teacherLeader: {
-    id: number; // ID del docente líder
-  };
+  teacherLeader: ITeacherLeader;
   members: IMember[]; // Lista de miembros del equipo
 }
 
@@ -133,4 +131,11 @@ export interface IMember {
   name: string; // Nombre del miembro
   lastname: string; // Apellido del miembro
   email: string; // Correo electrónico del miembro
+}
+
+interface ITeacherLeader {
+  id: number;
+  name: string;
+  lastname: string;
+  email: string;  // Si necesitas también el email
 }
