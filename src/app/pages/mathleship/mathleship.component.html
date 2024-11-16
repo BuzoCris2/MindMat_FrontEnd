@@ -19,23 +19,34 @@
         <!-- Tablero -->
         <div class="board">
           <div *ngFor="let row of board; let i = index" class="board-row">
-            <div *ngFor="let cell of row; let j = index" class="board-cell" (click)="selectCell(i, j)">
-              {{ cell }}
+            <div
+              *ngFor="let cell of row; let j = index"
+              class="board-cell"
+              [ngClass]="{
+                'cell-hit': cell === 'H',
+                'cell-miss': cell === 'M'
+              }"
+              (click)="selectCell(i, j)"
+            >
+              <img
+                *ngIf="cell === 'H'"
+                src="assets/img/Various/circHit.png"
+                alt="Hit"
+              />
+              <img
+                *ngIf="cell === 'M'"
+                src="assets/img/Various/circNoHit.png"
+                alt="Miss"
+              />
             </div>
           </div>
-        </div>
+        </div>        
       </div> 
-    </div>
-    <div class="powerups-section">
-      <h3>PowerUps</h3>
-      <div class="powerups">
-        <div class="powerup" *ngFor="let powerup of [1, 2, 3, 4]"></div>
-      </div>
     </div>
   </div>
   <div class="right-column">
     <!-- Temporizador -->
-    <app-timer [initialTime]="60"></app-timer>
+    <app-timer [initialTime]="1000"></app-timer>
     
     <div class="ships-container">
       <img src="assets/img/mathleship/barco4.png" alt="Barco 4" class="ship-image" />
@@ -43,16 +54,31 @@
       <img src="assets/img/mathleship/barco2.png" alt="Barco 2" class="ship-image" />
       <img src="assets/img/mathleship/barco1.png" alt="Barco 1" class="ship-image" />
     </div>
+
+    <div class="powerups-section">
+      <h3>PowerUps</h3>
+      <div class="powerups">
+        <div class="powerup" *ngFor="let powerup of [1, 2, 3, 4]"></div>
+      </div>
+    </div>
+
+    <button (click)="mathVisible = true">Abrir Modal</button>
     
     <!-- Sección de operación matemática -->
-    <div class="math-operation" *ngIf="mathVisible">
-      <div class="number">{{ number1 }}</div>
-      <div class="operator">{{ operator }}</div>
-      <div class="number">{{ number2 }}</div>
-      <div class="equals">=</div>
-      <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
-      <button (click)="submitAnswer()" class="btn-ready">Listo</button>
-    </div>
+    <div class="modal-container" *ngIf="mathVisible">
+      <div class="modal">
+        <h2>Resuelve la Operación</h2>
+        <div class="math-operation">
+          <div class="number">{{ number1 }}</div>
+          <div class="operator">{{ operator }}</div>
+          <div class="number">{{ number2 }}</div>
+          <div class="equals">=</div>
+          <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
+        </div>
+        <button class="btn-ready" (click)="submitAnswer()">Enviar</button>
+        <button class="btn-close" (click)="closeMathModal()">Cerrar</button>
+      </div>
+    </div>    
   </div>
 </div>
 

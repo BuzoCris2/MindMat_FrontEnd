@@ -83,9 +83,12 @@ export class MathleshipComponent implements OnInit {
     this.mathleshipService.attackCell(adjustedRow, columnLetter).subscribe({
         next: (response) => {
             if (response.isHit) {
+              this.board[row][column] = 'H';
                 this.generateMathOperation();
                 this.mathVisible = true;
+                console.log('Modal abierto, mathVisible:', this.mathVisible);
             } else {
+              this.board[row][column] = 'M';
                 console.log('No hay barco en esta casilla');
             }
         },
@@ -99,6 +102,7 @@ export class MathleshipComponent implements OnInit {
     this.number2 = Math.floor(Math.random() * 10) + 1;
     const operators = ['+', '-', '*', '/'];
     this.operator = operators[Math.floor(Math.random() * operators.length)];
+    console.log('Operación generada:', this.number1, this.operator, this.number2);
   }
 
   submitAnswer() {
@@ -149,4 +153,9 @@ export class MathleshipComponent implements OnInit {
   closeAlertModal() {
     this.showAlert = false;
   }
+
+  closeMathModal() {
+    this.mathVisible = false;
+}
+
 }
