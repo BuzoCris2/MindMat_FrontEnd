@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-programminggame',
   templateUrl: './programminggame.component.html',
   styleUrls: ['./programminggame.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+  ],
 })
 export class ProgrammingGameComponent {
   currentTextIndex: number = 0;
