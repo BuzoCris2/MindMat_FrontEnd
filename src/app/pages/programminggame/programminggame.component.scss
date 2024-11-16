@@ -1,0 +1,68 @@
+.programming-game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.story-panel, .game-panel {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 60px);
+  gap: 10px;
+  margin: 20px auto;
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  background-color: #d9d9d9;
+  border: 1px solid #bbb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell.rover {
+  background-color: #4caf50;
+}
+
+.cell.flag {
+  background-color: #ffeb3b;
+}
+
+.cell.obstacle {
+  background-color: #f44336;
+}
+
+.block {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #6c8cff;
+  color: white;
+  border-radius: 8px;
+  cursor: grab;
+}
+
+.dropzone {
+  margin-top: 20px;
+  padding: 20px;
+  border: 2px dashed #bbb;
+  background-color: #fff;
+  min-height: 100px;
+  border-radius: 8px;
+}
+
+.command {
+  background-color: #40c7e5;
+  color: white;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}

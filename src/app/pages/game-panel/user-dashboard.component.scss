@@ -81,3 +81,21 @@
     }
   }
 }
+.game-list ul li {
+  padding: 15px;
+  cursor: pointer;
+  color: var(--color-oscuro);
+  border: 2px solid var(--color-grisOscuro);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-family: "Sarabun", sans-serif;
+  font-size: 18px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.game-list ul li:hover {
+  background-color: var(--color-tecnologia); /* Usa el color de Tecnología */
+  color: white;
+  transform: scale(1.05);
+}
+
