@@ -38,6 +38,16 @@
                 src="assets/img/Various/circNoHit.png"
                 alt="Miss"
               />
+              <div
+                *ngIf="isHitAnimating && selectedHitRow === i && selectedHitColumn === j"
+                class="hit-animation"
+              >
+              <img
+              src="assets/img/mathleship/hitAnim.gif"
+              alt="Hit Animation"
+              class="hit-img"
+            />
+              </div>
             </div>
           </div>
         </div>        
@@ -61,23 +71,29 @@
         <div class="powerup" *ngFor="let powerup of [1, 2, 3, 4]"></div>
       </div>
     </div>
-
-    <button (click)="mathVisible = true">Abrir Modal</button>
     
     <!-- Sección de operación matemática -->
     <div class="modal-container" *ngIf="mathVisible">
       <div class="modal">
-        <h2>Resuelve la Operación</h2>
-        <div class="math-operation">
-          <div class="number">{{ number1 }}</div>
-          <div class="operator">{{ operator }}</div>
-          <div class="number">{{ number2 }}</div>
-          <div class="equals">=</div>
-          <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
-        </div>
-        <button class="btn-ready" (click)="submitAnswer()">Enviar</button>
-        <button class="btn-close" (click)="closeMathModal()">Cerrar</button>
-      </div>
+        <h2 *ngIf="!showAlert">Resuelve la Operación</h2>
+        <h2 *ngIf="showAlert" [ngClass]="{ 'success-message': alertType === 'success', 'error-message': alertType === 'error' }">
+          {{ alertMessage }}
+        </h2>
+          <div class="math-operation">
+            <div class="number">{{ number1 }}</div>
+            <div class="operator">{{ operator }}</div>
+            <div class="number">{{ number2 }}</div>
+            <div class="equals">=</div>
+            <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
+          </div>
+          <button
+            *ngIf="!showAlert"
+            class="btn-ready"
+            [disabled]="selectedRow === null || selectedColumn === null"
+            (click)="submitAnswer(selectedRow!, selectedColumn!)"
+          >
+            Enviar
+          </button>
     </div>    
   </div>
 </div>

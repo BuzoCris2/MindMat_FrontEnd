@@ -24,10 +24,12 @@ export class MathleshipComponent implements OnInit {
   alertMessage = 'Campo avatarId actualizado con éxito';
 
   mathVisible = false;
+  showResult = false;
   number1: number = 0;
   number2: number = 0;
   operator: string = '';
   userAnswer: string = '';
+  resultMessage: string = '';
 
   constructor(private mathleshipService: MathleshipService) {}
 
@@ -74,16 +76,22 @@ export class MathleshipComponent implements OnInit {
     return board;
   }
   
-  
+  selectedRow: number | null = null;
+  selectedColumn: number | null = null;
+  selectedHitRow: number | null = null;
+  selectedHitColumn: number | null = null;
+  isHitAnimating: boolean = false;
 
   selectCell(row: number, column: number) {
+    this.selectedRow = row;
+    this.selectedColumn = column;
     const adjustedRow = row + 1;
     const columnLetter = String.fromCharCode(65 + column);
 
     this.mathleshipService.attackCell(adjustedRow, columnLetter).subscribe({
         next: (response) => {
             if (response.isHit) {
-              this.board[row][column] = 'H';
+              //this.board[row][column] = 'H';
                 this.generateMathOperation();
                 this.mathVisible = true;
                 console.log('Modal abierto, mathVisible:', this.mathVisible);
@@ -103,10 +111,18 @@ export class MathleshipComponent implements OnInit {
     const operators = ['+', '-', '*', '/'];
     this.operator = operators[Math.floor(Math.random() * operators.length)];
     console.log('Operación generada:', this.number1, this.operator, this.number2);
+
+    if (this.operator === '/') {
+      // Generar divisiones válidas
+      while (this.number1 % this.number2 !== 0) {
+        this.number1 = Math.floor(Math.random() * 10) + 1;
+        this.number2 = Math.floor(Math.random() * 10) + 1;
+      }
+    }
   }
 
-  submitAnswer() {
-    let correctAnswer;
+  submitAnswer(row: number, column: number) {
+    let correctAnswer: number;
     switch (this.operator) {
       case '+':
         correctAnswer = this.number1 + this.number2;
@@ -120,29 +136,66 @@ export class MathleshipComponent implements OnInit {
       case '/':
         correctAnswer = this.number1 / this.number2;
         break;
+      default:
+        correctAnswer = 0;
     }
-
-    if (parseFloat(this.userAnswer) === correctAnswer) {
-      this.triggerAlert('success', '¡Correcto!', 'Respuesta correcta.');
+  
+    const userAnswerNumber = parseFloat(this.userAnswer);
+  
+    if (userAnswerNumber === correctAnswer) {
+      // Respuesta correcta: cerrar el modal y proceder con las animaciones.
+      this.showFeedbackMessage(true);
+  
+      setTimeout(() => {
+        // 1. Cerrar el modal.
+        this.mathVisible = false;
+        this.userAnswer = '';
+  
+        // 2. Reproducir la animación del GIF.
+        this.selectedHitRow = row;
+        this.selectedHitColumn = column;
+        this.isHitAnimating = true;
+  
+        // 3. Después de la animación, muestra el borde rojo y circHit.png.
+        setTimeout(() => {
+          this.isHitAnimating = false; // Oculta el GIF.
+          this.board[row][column] = 'H'; // Marca la celda como acertada.
+        }, 2000); // Duración del GIF (ajusta según sea necesario).
+      }, 1000); // Tiempo para cerrar el modal.
     } else {
-      this.triggerAlert('error', '¡Incorrecto!', 'Respuesta incorrecta.');
+      // Respuesta incorrecta: reinicia la celda y cierra el modal.
+      this.showFeedbackMessage(false);
+      setTimeout(() => {
+        this.mathVisible = false;
+        this.userAnswer = '';
+        this.board[row][column] = ''; // Reinicia la celda.
+        this.selectedRow = null;
+        this.selectedColumn = null;
+      }, 1000); // Tiempo para cerrar el modal.
     }
-
-    // Ocultar la operación después de enviar la respuesta
-    this.mathVisible = false;
-    this.userAnswer = '';
   }
+  
 
-  /*calculateAnswer(): number {
-    switch (this.operator) {
-      case '+': return this.firstOperand + this.secondOperand;
-      case '-': return this.firstOperand - this.secondOperand;
-      case '*': return this.firstOperand * this.secondOperand;
-      case '/': return Math.floor(this.firstOperand / this.secondOperand); // División entera
-      default: return 0;
+  showFeedbackMessage(isCorrect: boolean) {
+    if (isCorrect) {
+      this.alertMessage = '¡Respuesta correcta! 🎉';
+      this.alertType = 'success';
+    } else {
+      this.alertMessage = 'Respuesta incorrecta 😞';
+      this.alertType = 'error';
     }
-  }*/
+  
+    // Mostrar el mensaje en el modal
+    this.showAlert = true;
+  
+    // Ocultar el mensaje automáticamente después de 1 segundo
+    setTimeout(() => {
+      this.showAlert = false;
+    }, 1000);
+  }
+  
 
+  
   triggerAlert(type: 'time' | 'error' | 'success', title: string, message: string) {
     this.alertType = type;
     this.alertTitle = title;
@@ -156,6 +209,9 @@ export class MathleshipComponent implements OnInit {
 
   closeMathModal() {
     this.mathVisible = false;
-}
+    this.showResult = false;
+    this.userAnswer = '';
+    this.resultMessage = '';
+  }
 
 }
