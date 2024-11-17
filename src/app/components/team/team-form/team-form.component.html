@@ -1,1 +1,29 @@
-<p>team-form works!</p>
+<form [formGroup]="teamForm" class="row">
+    <div>
+      <h2 class="mb-0">Add Team</h2>
+    </div>
+    <div class="mb-2">
+      <label class="mb-1" for="name">Name*</label>
+      <input id="name" formControlName="name" type="text" class="form-control">
+      @if (teamForm.controls['name'].invalid && (teamForm.controls['name'].dirty || teamForm.controls['name'].touched)) {
+        <p class="text-danger my-1">Name is required</p>
+      }
+    </div>
+    <div class="mb-2">
+      <label class="mb-1" for="description">Lastname*</label>
+      <input id="description" formControlName="description" type="text" class="form-control">
+      @if (teamForm.controls['description'].invalid && (teamForm.controls['description'].dirty || teamForm.controls['description'].touched)) {
+        <p class="text-danger my-1">Description is required</p>
+      }
+    </div>
+      <div class="mb-2">
+        <label class="mb-1" for="teacherLeader">Teacher Leader*</label>
+        <input  id="teacherLeader" formControlName="teacherLeader" type="number" class="form-control">
+        @if (teamForm.controls['teacherLeader'].invalid && (teamForm.controls['teacherLeader'].dirty || teamForm.controls['teacherLeader'].touched)) {
+          <p class="text-danger my-1">Teacher Leader is required</p>
+        }
+      </div>
+    <div class="d-flex justify-content-end">
+      <button (click)="callSave()"  class="btn btn-primary" type="button">Save</button>
+    </div>
+  </form>

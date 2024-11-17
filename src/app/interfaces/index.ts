@@ -119,18 +119,18 @@ export interface IShip {
 }
 
 export interface ITeam {
-  id: number; // El ID del equipo
-  name: string; // Nombre del equipo
-  description: string; // Descripción del equipo
-  teacherLeader: ITeacherLeader;
-  members: IMember[]; // Lista de miembros del equipo
+  id?: number;
+  name?: string;
+  description?: string;
+  teacherLeader: ITeacherLeader; // Solo el ID aquí
+  members?: IMember[];
 }
 
 export interface IMember {
   id: number; // ID del miembro
   name: string; // Nombre del miembro
-  lastname: string; // Apellido del miembro
-  email: string; // Correo electrónico del miembro
+  lastname?: string; // Apellido del miembro
+  email?: string; // Correo electrónico del miembro
 }
 
 interface ITeacherLeader {
@@ -138,4 +138,5 @@ interface ITeacherLeader {
   name: string;
   lastname: string;
   email: string;  // Si necesitas también el email
+  teamCount: number;
 }

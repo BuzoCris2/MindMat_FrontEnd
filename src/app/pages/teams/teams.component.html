@@ -28,7 +28,10 @@
   <ng-template #addTeamsModal>
     <app-modal [hideFooter]="true">
       <div>
-        <app-team-form>
+        <app-team-form 
+        [teamForm]="teamForm"
+        (callSaveMethod)="saveTeam($event)"
+        (callUpdateMethod)="updateTeam($event)">
           
         </app-team-form>
       </div>

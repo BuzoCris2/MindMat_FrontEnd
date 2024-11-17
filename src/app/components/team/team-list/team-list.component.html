@@ -9,6 +9,7 @@
           <th scope="col">Name</th>
           <th scope="col">description</th>
           <th scope="col">Teacher Leader</th>
+          <th scope="col"> Members</th>
           <th class="text-center" scope="col">Actions</th>
         </tr>
       </thead>
@@ -18,6 +19,18 @@
             <td>{{item.name}}</td>
             <td>{{item.description}}</td>
             <td>{{item.teacherLeader.name}} {{item.teacherLeader.lastname}}</td>
+            <td>
+              <ng-container *ngIf="item.members && item.members.length > 0; else noMembers">
+                <ul class="list-unstyled mb-0">
+                  <li *ngFor="let member of item.members">
+                    {{member.name}} {{member.lastname}}
+                  </li>
+                </ul>
+              </ng-container>
+              <ng-template #noMembers>
+                <span>No members</span>
+              </ng-template>
+            </td>
             <td>
               <button (click)="callModalAction.emit(item)" class="btn btn-warning me-2" type="button"><i class="fas fa-pen"></i></button>
               <button (click)="callDeleteAction.emit(item)" class="btn btn-danger" type="button"><i class="fas fa-trash"></i></button>

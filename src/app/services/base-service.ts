@@ -54,6 +54,11 @@ export class BaseService<T> {
     return this.http.delete<IResponse<T>>(`${this.source}/${customUrlSource}`);
   }
 
+  patchCustomSource(endpoint: string, body: any) {
+    return this.http.patch(`${this.source}/${this.source}/${endpoint}`, body);
+  }
+  
+
   public buildUrlParams (params: any = {}) {
     let queryParams = new HttpParams();
     Object.keys(params).forEach(key => {

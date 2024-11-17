@@ -1,7 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { TeamService } from '../../services/team.service';
 import { ModalService } from '../../services/modal.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ITeam } from '../../interfaces';
 import { LoaderComponent } from "../../components/loader/loader.component";
 import { PaginationComponent } from "../../components/pagination/pagination.component";
@@ -9,13 +9,14 @@ import { TeamFormComponent } from "../../components/team/team-form/team-form.com
 import { TeamListComponent } from "../../components/team/team-list/team-list.component";
 import { AuthService } from '../../services/auth.service';
 import { ModalComponent } from "../../components/modal/modal.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-teams',
   standalone: true,
   imports: [
     LoaderComponent, PaginationComponent, TeamFormComponent, TeamListComponent,
-    ModalComponent
+    ModalComponent, CommonModule, ReactiveFormsModule
 ],
   templateUrl: './teams.component.html',
   styleUrl: './teams.component.scss'
@@ -30,7 +31,8 @@ export class TeamsComponent {
     id: [''],
     name: ['', Validators.required],
     description: ['', Validators.required],
-    teacherLeader: ['', Validators.required]
+    teacherLeader: ['', Validators.required],
+    members: [[]] // Inicializa como un arreglo vacío si aplica
   });
   
   constructor() {
@@ -51,11 +53,11 @@ export class TeamsComponent {
     this.modalService.displayModal('md', this.addTeamsModal);
   }
 
-  openAddCategoryModal() {
+  openAddTeamModal() {
     this.modalService.displayModal('md', this.addTeamsModal);
   }
 
-  updateUser(team: ITeam) {
+  updateTeam(team: ITeam) {
     this.teamService.update(team);
     this.modalService.closeAll();
   }

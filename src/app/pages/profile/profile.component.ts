@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
-import { IUser } from '../../interfaces';
+import { ITeam, IUser } from '../../interfaces';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AvatarSelectorComponent } from '../../components/user/avatar-selector/avatar-selector.component';
@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { Router, RouterLink } from '@angular/router';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
+import { TeamService } from '../../services/team.service';
 
 
 @Component({
@@ -26,6 +27,10 @@ import { AlertModalComponent } from '../../components/alert/alert-modal.componen
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  @Input() teams: ITeam[] = [];
+  public teamService: TeamService = inject(TeamService);
+  
+
   user: IUser | null = null;
   editingField: keyof IUser | null = null;
   originalValue?: string;
@@ -43,11 +48,13 @@ export class ProfileComponent implements OnInit {
     public profileService: ProfileService,
     private modalService: ModalService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    
   ) {}
 
   ngOnInit() {
     this.profileService.getUserInfoSignal();
+    this.teamService.getCountByTeacher();
     this.profileService.user$.subscribe(userData => {
       this.user = userData;
       console.log("Usuario en el componente actualizado:", this.user);
@@ -56,6 +63,10 @@ export class ProfileComponent implements OnInit {
 
   getAvatarUrl(): string {
     return this.user?.avatarId ? `assets/img/avatars/avatar${this.user.avatarId}.png` : 'assets/img/avatars/default.png';
+  }
+
+  public trackById(index: number, item: ITeam): number {
+    return item.id || 0;
   }
 
   editAvatar() {
