@@ -1,0 +1,44 @@
+body {
+    font-family: fredoka;
+}
+
+td, tr, th {
+    font-family: fredoka;
+    font-size: 20px;
+}
+
+.team-list {
+    overflow: auto;
+    width: 100%;
+}
+
+.team-list table {
+    border: 1px solid #dededf;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 1px;
+    text-align: center;
+    border-radius:6px;
+    
+}
+
+.team-list caption {
+    caption-side: top;
+    text-align: left;
+}
+
+.team-list th {
+    border: 1px solid #dededf;
+    background-color: #ffffff;
+    color: #1F2067;
+    padding: 5px;
+}
+
+.team-list td {
+    border: 1px solid #dededf;
+    background-color: #ffffff;
+    color: #1F2067;
+    padding: 5px;
+}

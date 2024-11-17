@@ -1,0 +1,51 @@
+body {
+    font-family: fredoka;
+}
+
+td, tr, th {
+    font-family: fredoka;
+    font-size: 20px;
+}
+
+.user-list {
+    overflow: auto;
+    width: 100%;
+}
+
+.user-list table {
+    border: 1px solid #dededf;
+    height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 1px;
+    text-align: center;
+    border-radius:6px;
+    
+}
+
+.user-list caption {
+    caption-side: top;
+    text-align: left;
+}
+
+.user-list th {
+    border: 1px solid #dededf;
+    background-color: #ffffff;
+    color: #1F2067;
+    padding: 5px;
+}
+
+.user-list td {
+    border: 1px solid #dededf;
+    background-color: #ffffff;
+    color: #1F2067;
+    padding: 5px;
+}
+
+.user-list tr {
+    border: 1px solid #dededf;
+    background-color: #ffffff;
+    color: #1F2067;
+    padding: 5px;
+}

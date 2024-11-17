@@ -8,10 +8,11 @@
       </div>
       <div class="col-12">
         <app-team-list
-          (callModalAction)="callEdition($event)"
-          (callDeleteAction)="teamService.delete($event)"
-          [teams]="teamService.teams$()"
+        (callModalAction)="callEdition($event)"
+        (callDeleteAction)="teamService.delete($event)"
+        [teams]="teamService.teams$()"
         />
+        
       </div>
       @if(teamService.teams$().length) {
           <app-pagination
@@ -32,7 +33,6 @@
         [teamForm]="teamForm"
         (callSaveMethod)="saveTeam($event)"
         (callUpdateMethod)="updateTeam($event)">
-          
         </app-team-form>
       </div>
     </app-modal>
