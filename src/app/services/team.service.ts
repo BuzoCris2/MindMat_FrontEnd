@@ -97,7 +97,7 @@ export class TeamService extends BaseService<ITeam>{
     this.add(team).subscribe({
       next: (response: any) => {
         this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
-        this.getAll();
+        this.getAllByUser();
       },
       error: (err: any) => {
         this.alertService.displayAlert('error', 'An error occurred adding the user','center', 'top', ['error-snackbar']);

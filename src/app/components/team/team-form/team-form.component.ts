@@ -25,7 +25,13 @@ export class TeamFormComponent {
       id: this.teamForm.controls['id'].value,
       name: this.teamForm.controls['name'].value,
       description: this.teamForm.controls['description'].value,
-      teacherLeader: this.teamForm.controls['teacherLeader'].value,  // Extraemos solo el ID
+      teacherLeader: {
+        id: this.teamForm.controls['teacherLeader'].value,
+        name: '',
+        lastname: '',
+        email: '',
+        teamCount: 0
+      },  // Aquí solo mandamos el ID
       members: this.teamForm.controls['members'].value
     };
   
@@ -39,4 +45,5 @@ export class TeamFormComponent {
       this.callSaveMethod.emit(team);
     }
   }
+  
 }
