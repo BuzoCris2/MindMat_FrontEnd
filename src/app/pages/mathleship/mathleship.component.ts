@@ -37,10 +37,9 @@ export class MathleshipComponent implements OnInit {
   resultMessage: string = '';
 
   powerups = [
-    { name: 'Column Shot', used: false },
     { name: 'Row Shot', used: false },
-    { name: 'PowerUp 3', used: false },
-    { name: 'PowerUp 4', used: false },
+    { name: 'Column Shot', used: false },
+    { name: 'Cross Shot', used: false }
   ];
   selectedPowerup: number | null = null;
 
@@ -245,6 +244,46 @@ export class MathleshipComponent implements OnInit {
       this.selectedRowHover = null; // Limpia el hover de la fila
     }
   }  
+
+  hoverCross(row: number, column: number) {
+    if (this.selectedPowerup === 2) {
+      // Guarda las posiciones afectadas por el PowerUp de cruz
+      const affectedPositions = this.getAffectedPositions(row, column);
+  
+      // Aplica clases visuales a las celdas afectadas
+      affectedPositions.forEach(([r, c]) => {
+        const cell = document.querySelector(`.board-cell[data-row="${r}"][data-col="${c}"]`);
+        if (cell) {
+          cell.classList.add('hover-cross');
+        }
+      });
+    }
+  }
+  
+  leaveCross(row: number, column: number) {
+    if (this.selectedPowerup === 2) {
+      // Guarda las posiciones afectadas por el PowerUp de cruz
+      const affectedPositions = this.getAffectedPositions(row, column);
+  
+      // Remueve clases visuales de las celdas afectadas
+      affectedPositions.forEach(([r, c]) => {
+        const cell = document.querySelector(`.board-cell[data-row="${r}"][data-col="${c}"]`);
+        if (cell) {
+          cell.classList.remove('hover-cross');
+        }
+      });
+    }
+  }  
+
+  isCrossHovered(row: number, column: number): boolean {
+    if (this.selectedPowerup !== 2 || this.selectedRow === null || this.selectedColumn === null) {
+      return false;
+    }
+    const affectedPositions = this.getAffectedPositions(this.selectedRow, this.selectedColumn);
+    return affectedPositions.some(([r, c]) => r === row && c === column);
+  }
+  
+  
   
   activateColumnPowerup(column: number) {
     console.log('Intentando activar PowerUp para la columna:', column);
@@ -254,7 +293,7 @@ export class MathleshipComponent implements OnInit {
       return; // Verifica que el PowerUp no se ha usado y es el correcto
     }
   
-    const hasShip = this.board.some(row => row[column] === 'S'); // Verifica si hay barcos
+    /*const hasShip = this.board.some(row => row[column] === 'S'); // Verifica si hay barcos
     console.log('¿Hay barcos en la columna seleccionada?', hasShip);
   
     if (hasShip) {
@@ -269,7 +308,14 @@ export class MathleshipComponent implements OnInit {
       this.alertType = 'error';
       this.alertMessage = 'No hay barcos en esta columna.';
       setTimeout(() => (this.alertMessage = ''), 2000);
-    }
+    }*/
+
+    console.log('Generando operación matemática para la columna seleccionada...');
+    this.generateMathOperation(); // Genera operación matemática
+    this.mathVisible = true; // Muestra el modal
+    this.selectedColumnHover = column; // Guarda la columna seleccionada
+    this.lastSelectedColumn = column;
+    console.log('Columna seleccionada guardada:', this.selectedColumnHover);
   }  
   
   submitAnswerForColumn(column: number | null) {
@@ -331,7 +377,7 @@ export class MathleshipComponent implements OnInit {
       return; // Verifica que el PowerUp no se ha usado y es el correcto
     }
   
-    const hasShip = this.board[row].some((cell) => cell === 'S'); // CORRECTO
+    /*const hasShip = this.board[row].some((cell) => cell === 'S'); // CORRECTO
     console.log('¿Hay barcos en la fila seleccionada?', hasShip);
   
     if (hasShip) {
@@ -346,7 +392,14 @@ export class MathleshipComponent implements OnInit {
       this.alertType = 'error';
       this.alertMessage = 'No hay barcos en esta fila.';
       setTimeout(() => (this.alertMessage = ''), 2000);
-    }
+    }*/
+
+      console.log('Generando operación matemática para la fila seleccionada...');
+      this.generateMathOperation(); // Genera operación matemática
+      this.mathVisible = true; // Muestra el modal
+      this.selectedRowHover = row; // Guarda la fila seleccionada
+      this.lastSelectedRow = row;
+      console.log('Fila seleccionada guardada:', this.selectedRowHover);
   }
   
   submitAnswerForRow(row: number | null) {
@@ -404,6 +457,109 @@ export class MathleshipComponent implements OnInit {
       }, 900);
     }
   }  
+
+  activateCrossPowerup(row: number, column: number) {
+    console.log('Intentando activar PowerUp de cruz en la casilla:', row, column);
+  
+    if (this.selectedPowerup !== 2 || this.powerups[2].used) {
+      console.log('PowerUp no activado. No es el seleccionado o ya fue usado.');
+      return; // Verifica que el PowerUp no se ha usado y es el correcto
+    }
+  
+    // Validar si hay barcos en alguna de las casillas afectadas
+    /*const affectedPositions = this.getAffectedPositions(row, column);
+    const hasShip = affectedPositions.some(
+      ([r, c]) => this.board[r] && this.board[r][c] === 'S'
+    );
+  
+    console.log('¿Hay barcos en las casillas afectadas?', hasShip);
+  
+    if (hasShip) {
+      console.log('Barcos encontrados en las casillas. Generando operación matemática...');
+      this.generateMathOperation(); // Genera operación matemática
+      this.mathVisible = true; // Muestra el modal
+      this.selectedRow = row;
+      this.selectedColumn = column; // Guarda la posición seleccionada
+      console.log('Casilla seleccionada guardada:', row, column);
+    } else {
+      console.log('No se encontraron barcos en las casillas afectadas.');
+      this.triggerAlert(
+        'error',
+        'No hay barcos',
+        'No hay barcos en las casillas afectadas por este PowerUp.',
+        'Cerrar'
+      );
+    }*/
+
+      console.log('Generando operación matemática para el PowerUp de cruz...');
+      this.generateMathOperation(); // Genera operación matemática
+      this.mathVisible = true; // Muestra el modal
+      this.selectedRow = row;
+      this.selectedColumn = column; // Guarda la posición seleccionada
+      console.log('Casilla seleccionada guardada:', row, column);
+  }
+  
+  getAffectedPositions(row: number, column: number): [number, number][] {
+    const positions: [number, number][] = [
+      [row, column],       // Centro
+      [row - 1, column],   // Arriba
+      [row + 1, column],   // Abajo
+      [row, column - 1],   // Izquierda
+      [row, column + 1],   // Derecha
+    ];
+  
+    // Filtrar las posiciones válidas (dentro del tablero)
+    return positions.filter(
+      ([r, c]) => r >= 0 && r < this.board.length && c >= 0 && c < this.board[0].length
+    );
+  }
+
+  submitAnswerForCross(row: number, column: number) {
+    console.log('Intentando resolver la operación para la cruz en:', row, column);
+    const correctAnswer = this.calculateCorrectAnswer();
+    console.log('Respuesta correcta calculada:', correctAnswer);
+    const userAnswerNumber = parseFloat(this.userAnswer);
+    console.log('Respuesta del usuario:', userAnswerNumber);
+  
+    if (userAnswerNumber === correctAnswer) {
+      console.log('Respuesta correcta. Aplicando PowerUp de cruz...');
+      const affectedPositions = this.getAffectedPositions(row, column);
+  
+      // Aplica los efectos del PowerUp
+      console.log('Tablero antes de aplicar PowerUp:', this.board);
+      affectedPositions.forEach(([r, c]) => {
+        if (this.board[r][c] === 'S') {
+          this.board[r][c] = 'H'; // Marca como hit si hay barco
+          console.log(`Celda [${r}, ${c}] marcada como "Hit".`);
+        } else if (this.board[r][c] === '') {
+          this.board[r][c] = 'M'; // Marca como miss si no hay barco
+          console.log(`Celda [${r}, ${c}] marcada como "Miss".`);
+        }
+      });
+      console.log('Tablero después de aplicar PowerUp:', this.board);
+  
+      // Feedback en el modal
+      this.showFeedbackMessage(true); // Muestra el mensaje en el modal
+      this.powerups[2].used = true; // Marca el PowerUp como usado
+      this.selectedPowerup = null; // Resetea el PowerUp seleccionado
+  
+      // Cierra el modal después de 2 segundos
+      setTimeout(() => {
+        console.log('Cerrando modal después de usar el PowerUp...');
+        this.closeMathModal(); // Cierra el modal
+      }, 800);
+    } else {
+      console.log('Respuesta incorrecta. Mostrando feedback de error.');
+      // Feedback en el modal en caso de error
+      this.showFeedbackMessage(false);
+      setTimeout(() => {
+        console.log('Cerrando modal por respuesta incorrecta...');
+        this.closeMathModal();
+      }, 900);
+    }
+  }
+  
+  
 
   calculateCorrectAnswer(): number {
     let correctAnswer: number;

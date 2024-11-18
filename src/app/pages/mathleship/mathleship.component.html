@@ -22,15 +22,42 @@
             <div
               *ngFor="let cell of row; let j = index"
               class="board-cell"
+              [attr.data-row]="i"
+              [attr.data-col]="j"
               [ngClass]="{
                 'cell-hit': cell === 'H',
                 'cell-miss': cell === 'M',
                 'hover-column': selectedPowerup === 0 && selectedColumnHover === j,
-                'hover-row': selectedPowerup === 1 && selectedRowHover === i
+                'hover-row': selectedPowerup === 1 && selectedRowHover === i,
+                'hover-cross': selectedPowerup === 2 && isCrossHovered(i, j)
               }"
-              (mouseenter)="selectedPowerup === 0 ? hoverColumn(j) : hoverRow(i)"
-              (mouseleave)="selectedPowerup === 0 ? leaveColumn() : leaveRow()"
-              (click)="selectedPowerup === 0 ? activateColumnPowerup(j) : selectedPowerup === 1 ? activateRowPowerup(i) : selectCell(i, j)"
+              (mouseenter)="
+              selectedPowerup === 0
+                ? hoverColumn(j)
+                : selectedPowerup === 1
+                ? hoverRow(i)
+                : selectedPowerup === 2
+                ? hoverCross(i, j)
+                : null
+              "
+              (mouseleave)="
+                selectedPowerup === 0
+                  ? leaveColumn()
+                  : selectedPowerup === 1
+                  ? leaveRow()
+                  : selectedPowerup === 2
+                  ? leaveCross(i, j)
+                  : null
+              "
+              (click)="
+              selectedPowerup === 0
+                ? activateColumnPowerup(j)
+                : selectedPowerup === 1
+                ? activateRowPowerup(i)
+                : selectedPowerup === 2
+                ? activateCrossPowerup(i, j)
+                : selectCell(i, j)
+              "
             >
               <img
                 *ngIf="cell === 'H'"
@@ -113,6 +140,8 @@
               ? submitAnswerForColumn(lastSelectedColumn!)
               : selectedPowerup === 1
               ? submitAnswerForRow(lastSelectedRow!)
+              : selectedPowerup === 2
+              ? submitAnswerForCross(selectedRow!, selectedColumn!)
               : submitAnswer(selectedRow!, selectedColumn!)
           "
         >
