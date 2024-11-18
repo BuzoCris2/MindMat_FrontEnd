@@ -132,8 +132,8 @@ export class TeamService extends BaseService<ITeam>{
     });
   }
 
-  addStudentToTeam(teamId: number, studentId: number) {
-    const payload = { id: studentId };
+  addStudentToTeam(teamId: number, Id: number) {
+    const payload = { id: Id };
     this.http.patch<IResponse<ITeam>>(`${this.source}/${teamId}/addStudent`, payload).subscribe({
       next: (response: any) => {
         this.alertService.displayAlert(
