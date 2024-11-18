@@ -220,6 +220,20 @@ export class MathleshipComponent implements OnInit {
       this.triggerAlert('error', 'Nada es para siempre', 'Ya utilizaste este PowerUp', 'Continuar');
     }
   }
+
+  getPowerupImage(index: number): string {
+    const images = [
+      'assets/img/mathleship/puFila.png',     // Imagen del primer PowerUp
+      'assets/img/mathleship/puColumna.png',  // Imagen del segundo PowerUp
+      'assets/img/mathleship/puCruz.png',     // Imagen del tercer PowerUp
+    ];
+    return images[index];
+  }
+
+  usePowerup(index: number): void {
+    this.powerups[index].used = true;
+    console.log(`PowerUp ${index} marcado como usado.`);
+  }
   
   hoverColumn(column: number) {
     if (this.selectedPowerup === 0) {
