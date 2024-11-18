@@ -47,7 +47,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm).subscribe({
         next: () => {
           this.triggerAlert('success', '¡Éxito!', 'Inicio de sesión exitoso', 'Continuar');
-          this.router.navigateByUrl('/app/user-dashboard');
+          this.router.navigateByUrl('/app/dashboard');
         },
         error: (err: any) => {
           this.loginError = err?.error?.description;
