@@ -1,14 +1,17 @@
 .dashboard-container {
+    position:relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: flex-start; /* Alinea los elementos al inicio vertical */
+    align-items: center; /* Alinea los elementos al inicio vertical */
     margin: 20px;
-    width: 100%;
-    height: auto; /* Ajuste dinámico según el contenido */
+    width: 96.5%;
+    padding: 10px;
+    height: 100%; /* Ajuste dinámico según el contenido */
     background-color: #f5f5f5;
     border-radius: 20px;
-    padding: 20px;
+  
+   
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
   
@@ -47,8 +50,8 @@
     .user-avatar {
       flex: 0;
       width: 50%;
-      height: 75%;
-      border-radius: 50%;
+      height: 80%;
+      border-radius: 40px;
       border: 3px solid #4c75e5; /* Borde para resaltar el avatar */
       margin-left: 5px; /* Espacio entre información y avatar */
     }

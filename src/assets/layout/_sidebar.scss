@@ -695,18 +695,7 @@
   .page-body-wrapper {
     background-color: $main-body-color;
 
-    .page-body {
-      min-height: calc(100vh - #{$header-size});
-      margin-top: $header-size;
-      padding: $page-body-padding;
-      position: relative;
-      transition: 0.5s;
-
-      &:before {
-        animation: fadeIn 0.5s ease-in-out;
-      }
-    }
-
+ 
     .page-title {
       padding: $page-title-padding;
       margin: 0 -27px 30px;
@@ -1212,9 +1201,7 @@
           font-size: 24px;
         }
       }
-      .page-body {
-        margin-top: 135px;
-      }
+   
       .sidebar-main-title {
         display: none !important;
       }
@@ -1448,11 +1435,7 @@
               transform: translate(183px);
             }
 
-            ~ .page-body,
-            ~ footer {
-              margin-left: 90px;
-              transition: 0.5s;
-            }
+       
 
             ~ .footer-fix {
               width: calc(100% - 90px);
@@ -1990,7 +1973,7 @@
       .page-body {
         min-height: calc(93vh - 80px);
         margin-top: 80px;
-        margin-left: $sidebar-compact-width;
+     
         // animation: pagebody 1000ms ease-in-out;
       }
     }

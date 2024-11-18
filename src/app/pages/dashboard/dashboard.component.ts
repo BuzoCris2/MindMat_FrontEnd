@@ -22,6 +22,12 @@ export class DashboardComponent implements OnInit {
     this.profileService.user$.subscribe((userData) => {
       this.user = this.authService.getUser();
 
+      this.profileService.user$.subscribe((updatedUser) => {
+        if (updatedUser) {
+          this.user = updatedUser;
+        }
+      });
+      
       // Configuración de botones según el rol del usuario
       if (this.user?.role?.id === 1) {
         // Estudiante
