@@ -7,12 +7,12 @@ td, tr, th {
     font-size: 20px;
 }
 
-.user-list {
+.team-list {
     overflow: auto;
     width: 100%;
 }
 
-.user-list table {
+.team-list table {
     border: 1px solid #dededf;
     height: 100%;
     width: 100%;
@@ -24,26 +24,19 @@ td, tr, th {
     
 }
 
-.user-list caption {
+.team-list caption {
     caption-side: top;
     text-align: left;
 }
 
-.user-list th {
+.team-list th {
     border: 1px solid #dededf;
     background-color: #ffffff;
     color: #1F2067;
     padding: 5px;
 }
 
-.user-list td {
-    border: 1px solid #dededf;
-    background-color: #ffffff;
-    color: #1F2067;
-    padding: 5px;
-}
-
-.user-list tr {
+.team-list td {
     border: 1px solid #dededf;
     background-color: #ffffff;
     color: #1F2067;

@@ -22,6 +22,7 @@ import { ReportsComponent } from './pages/reports/reports.component';
 import { ColorGamePageComponent } from './pages/color-game/color-game.component';
 
 import { UserDashboardComponent } from './pages/game-panel/user-dashboard.component';
+import { TeamsComponent } from './pages/teams/teams.component';
 
 //export const routes: Routes = [
 
@@ -168,6 +169,18 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'color game',
+        }
+      },
+      {
+        path: 'teams',
+        component: TeamsComponent,
+        data: {
+          authorities: [
+            IRoleType.admin, 
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'Teams',
         }
       }      
     ],
