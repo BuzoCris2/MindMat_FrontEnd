@@ -5,6 +5,7 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Avatar</th>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Teacher Leader</th>
@@ -15,6 +16,13 @@
     <tbody>
       <tr *ngFor="let item of teams; trackBy: trackById">
         <th scope="row">{{item.id}}</th>
+        <td>
+          <img
+            [src]="item.avatarId ? 'assets/img/avatars/avatar' + item.avatarId + '.png' : 'assets/img/avatars/default.png'"
+            alt="Avatar"
+            class="avatar-img"
+          />
+        </td>
         <td>{{item.name}}</td>
         <td>{{item.description}}</td>
         <td>{{item.teacherLeader.name}} {{item.teacherLeader.lastname}}</td>

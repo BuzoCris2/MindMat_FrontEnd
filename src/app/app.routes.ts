@@ -162,6 +162,18 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'teams',
+        component: TeamsComponent,
+        data: {
+          authorities: [
+            IRoleType.admin,
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'Teams',
+        }
+      },
+      {
         path: 'colorgame',
         component: ColorGamePageComponent,
         data: {
@@ -212,18 +224,6 @@ export const routes: Routes = [
               },
             ],
           },
-          {
-            path: 'teams',
-            component: TeamsComponent,
-            data: {
-              authorities: [
-                IRoleType.admin,
-                IRoleType.superAdmin,
-                IRoleType.user,
-              ],
-              name: 'Teams',
-            }
-          }
         ],
       },
     ]

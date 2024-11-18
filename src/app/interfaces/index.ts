@@ -119,6 +119,7 @@ export interface IShip {
 }
 
 export interface ITeam {
+  avatarId?: number;
   id?: number;
   name?: string;
   description?: string;

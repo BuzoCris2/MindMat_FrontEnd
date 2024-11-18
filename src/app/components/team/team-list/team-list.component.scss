@@ -42,3 +42,15 @@ td, tr, th {
     color: #1F2067;
     padding: 5px;
 }
+
+.avatar-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 13px;
+    object-fit: cover;
+}
+
+.table>tbody {
+    vertical-align:middle;
+}
+  

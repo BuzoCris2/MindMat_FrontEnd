@@ -9,13 +9,15 @@ import { TeamFormComponent } from "../../components/team/team-form/team-form.com
 import { TeamListComponent } from "../../components/team/team-list/team-list.component";
 import { AuthService } from '../../services/auth.service';
 import { ModalComponent } from "../../components/modal/modal.component";
+import { AvatarSelectorComponent } from '../../components/user/avatar-selector/avatar-selector.component';
+import { AlertModalComponent } from '../../components/alert/alert-modal.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-teams',
   standalone: true,
   imports: [
-    LoaderComponent, PaginationComponent, TeamFormComponent, TeamListComponent,
+    LoaderComponent, PaginationComponent, TeamFormComponent, TeamListComponent, AvatarSelectorComponent, AlertModalComponent,
     ModalComponent, CommonModule, ReactiveFormsModule
 ],
   templateUrl: './teams.component.html',
@@ -30,6 +32,16 @@ export class TeamsComponent {
   public fb: FormBuilder = inject(FormBuilder);
 
   selectedTeamId: number | null = null;
+  team: ITeam | null = null;
+  showAvatarSelector = false;
+
+  showAlert = false;
+  alertType: 'time' | 'error' | 'success' = 'success';
+  alertTitle = '¡Éxito!';
+  alertMessage = 'Campo avatarId actualizado con éxito';
+  alertButtonText = 'Cerrar';
+
+  @ViewChild('avatarSelectorModal') public avatarSelectorModal: any;
 
   selectTeam(team: ITeam) {
     this.selectedTeamId = team.id ?? null; // Si `team.id` es `undefined`, asigna `null`.
@@ -42,6 +54,7 @@ export class TeamsComponent {
   }
 
   teamForm = this.fb.group({
+    avatarId: [''],
     id: [''],
     name: ['', Validators.required],
     description: ['', Validators.required],
@@ -64,6 +77,7 @@ export class TeamsComponent {
   }
 
   callEdition(team: ITeam) {
+    this.teamForm.controls['avatarId'].setValue(team.avatarId ? String(team.avatarId) : '');
     this.teamForm.controls['id'].setValue(team.id ? String(team.id) : '');
     this.teamForm.controls['name'].setValue(team.name || '');
     this.teamForm.controls['description'].setValue(team.description || '');
@@ -78,5 +92,44 @@ export class TeamsComponent {
   updateTeam(team: ITeam) {
     this.teamService.update(team);
     this.modalService.closeAll();
+  }
+
+  getAvatarUrl(): string {
+    return this.team?. avatarId? `assets/img/avatars/avatar${this.team.avatarId}.png` : 'assets/img/avatars/default.png';
+  }
+
+  editAvatar() {
+    this.modalService.displayModal('md', this.avatarSelectorModal);
+  }
+
+  closeAvatarSelector() {
+    this.modalService.closeAll();
+  }
+
+  onAvatarSelected(newAvatarId: number) {
+    if (this.team) {
+      this.team.avatarId = newAvatarId;
+      this.teamService.updateTeamField('avatarId', newAvatarId.toString()).subscribe({
+        next: () => {
+          this.triggerAlert('success', '¡Éxito!', 'El avatar ha sido actualizado correctamente.', 'Continuar');
+          this.closeAvatarSelector();
+        },
+        error: (error: any) => {
+          this.triggerAlert('error', 'Error', `Hubo un problema al actualizar el avatar: ${error.message}`);
+        }
+      });
+    }
+  }
+
+  triggerAlert(type: 'time' | 'error' | 'success', title: string, message: string, buttonText: string = 'Cerrar') {
+    this.alertType = type;
+    this.alertTitle = title;
+    this.alertMessage = message;
+    this.alertButtonText = buttonText;
+    this.showAlert = true;
+  }
+
+  closeAlertModal() {
+    this.showAlert = false;
   }
 }

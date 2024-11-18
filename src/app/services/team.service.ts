@@ -3,6 +3,7 @@ import { BaseService } from './base-service';
 import { IResponse, ISearch, ITeam } from '../interfaces';
 import { AlertService } from './alert.service';
 import { AuthService } from './auth.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -117,6 +118,12 @@ export class TeamService extends BaseService<ITeam>{
         console.error('error', err);
       }
     });
+  }
+
+  public updateTeamField(field: string, newValue: string): Observable<IResponse<ITeam>> {
+    const data = { [field]: newValue };
+    return this.http.patch<IResponse<ITeam>>(`${this.source}`, data);
+    
   }
 
   delete(team: ITeam) {
