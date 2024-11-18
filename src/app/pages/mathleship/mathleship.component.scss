@@ -100,6 +100,17 @@
           background-color: var(--color-grisOscuro);
         }
       }
+
+      .board-cell.hover-column{
+        background-color: rgba(0, 128, 255, 0.3);
+        transition: background-color 0.3s ease;
+      }
+
+      .board-cell.hover-row{
+        background-color: rgba(0, 128, 255, 0.3);
+        transition: background-color 0.3s ease;
+      }
+      
     }
   }
 }
@@ -110,8 +121,9 @@
 
   h3 {
     font-weight: bold;
+    font-size: 30px;
     color: var(--color-oscuro);
-    margin-bottom: 10px;
+    margin-bottom: 30px;
   }
 
   .powerups {
@@ -123,6 +135,22 @@
       height: 50px;
       background-color: var(--color-grisOscuro);
       border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer; /* Esto asegura que el botón sea clickeable */
+      transition: transform 0.3s;
+      
+
+      &:hover {
+        transform: scale(1.1);
+        background-color: var(--color-azul);
+      }
+  
+      &.active {
+        background-color: var(--color-verde);
+        color: white;
+      }
     }
   }
 }
@@ -138,7 +166,7 @@
 }
 
 .ship-image {
-  width: 60px;
+  width: 100px;
   height: auto;
   opacity: 0.5;
 }
@@ -246,14 +274,14 @@
 
 .hit-animation {
   position: absolute;
-  top: -115px; /* Desplazar hacia arriba */
-  left: -77px; /* Desplazar hacia la izquierda */
-  width: 200px; /* Ampliar el tamaño */
-  height: 200px; /* Ampliar el tamaño */
+  top: -115px;
+  left: -77px;
+  width: 200px;
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none; /* No interferir con el clic */
+  pointer-events: none;
   z-index: 1000;
 }
 
@@ -262,4 +290,30 @@
   height: 100%;
   object-fit:cover;
   border-radius: 10px;
+}
+
+.quick-feedback-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-oscuro);
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  z-index: 1000;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.quick-feedback-overlay.success {
+  background-color: var(--color-claro)
+}
+
+.quick-feedback-overlay.error {
+  background-color: var(--color-claro)
 }

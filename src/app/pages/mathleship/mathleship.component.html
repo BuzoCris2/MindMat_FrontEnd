@@ -24,9 +24,13 @@
               class="board-cell"
               [ngClass]="{
                 'cell-hit': cell === 'H',
-                'cell-miss': cell === 'M'
+                'cell-miss': cell === 'M',
+                'hover-column': selectedPowerup === 0 && selectedColumnHover === j,
+                'hover-row': selectedPowerup === 1 && selectedRowHover === i
               }"
-              (click)="selectCell(i, j)"
+              (mouseenter)="selectedPowerup === 0 ? hoverColumn(j) : hoverRow(i)"
+              (mouseleave)="selectedPowerup === 0 ? leaveColumn() : leaveRow()"
+              (click)="selectedPowerup === 0 ? activateColumnPowerup(j) : selectedPowerup === 1 ? activateRowPowerup(i) : selectCell(i, j)"
             >
               <img
                 *ngIf="cell === 'H'"
@@ -68,13 +72,27 @@
     <div class="powerups-section">
       <h3>PowerUps</h3>
       <div class="powerups">
-        <div class="powerup" *ngFor="let powerup of [1, 2, 3, 4]"></div>
+        <div
+          class="powerup"
+          *ngFor="let powerup of powerups; let i = index"
+          [class.active]="selectedPowerup === i"
+          (click)="selectPowerup(i)"
+        >
+          {{ powerup.name }}
+        </div>
       </div>
     </div>
     
     <!-- Sección de operación matemática -->
     <div class="modal-container" *ngIf="mathVisible">
       <div class="modal">
+        <div
+          *ngIf="quickFeedbackVisible"
+          class="quick-feedback-overlay"
+          [ngClass]="quickFeedbackType"
+        >
+          {{ quickFeedbackMessage }}
+        </div>
         <h2 *ngIf="!showAlert">Resuelve la Operación</h2>
         <h2 *ngIf="showAlert" [ngClass]="{ 'success-message': alertType === 'success', 'error-message': alertType === 'error' }">
           {{ alertMessage }}
@@ -87,15 +105,31 @@
             <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
           </div>
           <button
-            *ngIf="!showAlert"
-            class="btn-ready"
-            [disabled]="selectedRow === null || selectedColumn === null"
-            (click)="submitAnswer(selectedRow!, selectedColumn!)"
-          >
-            Enviar
-          </button>
+          *ngIf="!showAlert"
+          class="btn-ready"
+          [disabled]="userAnswer === ''"
+          (click)="
+            selectedPowerup === 0
+              ? submitAnswerForColumn(lastSelectedColumn!)
+              : selectedPowerup === 1
+              ? submitAnswerForRow(lastSelectedRow!)
+              : submitAnswer(selectedRow!, selectedColumn!)
+          "
+        >
+          Enviar
+        </button>                             
     </div>    
   </div>
+
+  <app-alert-modal
+      *ngIf="showAlert"
+      [alertType]="alertType"
+      [title]="alertTitle"
+      [message]="alertMessage"
+      [buttonText]="alertButtonText"
+      (closeAlert)="closeAlertModal()">
+  </app-alert-modal>
+  
 </div>
 
   
