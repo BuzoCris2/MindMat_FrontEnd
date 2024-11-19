@@ -22,6 +22,7 @@ import { ReportsComponent } from './pages/reports/reports.component';
 import { ColorGamePageComponent } from './pages/color-game/color-game.component';
 
 import { UserDashboardComponent } from './pages/game-panel/user-dashboard.component';
+import { ProgrammingGameComponent } from './pages/programminggame/programminggame.component';
 import { TeamsComponent } from './pages/teams/teams.component';
 import { StageTwoComponent } from './components/colorGame/stage-two/stage-two.component';
 import { StageThreeComponent } from './components/colorGame/stage-three/stage-three.component';
@@ -173,6 +174,18 @@ export const routes: Routes = [
           name: 'Teams',
         }
       },
+  {
+    path: 'programminggame',
+    component: ProgrammingGameComponent,
+    data: { 
+      authorities: [
+        IRoleType.admin, 
+        IRoleType.superAdmin,
+        IRoleType.user,
+      ],
+      name: 'Programming Game',
+    }
+  },  
       {
         path: 'colorgame',
         component: ColorGamePageComponent,
@@ -228,3 +241,4 @@ export const routes: Routes = [
       },
     ]
   }]
+   
