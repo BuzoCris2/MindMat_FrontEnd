@@ -1,0 +1,40 @@
+@defer {
+    <div class="row p-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Teams</h2>
+          <button (click)="modalService.displayModal('md', addTeamsModal)" type="button" class="btn btn-primary"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+      <div class="col-12">
+        <app-team-list
+        (callModalAction)="callEdition($event)"
+        (callDeleteAction)="teamService.delete($event)"
+        [teams]="teamService.teams$()"
+        />
+        
+      </div>
+      @if(teamService.teams$().length) {
+          <app-pagination
+            [service]="teamService"
+            [customCall]="true"
+            (callCustomPaginationMethod)="authService.isSuperAdmin() ? teamService.getAll(): teamService.getAllByUser()"
+          />
+        }
+    </div>
+  } @loading (minimum 1.5s){
+    <app-loader></app-loader>
+  }
+  
+  <ng-template #addTeamsModal>
+    <app-modal [hideFooter]="true">
+      <div>
+        <app-team-form 
+        [teamForm]="teamForm"
+        (callSaveMethod)="saveTeam($event)"
+        (callUpdateMethod)="updateTeam($event)">
+        </app-team-form>
+      </div>
+    </app-modal>
+  </ng-template>
+  

@@ -26,6 +26,10 @@
       <!-- <img src="assets/icons/mathleship.png" alt="Mathleship" class="icon" />-->
       <span>Mathleship</span>
     </a>
+    <a *ngIf="shouldDisplayRoute('dashboard')" routerLink="/app/dashboard" routerLinkActive="active" class="menu-item">
+      <!-- <img src="assets/icons/mathleship.png" alt="Mathleship" class="icon" />-->
+      <span>Dashboard</span>
+    </a>
   </div>
 
   <!-- Sección de perfil y botón de cerrar sesión juntos en el lado derecho -->
