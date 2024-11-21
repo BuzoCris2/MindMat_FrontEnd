@@ -137,7 +137,7 @@ export interface IScore {
   wrongAnswers?: number;
   game?: IGame2;
   user?: IUser;
-=======
+}
 export interface ITeam {
   avatarId?: number;
   id?: number;
