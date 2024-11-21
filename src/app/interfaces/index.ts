@@ -137,4 +137,28 @@ export interface IScore {
   wrongAnswers?: number;
   game?: IGame2;
   user?: IUser;
+=======
+export interface ITeam {
+  avatarId?: number;
+  id?: number;
+  name?: string;
+  description?: string;
+  teacherLeader: ITeacherLeader; // Solo el ID aquí
+  members?: IMember[];
+}
+
+export interface IMember {
+  id: number; // ID del miembro
+  name: string; // Nombre del miembro
+  lastname?: string; // Apellido del miembro
+  email?: string; // Correo electrónico del miembro
+}
+
+interface ITeacherLeader {
+  id: number;
+  name: string;
+  lastname: string;
+  email: string;  // Si necesitas también el email
+  teamCount: number;
+
 }

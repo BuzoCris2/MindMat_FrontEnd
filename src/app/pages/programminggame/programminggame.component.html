@@ -1,0 +1,46 @@
+<div class="programming-game-container">
+  <!-- Introducción de la historia -->
+  <div *ngIf="currentTextIndex === 0" class="story-panel">
+    <img src="assets/img/Characters/robot1.png" alt="Rover el Robot" />
+    <h1>¡Ayuda a Rover a llegar a su nave!</h1>
+    <p>Rover está perdido en un laberinto. Usa bloques de comandos para guiarlo hacia su nave espacial.</p>
+    <button (click)="updateTextIndex(1)">Continuar</button>
+  </div>
+
+  <!-- Juego principal -->
+  <div *ngIf="currentTextIndex === 1" class="game-panel">
+    <h2>Nivel 1: Laberinto Sencillo</h2>
+    <div class="grid">
+      <!-- Generar celdas dinámicamente -->
+      <div
+        *ngFor="let cell of grid; let i = index"
+        [class.rover]="i === roverPosition"
+        [class.flag]="i === flagPosition"
+        [class.obstacle]="obstacles.includes(i)"
+        class="cell"
+      ></div>
+    </div>
+
+    <div class="commands-section">
+      <h3>Bloques de comandos:</h3>
+      <div class="block" draggable="true" (dragstart)="drag($event, 'move')">Avanzar</div>
+      <div class="block" draggable="true" (dragstart)="drag($event, 'left')">Girar Izquierda</div>
+      <div class="block" draggable="true" (dragstart)="drag($event, 'right')">Girar Derecha</div>
+    </div>
+
+    <div class="dropzone" (dragover)="allowDrop($event)" (drop)="drop($event)">
+      <!-- Aquí se arrastran los bloques -->
+      <p *ngIf="commands.length === 0">Arrastra bloques aquí</p>
+      <div *ngFor="let command of commands" class="command">{{ command }}</div>
+    </div>
+
+    <button (click)="executeCommands()">Ejecutar Comandos</button>
+  </div>
+
+  <!-- Fin del juego -->
+  <div *ngIf="currentTextIndex === 2" class="end-screen">
+    <h1>¡Felicidades!</h1>
+    <p>Has ayudado a Rover a llegar a su nave.</p>
+    <button (click)="resetGame()">Jugar de nuevo</button>
+  </div>
+</div>
