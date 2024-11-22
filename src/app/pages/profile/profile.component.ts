@@ -1,13 +1,15 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
-import { IUser } from '../../interfaces';
+import { ITeam, IUser } from '../../interfaces';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AvatarSelectorComponent } from '../../components/user/avatar-selector/avatar-selector.component';
 import { ModalService } from '../../services/modal.service';
+import { AuthService } from '../../services/auth.service';
 import { ModalComponent } from '../../components/modal/modal.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router, RouterLink } from '@angular/router';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
+import { TeamService } from '../../services/team.service';
 
 
 @Component({
@@ -19,11 +21,16 @@ import { AlertModalComponent } from '../../components/alert/alert-modal.componen
     ModalComponent,
     AvatarSelectorComponent,
     AlertModalComponent,
+    RouterLink
   ],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  @Input() teams: ITeam[] = [];
+  public teamService: TeamService = inject(TeamService);
+  
+
   user: IUser | null = null;
   editingField: keyof IUser | null = null;
   originalValue?: string;
@@ -39,11 +46,15 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     public profileService: ProfileService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private authService: AuthService,
+    private router: Router,
+    
   ) {}
 
   ngOnInit() {
     this.profileService.getUserInfoSignal();
+    this.teamService.getCountByTeacher();
     this.profileService.user$.subscribe(userData => {
       this.user = userData;
       console.log("Usuario en el componente actualizado:", this.user);
@@ -52,6 +63,10 @@ export class ProfileComponent implements OnInit {
 
   getAvatarUrl(): string {
     return this.user?.avatarId ? `assets/img/avatars/avatar${this.user.avatarId}.png` : 'assets/img/avatars/default.png';
+  }
+
+  public trackById(index: number, item: ITeam): number {
+    return item.id || 0;
   }
 
   editAvatar() {
@@ -91,6 +106,13 @@ export class ProfileComponent implements OnInit {
       this.profileService.updateUserField(field, newValue).subscribe({
         next: () => {
           this.triggerAlert('success', '¡Éxito!', `Tu información ha sido actualizada correctamente.`,'Continuar');
+
+          if (field === 'email') {
+            setTimeout(() => {
+              this.authService.logout();
+              this.router.navigate(['/main']);
+            }, 4000);
+          }
         },
         error: (error) => {
           this.triggerAlert('error', 'Error', `No se pudo actualizar el campo ${field}. ${error.message}`);
@@ -129,5 +151,12 @@ export class ProfileComponent implements OnInit {
 
   closeAlertModal() {
     this.showAlert = false;
+  }
+
+  public shouldDisplayRoute(route: 'teams'): boolean {
+    const routesAvailableForUser = {
+      'teams': true
+    };
+    return routesAvailableForUser[route];
   }
 }

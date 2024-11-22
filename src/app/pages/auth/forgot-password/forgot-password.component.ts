@@ -26,7 +26,7 @@ export class ForgotPasswordComponent {
           this.isError = false;
           setTimeout(() => {
             this.message = '';
-            this.router.navigate(['/main']); 
+            this.router.navigate(['/reset-password']); 
           }, 5000);
         }
       },

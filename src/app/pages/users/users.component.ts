@@ -15,13 +15,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-users',
   standalone: true,
   imports: [
-    UserListComponent,
-    PaginationComponent,
-    ModalComponent,
-    LoaderComponent,
-    UserFormComponent,
-    CategoriesFormComponent,
-    CommonModule
+    UserListComponent,PaginationComponent,ModalComponent,LoaderComponent,UserFormComponent,CategoriesFormComponent,CommonModule
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'

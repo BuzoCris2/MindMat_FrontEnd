@@ -19,18 +19,70 @@
         <!-- Tablero -->
         <div class="board">
           <div *ngFor="let row of board; let i = index" class="board-row">
-            <div *ngFor="let cell of row; let j = index" class="board-cell" (click)="selectCell(i, j)">
-              {{ cell }}
+            <div
+              *ngFor="let cell of row; let j = index"
+              class="board-cell"
+              [attr.data-row]="i"
+              [attr.data-col]="j"
+              [ngClass]="{
+                'cell-hit': cell === 'H',
+                'cell-miss': cell === 'M',
+                'hover-column': selectedPowerup === 0 && selectedColumnHover === j,
+                'hover-row': selectedPowerup === 1 && selectedRowHover === i,
+                'hover-cross': selectedPowerup === 2 && isCrossHovered(i, j)
+              }"
+              (mouseenter)="
+              selectedPowerup === 0
+                ? hoverColumn(j)
+                : selectedPowerup === 1
+                ? hoverRow(i)
+                : selectedPowerup === 2
+                ? hoverCross(i, j)
+                : null
+              "
+              (mouseleave)="
+                selectedPowerup === 0
+                  ? leaveColumn()
+                  : selectedPowerup === 1
+                  ? leaveRow()
+                  : selectedPowerup === 2
+                  ? leaveCross(i, j)
+                  : null
+              "
+              (click)="
+              selectedPowerup === 0
+                ? activateColumnPowerup(j)
+                : selectedPowerup === 1
+                ? activateRowPowerup(i)
+                : selectedPowerup === 2
+                ? activateCrossPowerup(i, j)
+                : selectCell(i, j)
+              "
+            >
+              <img
+                *ngIf="cell === 'H'"
+                src="assets/img/Various/circHit.png"
+                alt="Hit"
+              />
+              <img
+                *ngIf="cell === 'M'"
+                src="assets/img/Various/circNoHit.png"
+                alt="Miss"
+              />
+              <div
+                *ngIf="isHitAnimating && selectedHitRow === i && selectedHitColumn === j"
+                class="hit-animation"
+              >
+              <img
+              src="assets/img/mathleship/hitAnim.gif"
+              alt="Hit Animation"
+              class="hit-img"
+            />
+              </div>
             </div>
           </div>
-        </div>
+        </div>        
       </div> 
-    </div>
-    <div class="powerups-section">
-      <h3>PowerUps</h3>
-      <div class="powerups">
-        <div class="powerup" *ngFor="let powerup of [1, 2, 3, 4]"></div>
-      </div>
     </div>
   </div>
   <div class="right-column">
@@ -43,17 +95,77 @@
       <img src="assets/img/mathleship/barco2.png" alt="Barco 2" class="ship-image" />
       <img src="assets/img/mathleship/barco1.png" alt="Barco 1" class="ship-image" />
     </div>
+
+    <div class="powerups-section">
+      <h3>PowerUps</h3>
+      <div class="powerups">
+        <div
+          class="powerup"
+          *ngFor="let powerup of powerups; let i = index"
+          [class.used]="powerup.used"
+          [class.active]="selectedPowerup === i"
+          (click)="selectPowerup(i)"
+        >
+          <img
+          [src]="getPowerupImage(i)"
+          [alt]="powerup.name"
+          [style.filter]="powerup.used ? 'grayscale(100%)' : 'none'"
+          [style.opacity]="powerup.used ? '0.5' : '1'"
+          class="powerup-img"
+        />
+        </div>
+      </div>
+    </div>
     
     <!-- Sección de operación matemática -->
-    <div class="math-operation" *ngIf="mathVisible">
-      <div class="number">{{ number1 }}</div>
-      <div class="operator">{{ operator }}</div>
-      <div class="number">{{ number2 }}</div>
-      <div class="equals">=</div>
-      <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
-      <button (click)="submitAnswer()" class="btn-ready">Listo</button>
-    </div>
+    <div class="modal-container" *ngIf="mathVisible">
+      <div class="modal">
+        <div
+          *ngIf="quickFeedbackVisible"
+          class="quick-feedback-overlay"
+          [ngClass]="quickFeedbackType"
+        >
+          {{ quickFeedbackMessage }}
+        </div>
+        <h2 *ngIf="!showAlert">Resuelve la Operación</h2>
+        <h2 *ngIf="showAlert" [ngClass]="{ 'success-message': alertType === 'success', 'error-message': alertType === 'error' }">
+          {{ alertMessage }}
+        </h2>
+          <div class="math-operation">
+            <div class="number">{{ number1 }}</div>
+            <div class="operator">{{ operator }}</div>
+            <div class="number">{{ number2 }}</div>
+            <div class="equals">=</div>
+            <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
+          </div>
+          <button
+          *ngIf="!showAlert"
+          class="btn-ready"
+          [disabled]="userAnswer === ''"
+          (click)="
+            selectedPowerup === 0
+              ? submitAnswerForColumn(lastSelectedColumn!)
+              : selectedPowerup === 1
+              ? submitAnswerForRow(lastSelectedRow!)
+              : selectedPowerup === 2
+              ? submitAnswerForCross(selectedRow!, selectedColumn!)
+              : submitAnswer(selectedRow!, selectedColumn!)
+          "
+        >
+          Enviar
+        </button>                             
+    </div>    
   </div>
+
+  <app-alert-modal
+      *ngIf="showAlert"
+      [alertType]="alertType"
+      [title]="alertTitle"
+      [message]="alertMessage"
+      [buttonText]="alertButtonText"
+      (closeAlert)="closeAlertModal()">
+  </app-alert-modal>
+  
 </div>
 
   

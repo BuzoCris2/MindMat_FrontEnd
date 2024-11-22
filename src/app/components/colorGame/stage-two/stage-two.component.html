@@ -1,1 +1,21 @@
-<p>stage-two works!</p>
+<div class="stage-two-container">
+    <div *ngIf="!isQuizCompleted(); else quizResult">
+      <h2>Pregunta {{ currentQuestionIndex + 1 }}/{{ questions.length }}</h2>
+      <p>{{ questions[currentQuestionIndex].question }}</p>
+      <div class="options">
+        <button
+          *ngFor="let option of questions[currentQuestionIndex].options"
+          (click)="selectAnswer(option)">
+          {{ option }}
+        </button>
+      </div>
+    </div>
+  
+    <ng-template #quizResult>
+      <h2>¡Juego completado!</h2>
+      <p>Tu puntaje: {{ score }}/{{ questions.length }}</p>
+      <button (click)="resetQuiz()">Reiniciar</button>
+      <button (click)="goToStageThree()" class="next-stage">Ir al Stage 3</button>
+    </ng-template>
+  </div>
+  

@@ -1,0 +1,101 @@
+.topbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; 
+  background-color: #1F2067;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  font-family: 'Fredoka', sans-serif;
+
+  .profile-section {
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+
+    .profile-avatar {
+      width: 55px;
+      height: 55px;
+      border-radius: 8px;
+      border: 2px solid #40C7E5;
+      margin-right: 10px;
+    }
+
+    .profile-info {
+      p {
+        margin: 0;
+        font-weight: bold;
+        font-size: 1.1rem;
+      }
+
+      .user-points {
+        color: #FFE76C;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .menu-icons {
+    display: flex;
+    align-items: center;
+
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #ffffff;
+      margin: 0 15px;
+
+      .icon {
+        width: 55px;
+        height: 55px;
+     
+      }
+
+      span {
+        font-size: 0.9rem;
+      }
+
+      &:hover {
+        color: #FFE76C;
+      }
+    }
+  }
+
+  .profile-logout-section {
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    margin-right: -10px;
+
+    .profile-icon {
+      margin-right: 10px;
+      .icon-small {
+        width: 55px;
+        height: 55px;
+      }
+    }
+
+    .logout-button {
+      background: none;
+      border: none;
+      color: inherit;
+      font-size: 12.5px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      i {
+        margin-right: 5px;
+      }
+
+      &:hover {
+        color: #FFE76C;
+      }
+    }
+  }
+}

@@ -33,42 +33,15 @@
                 </div>
               </div>
             </div>
-            
             <div class="input-wrapper">
               <label for="email" class="input-label">Correo electrónico</label>
               <input #email="ngModel" type="text" class="input-field" id="email" name="email"
-                placeholder="correoejemplo@gmail.com" [(ngModel)]="user.email" (blur)="email.control.markAsTouched()" [ngClass]="{
+                placeholder="correoejemplo@gmail.com" [(ngModel)]="user.email" (blur)="validateEmail()" [ngClass]="{
                   'input-invalid': email.invalid && email.touched,
                   'input-valid': email.valid && email.touched
                 }" required />
-              <div *ngIf="email.invalid && email.touched" class="input-error-message">
-                Ingrese un correo válido
-              </div>
-            </div>
-            <div class="input-wrapper">
-              <label for="active" class="input-label">
-                Avatar Id
-              </label>
-              <input #active="ngModel" type="number" class="input-field" id="active" name="active"
-                placeholder="1" [(ngModel)]="user.active" (blur)="active.control.markAsTouched()" [ngClass]="{
-                  'input-invalid': active.invalid && active.touched,
-                  'input-valid': active.valid && active.touched
-                }" required />
-              <div *ngIf="active.invalid && active.touched" class="input-error-message">
-                Ingrese active status correcto
-              </div>
-            </div>
-            <div class="input-wrapper">
-              <label for="avatarId" class="input-label">
-                Avatar Id
-              </label>
-              <input #avatarId="ngModel" type="number" class="input-field" id="avatarId" name="avatarId"
-                placeholder="1" [(ngModel)]="user.avatarId" (blur)="avatarId.control.markAsTouched()" [ngClass]="{
-                  'input-invalid': avatarId.invalid && avatarId.touched,
-                  'input-valid': avatarId.valid && avatarId.touched
-                }" required />
-              <div *ngIf="avatarId.invalid && avatarId.touched" class="input-error-message">
-                Ingrese avatarId correcto
+              <div *ngIf="emailError" class="input-error-message">
+                {{ emailError }}
               </div>
             </div>
 
@@ -124,21 +97,13 @@
     </div>
   </div>
 
-  <!-- Success Modal -->
-  <div *ngIf="showSuccessModal" class="modal">
-    <div class="modal-content">
-      <span class="close-button" (click)="closeSuccessModal()">&times;</span>
-      <h3>¡Registro exitoso!</h3>
-      <p>Serás redirigido a la página de inicio de sesión en unos segundos...</p>
-    </div>
-  </div>
-
-  <!-- Error Modal -->
-  <div *ngIf="showErrorModal" class="modal">
-    <div class="modal-content">
-      <h3>¡Error al registrarse!</h3>
-      <p>{{ translatedSignUpError }}</p>
-      <button (click)="closeErrorModal()" class="ok-button">OK</button>
-    </div>
-  </div>  
+  <!-- Componente de alerta -->
+  <app-alert-modal
+    *ngIf="showAlert"
+    [alertType]="alertType"
+    [title]="alertTitle"
+    [message]="alertMessage"
+    [buttonText]="alertButtonText"
+    (closeAlert)="handleAlertClose()">
+  </app-alert-modal>
 </div>

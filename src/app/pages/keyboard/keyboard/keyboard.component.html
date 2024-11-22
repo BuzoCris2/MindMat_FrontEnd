@@ -1,7 +1,7 @@
 @defer {
 <div class="row p-4">
 </div>
-<div class="row p-4 ">
+<div class="row p-4 displayExample">
     <div *ngIf="currentTextIndex === 0">
         <h1>Primera Pagina</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
@@ -108,5 +108,39 @@
         [numberOfPages] = 4
         (textIndexChange)="updateTextIndex($event)"
     />
+    <button (click)="saveScore()">save score</button>
+    <ng-template #scoreModal>
+        <app-modal
+        [hideConfirmAction] = "true"
+        [hideFooter]= "true"
+        modalBodyClass="none"
+        modalContentClass="modal-content"
+        >
+        <div class="modal-content-custom">
+            <h1>¡Felicidades!</h1>
+            <h2>Haz ganado {{starsEarned}} estrellas</h2>
+            <div class="modal-stars">
+                <img src="../../../../assets/img/Various/Star.png">
+                <h1>x</h1>
+                <h1>{{starsEarned}}</h1>
+            </div>
+            <h2>Respuestas</h2>
+            <div class="answers">
+                
+                <div  id="wright-answers">
+                    <h1 class="answer-title">5</h1>
+                    <h3>Correctas</h3>
+                </div>
+                <div id="wrong-answers">
+                    <h1 class="answer-title">5</h1>
+                    <h3>Incorrectas</h3>
+                </div>
+            </div>
+            <div class="modal-button-container">
+                <button #startGame (click)="closeModal()" class="continue">Continuar</button>
+            </div>
+        </div>
+        </app-modal>
+    </ng-template>
 </div>
 }
