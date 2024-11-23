@@ -23,6 +23,21 @@ export class KeyboardComponent {
   public starsEarned: string = '';
   public scoreService: ScoreService = inject(ScoreService);
   public modalService: ModalService = inject(ModalService);
+  public keys = [
+    {name: '1', value: 'C', backgroundColor: 'Red', color: 'white'},
+    {name: '2', value: 'Csharp', backgroundColor: 'orangered', color: 'white'},
+    {name: '3', value: 'D', backgroundColor: 'gold', color: 'black'},
+    {name: '4', value: 'Dsharp', backgroundColor: 'GreenYellow', color: 'black'},
+    {name: '5', value: 'E', backgroundColor: 'limegreen', color: 'black'},
+    {name: '6', value: 'F', backgroundColor: 'MediumSpringGreen', color: 'black'},
+    {name: '7', value: 'Fsharp', backgroundColor: 'DeepSkyBlue', color: 'black'},
+    {name: '8', value: 'G', backgroundColor: 'DodgerBlue', color: 'black'},
+    {name: '9', value: 'Gsharp', backgroundColor: 'MediumSlateBlue', color: 'white'},
+    {name: '10', value: 'A', backgroundColor: 'RebeccaPurple', color: 'white'},
+    {name: '11', value: 'Asharp', backgroundColor: 'Purple', color: 'white'},
+    {name: '12', value: 'B', backgroundColor: 'darkred', color: 'white'},
+    {name: '13', value: 'C1', backgroundColor: 'brown', color: 'white'}
+  ];
   @ViewChild('scoreModal') public scoreModal: any;
   currentTextIndex: number = 0;
   updateTextIndex(newIndex: number) {
