@@ -48,7 +48,7 @@ export class StageTwoComponent {
       correctAnswer: 'Minerales como el realgar'
     },
     {
-      question: '¿Qué planta se usaba para obtener tonos verdes?',
+      question: '¿Qué se usaba para obtener tonos verdes?',
       options: ['Malaquita triturada', 'Hojas de albahaca', 'Pasto fermentado'],
       correctAnswer: 'Malaquita triturada'
     },
