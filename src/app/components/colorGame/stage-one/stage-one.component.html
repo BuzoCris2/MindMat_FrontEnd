@@ -16,7 +16,9 @@
     <p><strong>Color:</strong> {{ selectedColor }}</p>
     <p><strong>Nombre:</strong> {{ selectedColorName }}</p>
     <p><strong>Código Hex:</strong> {{ colorHex(selectedColor) }}</p>
+    <p><strong>Descripción:</strong> {{ selectedColorDescription }}</p>
   </div>
+  
 
   <div class="buckets">
     <div *ngFor="let bucket of emptyBuckets; let i = index" class="bucket"
@@ -25,4 +27,12 @@
   </div>
 
   <button (click)="resetGame()">Reset Game</button>
+</div>
+
+<div class="modal" *ngIf="allColorsUnlocked">
+  <div class="modal-content">
+    <h2>¡Felicidades!</h2>
+    <p>Has desbloqueado todos los colores.</p>
+    <button (click)="unlockAllColors()">Ir al Stage 2</button>
+  </div>
 </div>

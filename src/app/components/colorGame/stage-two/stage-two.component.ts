@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,9 +18,13 @@ export class StageTwoComponent {
 
   constructor(private router: Router) {}
 
-  goToStageThree() {
-    this.router.navigate(['/stage-three']);
+
+  @Output() complete = new EventEmitter<void>();
+  unlockAllQuestions(): void {
+    // Lógica para desbloquear todos los colores
+    this.complete.emit(); // Notifica al componente padre
   }
+
 
   questions = [
     {

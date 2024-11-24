@@ -1,15 +1,12 @@
 <!-- color-game-page.component.html -->
-<div class="game-container">
-    <h2>Color Game</h2>
-    
-    <!-- Botones para cambiar de etapa -->
-    <button (click)="goToStage(1)">Stage 1</button>
-    <button (click)="goToStage(2)">Stage 2</button>
-    <button (click)="goToStage(3)">Stage 3</button>
-    
-    <!-- Mostrar la etapa correspondiente -->
-    <app-stage-one *ngIf="currentStage === 1"></app-stage-one>
-    <app-stage-two *ngIf="currentStage === 2"></app-stage-two>
-    <app-stage-three *ngIf="currentStage === 3"></app-stage-three>
+<div class="game-container margin-top">
+  <div *ngIf="currentStage === 1">
+    <app-stage-one (complete)="goToStage(2)"></app-stage-one>
   </div>
-  
+  <div *ngIf="currentStage === 2">
+    <app-stage-two (complete)="goToStage(3)"></app-stage-two>
+  </div>
+  <div *ngIf="currentStage === 3">
+    <app-stage-three></app-stage-three>
+  </div>
+</div>
