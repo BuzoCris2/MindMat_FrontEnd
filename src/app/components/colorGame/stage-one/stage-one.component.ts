@@ -12,8 +12,7 @@ import { Router } from '@angular/router';
 export class StageOneComponent {
   @Output() complete = new EventEmitter<void>();
 
-
-
+  // Colores definidos
   colors = [
     { name: 'Rojo', color: 'red', unlocked: true, description: 'Históricamente, el pigmento rojo se obtenía de la cochinilla, un insecto que vive en los nopales. Su tinte era muy apreciado en textiles y arte.' },
     { name: 'Azul', color: 'blue', unlocked: true, description: 'El azul ultramar provenía del lapislázuli, una piedra preciosa extraída principalmente de Afganistán. Era uno de los pigmentos más costosos y valiosos.' },
@@ -29,27 +28,58 @@ export class StageOneComponent {
     { name: 'Rojo Púrpura', color: 'red-purple', unlocked: false, description: 'Un tono rico y lujoso, simbolizaba pasión y nobleza. Se lograba mezclando pigmentos de cochinilla con púrpura de murex.' }
   ];
 
-  constructor(private router: Router) { }
-  emptyBuckets = Array(8).fill(null).map(() => ({ color: 'white' }));
+  // Propiedad para almacenar la imagen del cubo
+  bucketImage: string = 'assets/img/paint-buckets/whitePaint.png'; // Imagen inicial (cubo blanco)
+
   selectedBucketIndex: number | null = null;
   selectedColor: string | null = null;
   selectedColorName: string | null = null;
   selectedColorDescription: string | null = null;
 
+  constructor(private router: Router) { }
+
+  emptyBuckets = Array(8).fill(null).map(() => ({
+    color: 'white',
+    image: 'assets/img/paint-buckets/whitePaint.png' // Imagen inicial de cada cubo
+  }));
+  
   mixColors(color: string) {
     if (this.selectedBucketIndex !== null) {
       const selectedBucket = this.emptyBuckets[this.selectedBucketIndex];
-
+  
       if (selectedBucket.color === 'white') {
         selectedBucket.color = color;
+        selectedBucket.image = this.getBucketImage(color); // Actualiza la imagen del cubo
       } else {
         const { name, hex } = this.blendColors(selectedBucket.color, color);
         selectedBucket.color = hex;
+        selectedBucket.image = this.getBucketImage(name); // Actualiza la imagen tras mezclar
         this.unlockColors(name);
       }
     }
   }
+  
+  // Función para obtener la imagen según el nombre del color
+  getBucketImage(color: string): string {
+    const bucketImages: { [key: string]: string } = {
+      'red': 'assets/img/paint-buckets/redPaint.png',
+      'blue': 'assets/img/paint-buckets/bluePaint.png',
+      'yellow': 'assets/img/paint-buckets/yellowPaint.png',
+      'orange': 'assets/img/paint-buckets/orangePaint.png',
+      'green': 'assets/img/paint-buckets/greenPaint.png',
+      'purple': 'assets/img/paint-buckets/purplePaint.png',
+      'red-orange': 'assets/img/paint-buckets/red-orangePaint.png',
+      'amber': 'assets/img/paint-buckets/amberPaint.png',
+      'yellow-green': 'assets/img/paint-buckets/yellow-greenPaint.png',
+      'blue-green': 'assets/img/paint-buckets/blue-greenPaint.png',
+      'blue-purple': 'assets/img/paint-buckets/blue-purplePaint.png',
+      'red-purple': 'assets/img/paint-buckets/red-purplePaint.png',
+      'brown': 'assets/img/paint-buckets/brownPaint.png', // Imagen predeterminada
+    };
+    return bucketImages[color] || 'assets/img/paint-buckets/whitePaint.png'; // Imagen predeterminada si no se encuentra el color
+  }
 
+  // Función para mezclar los colores
   blendColors(color1: string, color2: string): { name: string; hex: string } {
     const colorsHexMap: { [key: string]: string } = {
       'red': '#FF0000',
@@ -139,7 +169,10 @@ export class StageOneComponent {
   }
 
   resetGame() {
-    this.emptyBuckets = Array(8).fill(null).map(() => ({ color: 'white' }));
+    this.emptyBuckets = Array(8).fill(null).map(() => ({
+      color: 'white',
+      image: 'assets/img/paint-buckets/whitePaint.png' // Imagen inicial del cubo
+    }));
     this.selectedColor = null;
     this.selectedColorName = null;
     this.selectedBucketIndex = null;
@@ -151,10 +184,8 @@ export class StageOneComponent {
     this.allColorsUnlocked = this.colors.every(color => color.unlocked);
   }
 
-  
   unlockAllColors(): void {
     // Lógica para desbloquear todos los colores
     this.complete.emit(); // Notifica al componente padre
   }
-
 }

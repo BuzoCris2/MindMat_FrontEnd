@@ -21,9 +21,9 @@
   
 
   <div class="buckets">
-    <div *ngFor="let bucket of emptyBuckets; let i = index" class="bucket"
-      [ngStyle]="{'background-color': bucket.color}" (click)="selectBucket(i)">
-    </div>
+    <div *ngFor="let bucket of emptyBuckets; let i = index" class="bucket-container" (click)="selectBucket(i)">
+      <img [src]="bucket.image" class="bucket-image" alt="Bucket">
+    </div>    
   </div>
 
   <button (click)="resetGame()">Reset Game</button>
