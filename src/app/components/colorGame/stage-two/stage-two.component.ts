@@ -1,25 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stage-two',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   templateUrl: './stage-two.component.html',
   styleUrls: ['./stage-two.component.scss']
 })
 export class StageTwoComponent {
   currentQuestionIndex = 0;
   score = 0;
+  selectedOption: string | null = null; // La opción seleccionada
+  isAnswerCorrect: boolean | null = null; // Si la respuesta es correcta
+  showResult = false; // Mostrar indicador de correcto/incorrecto
 
   constructor(private router: Router) {}
 
-  goToStageThree() {
-    this.router.navigate(['/stage-three']); // Ajusta la ruta según tu configuración
+
+  @Output() complete = new EventEmitter<void>();
+  unlockAllQuestions(): void {
+    // Lógica para desbloquear todos los colores
+    this.complete.emit(); // Notifica al componente padre
   }
+
 
   questions = [
     {
@@ -43,7 +48,7 @@ export class StageTwoComponent {
       correctAnswer: 'Minerales como el realgar'
     },
     {
-      question: '¿Qué planta se usaba para obtener tonos verdes?',
+      question: '¿Qué se usaba para obtener tonos verdes?',
       options: ['Malaquita triturada', 'Hojas de albahaca', 'Pasto fermentado'],
       correctAnswer: 'Malaquita triturada'
     },
@@ -59,22 +64,32 @@ export class StageTwoComponent {
     }
   ];
 
-  // Verifica si la respuesta es correcta y avanza a la siguiente pregunta
   selectAnswer(selectedOption: string) {
     const currentQuestion = this.questions[this.currentQuestionIndex];
-    if (selectedOption === currentQuestion.correctAnswer) {
+    this.selectedOption = selectedOption;
+    this.isAnswerCorrect = selectedOption === currentQuestion.correctAnswer;
+    this.showResult = true;
+
+    // Esperar 2 segundos antes de avanzar
+    setTimeout(() => {
+      this.showResult = false;
+      this.selectedOption = null;
+      this.currentQuestionIndex++;
+    }, 2000);
+
+    if (this.isAnswerCorrect) {
       this.score++;
     }
-    this.currentQuestionIndex++;
   }
 
-  // Reinicia el juego
   resetQuiz() {
     this.currentQuestionIndex = 0;
     this.score = 0;
+    this.selectedOption = null;
+    this.isAnswerCorrect = null;
+    this.showResult = false;
   }
 
-  // Verifica si ya se respondieron todas las preguntas
   isQuizCompleted(): boolean {
     return this.currentQuestionIndex >= this.questions.length;
   }

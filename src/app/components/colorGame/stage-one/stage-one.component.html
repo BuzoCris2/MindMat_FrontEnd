@@ -16,13 +16,23 @@
     <p><strong>Color:</strong> {{ selectedColor }}</p>
     <p><strong>Nombre:</strong> {{ selectedColorName }}</p>
     <p><strong>Código Hex:</strong> {{ colorHex(selectedColor) }}</p>
+    <p><strong>Descripción:</strong> {{ selectedColorDescription }}</p>
   </div>
+  
 
   <div class="buckets">
-    <div *ngFor="let bucket of emptyBuckets; let i = index" class="bucket"
-      [ngStyle]="{'background-color': bucket.color}" (click)="selectBucket(i)">
-    </div>
+    <div *ngFor="let bucket of emptyBuckets; let i = index" class="bucket-container" (click)="selectBucket(i)">
+      <img [src]="bucket.image" class="bucket-image" alt="Bucket">
+    </div>    
   </div>
 
   <button (click)="resetGame()">Reset Game</button>
+</div>
+
+<div class="modal" *ngIf="allColorsUnlocked">
+  <div class="modal-content">
+    <h2>¡Felicidades!</h2>
+    <p>Has desbloqueado todos los colores.</p>
+    <button (click)="unlockAllColors()">Ir al Stage 2</button>
+  </div>
 </div>
