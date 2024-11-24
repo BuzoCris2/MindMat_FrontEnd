@@ -1,1 +1,23 @@
-<p>stage-three works!</p>
+<div class="stage-three-container">
+    <div class="toolbar">
+      <div class="colors">
+        <div
+          *ngFor="let color of colors"
+          class="color"
+          [ngStyle]="{ 'background-color': color }"
+          (click)="selectColor(color)"
+          [class.selected]="color === selectedColor"
+        ></div>
+      </div>
+      <label for="brush-size">Tamaño del trazo:</label>
+      <select id="brush-size" [(ngModel)]="brushSize" (change)="updateBrushSize()">
+        <option *ngFor="let size of brushSizes" [value]="size">{{ size }}px</option>
+      </select>
+      <button (click)="clearCanvas()">Reiniciar</button>
+      <button (click)="enableEraser()">Borrador</button>
+      <button (click)="saveCanvas()">Guardar</button>
+    </div>
+    <canvas #canvas width="800" height="600" (mousedown)="startDrawing($event)" (mouseup)="stopDrawing()" (mousemove)="draw($event)">
+    </canvas>
+  </div>
+  
