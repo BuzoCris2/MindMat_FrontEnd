@@ -30,6 +30,10 @@
       <!-- <img src="assets/icons/mathleship.png" alt="Mathleship" class="icon" />-->
       <span>Dashboard</span>
     </a>
+    <a *ngIf="shouldDisplayRoute('grow-your-tree')" routerLink="/app/grow-your-tree" routerLinkActive="active" class="menu-item">
+      <!-- <img src="assets/icons/mathleship.png" alt="Mathleship" class="icon" />-->
+      <span>Crece mi arbol</span>
+    </a>
   </div>
 
   <!-- Sección de perfil y botón de cerrar sesión juntos en el lado derecho -->

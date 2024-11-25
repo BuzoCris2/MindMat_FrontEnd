@@ -15,7 +15,7 @@ import { IRoleType } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
-
+import { GrowYourTreeComponent } from './pages/grow-your-tree/grow-your-tree.component';
 import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component';
 
 import { ReportsComponent } from './pages/reports/reports.component';
@@ -90,7 +90,8 @@ export const routes: Routes = [
             IRoleType.admin,
             IRoleType.superAdmin
           ],
-          name: 'Users',
+          name: 'Usuarios',
+          showInDashboard: true,
         }
       },
       {
@@ -103,6 +104,7 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'Dashboard',
+          showInDashboard: false,
         }
       },
       {
@@ -114,7 +116,9 @@ export const routes: Routes = [
             IRoleType.superAdmin,
             IRoleType.user
           ],
-          name: 'profile',
+          name: 'Perfil',
+          showInDashboard: true,
+          icon:'assets/img/dashboard/perfil.png',
         }
       },
       {
@@ -124,9 +128,9 @@ export const routes: Routes = [
           authorities: [
             IRoleType.admin,
             IRoleType.superAdmin,
-            IRoleType.user
           ],
-          name: 'reports',
+          name: 'Reportes',
+          showInDashboard: true,
         }
       },
       {
@@ -134,11 +138,10 @@ export const routes: Routes = [
         component: KeyboardComponent,
         data: {
           authorities: [
-            IRoleType.admin,
-            IRoleType.superAdmin,
             IRoleType.user,
           ],
           name: 'keyboard',
+          showInDashboard: false,
         }
       },
       {
@@ -146,11 +149,10 @@ export const routes: Routes = [
         component: MathleshipComponent,
         data: {
           authorities: [
-            IRoleType.admin,
-            IRoleType.superAdmin,
             IRoleType.user,
           ],
           name: 'mathleship',
+          showInDashboard: false,
         }
       },
       {
@@ -159,7 +161,20 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           authorities: [IRoleType.user],
-          name: 'Panel Juegos',
+          name: 'Panel de Juegos',
+          showInDashboard: true,
+          icon:'assets/img/dashboard/juegos.png',
+        }
+      },
+      {
+        path: 'grow-your-tree',
+        component: GrowYourTreeComponent,
+        data: { 
+          authorities: [
+            IRoleType.user
+          ],
+          name: 'Arbol',
+          showInDashboard: false,
         }
       },
       {
@@ -191,8 +206,6 @@ export const routes: Routes = [
         component: ColorGamePageComponent,
         data: {
           authorities: [
-            IRoleType.admin,
-            IRoleType.superAdmin,
             IRoleType.user,
           ],
           name: 'color game',

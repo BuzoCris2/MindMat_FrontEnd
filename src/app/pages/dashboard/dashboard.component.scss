@@ -30,80 +30,47 @@
   
     .user-details {
       flex: 1; /* Ocupa el espacio disponible */
-      
+      text-align: center;
       h2 {
+     
         font-family: 'Fredoka', sans-serif;
         font-weight: 600;
         margin: 0;
-        font-size: 24px;
+        font-size: 40px;
         color: #1f2067;
       }
   
       p {
         font-family: 'Sarabun', sans-serif;
-        margin: 10px 0 0 0;
+        margin: 20px 0 0 0;
         color: #666;
-        font-size: 18px;
+        font-size: 25px;
       }
     }
   
     .user-avatar {
       flex: 0;
-      width: 50%;
-      height: 80%;
-      border-radius: 40px;
+      width: 55%;
+      border-radius: 50px;
       border: 3px solid #4c75e5; /* Borde para resaltar el avatar */
-      margin-left: 5px; /* Espacio entre información y avatar */
+      margin-left: 10px; /* Espacio entre información y avatar */
     }
   }
   
   
   .actions {
     display: flex;
-    flex-direction: column; /* Los botones se apilan verticalmente */
+    flex-direction: column; /* Botones apilados verticalmente */
     align-items: center;
-    justify-content: center;
-    width: 50%; /* Ocupa la otra mitad del contenedor */
+    margin-left: 30px;
+    justify-content: space-evenly; /* Espaciado uniforme entre botones */
+    width: 50%; /* Ocupa la mitad del contenedor principal */
+    gap: 15px; /* Espaciado adicional entre botones */
   
-    .action-button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 15px 30px;
-      border-radius: 12px;
-      font-family: 'Fredoka', sans-serif;
-      font-weight: 600;
-      font-size: 18px;
-      margin: 10px 0;
-      cursor: pointer;
-      width: 80%; /* Asegura que los botones tengan un ancho uniforme */
-      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, background-color 0.3s;
-  
-      &.primary {
-        background-color: #4c75e5;
-        color: #fff;
-      }
-  
-      &.secondary {
-        background-color: #ff6e6c;
-        color: #fff;
-      }
-  
-      &.tertiary {
-        background-color: #ffa64c;
-        color: #fff;
-      }
-  
-      &:hover {
-        transform: scale(1.05);
-      }
-  
-      .button-icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 10px;
-      }
+    /* Añade un diseño responsivo */
+    @media (max-width: 768px) {
+      width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
     }
+  
   }
   
