@@ -90,11 +90,32 @@
     <app-timer [initialTime]="1000"></app-timer>
     
     <div class="ships-container">
-      <img src="assets/img/mathleship/barco4.png" alt="Barco 4" class="ship-image" />
-      <img src="assets/img/mathleship/barco3.png" alt="Barco 3" class="ship-image" />
-      <img src="assets/img/mathleship/barco2.png" alt="Barco 2" class="ship-image" />
-      <img src="assets/img/mathleship/barco1.png" alt="Barco 1" class="ship-image" />
+      <img
+        src="assets/img/mathleship/barco4.png"
+        alt="Barco 4"
+        class="ship-image"
+        [class.ship-destroyed]="shipsStatus['ship1']"
+      />
+      <img
+        src="assets/img/mathleship/barco3.png"
+        alt="Barco 3"
+        class="ship-image"
+        [class.ship-destroyed]="shipsStatus['ship2']"
+      />
+      <img
+        src="assets/img/mathleship/barco2.png"
+        alt="Barco 2"
+        class="ship-image"
+        [class.ship-destroyed]="shipsStatus['ship3']"
+      />
+      <img
+        src="assets/img/mathleship/barco1.png"
+        alt="Barco 1"
+        class="ship-image"
+        [class.ship-destroyed]="shipsStatus['ship4']"
+      />
     </div>
+    
 
     <div class="powerups-section">
       <h3>PowerUps</h3>

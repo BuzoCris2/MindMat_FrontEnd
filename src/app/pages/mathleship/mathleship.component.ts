@@ -16,7 +16,9 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class MathleshipComponent implements OnInit {
   board: string[][] = [];
-  timerValue: string = '03:00'; 
+  timerValue: string = '03:00';
+  shipsStatus: { [key: string]: boolean } = {};
+  ships: IShip[] = [];
 
   showAlert = false;
   alertType: 'time' | 'error' | 'success' = 'success';
@@ -51,7 +53,7 @@ export class MathleshipComponent implements OnInit {
 
   constructor(private mathleshipService: MathleshipService, private cdr: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
+  /*ngOnInit(): void {
     this.initializeGame();
 
     this.mathleshipService.getShips().subscribe({
@@ -59,6 +61,8 @@ export class MathleshipComponent implements OnInit {
     console.log('Datos recibidos de los barcos:', response);
     if (response) {  
       this.board = this.buildBoard(response);
+      this.initializeShipsStatus(response);
+      
     } else {
       console.error('No se recibieron datos de los barcos.');
     }
@@ -66,7 +70,23 @@ export class MathleshipComponent implements OnInit {
   error: (err) => console.error('Error al obtener los barcos', err)
 });
 
-  }
+  }*/
+
+ngOnInit(): void {
+  this.mathleshipService.initializeBoard().subscribe({
+    next: (ships: IShip[]) => {
+      console.log('Datos de barcos recibidos desde el backend:', ships);
+
+      this.ships = ships; // Guardar barcos localmente
+      this.board = this.buildBoard(ships); // Construir el tablero
+      this.initializeShipsStatus(ships); // Inicializar el estado de los barcos
+    },
+    error: (err) => {
+      console.error('Error al inicializar el tablero:', err);
+    },
+  });
+}
+
 
   initializeGame() {
     this.mathleshipService.initializeBoard().subscribe({
@@ -77,20 +97,56 @@ export class MathleshipComponent implements OnInit {
     });
   }
 
+  initializeShipsStatus(ships: IShip[]): void {
+    this.ships = ships;
+    ships.forEach((ship, index) => {
+      this.shipsStatus[`ship${index + 1}`] = false; // Todos los barcos inician como no derribados
+      
+    });
+    console.log('Datos de barcos inicializados:', this.ships);
+  }
+
+  checkShipStatus(): void {
+    this.ships.forEach((ship, index) => {
+      const allHit = ship.cellsOccupied.every((cell) => {
+        const row = cell.row - 1;
+        const col = cell.column.charCodeAt(0) - 'A'.charCodeAt(0);
+        return this.board[row][col] === 'H'; // Todas las celdas deben estar marcadas como golpeadas
+      });
+  
+      // Si todas las celdas de un barco están golpeadas, marcar el barco como destruido
+      if (allHit) {
+        this.shipsStatus[`ship${index + 1}`] = true;
+      }
+    });
+  
+    console.log('Estado actualizado de los barcos:', this.shipsStatus);
+  }
+  
+
   buildBoard(ships: IShip[]): string[][] {
     if (!ships) {
       console.error('Ships es null o undefined.');
       return [];
     }
   
-    const board = Array(6).fill(null).map(() => Array(6).fill(''));
+    //const board = Array(6).fill(null).map(() => Array(6).fill(''));
+    const board = Array.from({ length: 6 }, () => Array(6).fill(''));
     ships.forEach(ship => {
         ship.cellsOccupied.forEach(cell => {
             const columnIndex = cell.column.charCodeAt(0) - 'A'.charCodeAt(0);
             const rowIndex = cell.row - 1;
+
+            if (board[rowIndex][columnIndex] === 'S') {
+              console.warn(
+                `Posición duplicada detectada: (${rowIndex + 1}, ${cell.column})`
+              );
+            }
+
             board[rowIndex][columnIndex] = 'S';
         });
     });
+    console.log('Tablero construido:', board);
     return board;
   }
   
@@ -156,6 +212,7 @@ export class MathleshipComponent implements OnInit {
         setTimeout(() => {
           this.isHitAnimating = false;
           this.board[row][column] = 'H'; // Marcar hit
+          this.checkShipStatus();
         }, 2000); 
       }, 1000);
     } else {
@@ -357,6 +414,8 @@ export class MathleshipComponent implements OnInit {
         }
       });
       console.log('Tablero después de aplicar PowerUp:', this.board);
+
+      this.checkShipStatus();
   
       // Feedback en el modal
       this.showFeedbackMessage(true); // Muestra el mensaje en el modal
@@ -446,6 +505,8 @@ export class MathleshipComponent implements OnInit {
         }
       });
       console.log('Tablero después de aplicar PowerUp:', this.board);
+
+      this.checkShipStatus();
   
       // Feedback en el modal
       this.showFeedbackMessage(true); // Muestra el mensaje en el modal
@@ -551,6 +612,8 @@ export class MathleshipComponent implements OnInit {
         }
       });
       console.log('Tablero después de aplicar PowerUp:', this.board);
+
+      this.checkShipStatus();
   
       // Feedback en el modal
       this.showFeedbackMessage(true); // Muestra el mensaje en el modal

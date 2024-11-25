@@ -190,6 +190,11 @@
   width: 100px;
   height: auto;
   opacity: 0.5;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.ship-image.ship-destroyed {
+  filter: brightness(0.5) sepia(1) hue-rotate(-50deg) saturate(5);
 }
 
 .modal-container {
