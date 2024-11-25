@@ -26,13 +26,13 @@
     </div>    
   </div>
 
-  <button (click)="resetGame()">Reset Game</button>
+  <button class="reset" (click)="resetGame()">Limpiar pintura</button>
 </div>
 
-<div class="modal" *ngIf="allColorsUnlocked">
+<div class="modal" >
   <div class="modal-content">
     <h2>¡Felicidades!</h2>
     <p>Has desbloqueado todos los colores.</p>
-    <button (click)="unlockAllColors()">Ir al Stage 2</button>
+    <button (click)="unlockAllColors()">Siguiente</button>
   </div>
 </div>

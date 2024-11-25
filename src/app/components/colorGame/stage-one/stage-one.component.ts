@@ -38,7 +38,7 @@ export class StageOneComponent {
 
   constructor(private router: Router) { }
 
-  emptyBuckets = Array(8).fill(null).map(() => ({
+  emptyBuckets = Array(10).fill(null).map(() => ({
     color: 'white',
     image: 'assets/img/paint-buckets/whitePaint.png' // Imagen inicial de cada cubo
   }));
@@ -169,7 +169,7 @@ export class StageOneComponent {
   }
 
   resetGame() {
-    this.emptyBuckets = Array(8).fill(null).map(() => ({
+    this.emptyBuckets = Array(10).fill(null).map(() => ({
       color: 'white',
       image: 'assets/img/paint-buckets/whitePaint.png' // Imagen inicial del cubo
     }));

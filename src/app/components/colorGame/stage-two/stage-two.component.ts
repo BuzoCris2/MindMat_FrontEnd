@@ -12,12 +12,10 @@ import { Router } from '@angular/router';
 export class StageTwoComponent {
   currentQuestionIndex = 0;
   score = 0;
-  selectedOption: string | null = null; // La opción seleccionada
-  isAnswerCorrect: boolean | null = null; // Si la respuesta es correcta
-  showResult = false; // Mostrar indicador de correcto/incorrecto
-
-  constructor(private router: Router) {}
-
+  selectedOption: string | null = null;
+  isAnswerCorrect: boolean | null = null;
+  showResult = false;
+  isInteractionDisabled = false; // Nueva bandera para deshabilitar botones
 
   @Output() complete = new EventEmitter<void>();
   unlockAllQuestions(): void {
@@ -25,8 +23,7 @@ export class StageTwoComponent {
     this.complete.emit(); // Notifica al componente padre
   }
 
-
-  questions = [
+questions = [
     {
       question: '¿Cómo se obtenía históricamente el pigmento rojo?',
       options: ['De la cochinilla', 'De minerales de arsénico', 'De hojas secas'],
@@ -58,21 +55,30 @@ export class StageTwoComponent {
       correctAnswer: 'Murex'
     },
     {
-      question: '¿Cómo se obtenían los tonos marrones?',
-      options: ['De la tierra rica en óxidos', 'De raíces de betabel', 'De la savia de árboles secos'],
-      correctAnswer: 'De la tierra rica en óxidos'
+      question: '¿Qué combinación de pigmentos se usaba para obtener azul verdoso?',
+      options: ['Azul ultramar y malaquita', 'Cúrcuma y lapislázuli', 'Realgar y murex'],
+      correctAnswer: 'Azul ultramar y malaquita'
+    },
+    {
+      question: '¿Cuál era el origen del pigmento ámbar?',
+      options: ['Cúrcuma y minerales', 'Hojas de arce y polvo de amatista', 'Flores secas y realgar'],
+      correctAnswer: 'Cúrcuma y minerales'
     }
   ];
 
   selectAnswer(selectedOption: string) {
+    if (this.isInteractionDisabled) return; // Evitar interacción si está bloqueada
+
     const currentQuestion = this.questions[this.currentQuestionIndex];
     this.selectedOption = selectedOption;
     this.isAnswerCorrect = selectedOption === currentQuestion.correctAnswer;
     this.showResult = true;
+    this.isInteractionDisabled = true; // Bloquear interacción
 
     // Esperar 2 segundos antes de avanzar
     setTimeout(() => {
       this.showResult = false;
+      this.isInteractionDisabled = false; // Desbloquear interacción
       this.selectedOption = null;
       this.currentQuestionIndex++;
     }, 2000);
@@ -88,6 +94,7 @@ export class StageTwoComponent {
     this.selectedOption = null;
     this.isAnswerCorrect = null;
     this.showResult = false;
+    this.isInteractionDisabled = false; // Asegurarse de desbloquear interacción
   }
 
   isQuizCompleted(): boolean {

@@ -5,15 +5,12 @@
 }
 
 .color-palette {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-right: 20px; /* Espacio entre la paleta y los botes */
-  gap: 10px;
-  position: relative;
-  z-index: 10; /* Asegura que la paleta de colores esté encima del panel de información */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 6 columnas por fila */
+  gap: 10px; /* Espaciado entre los colores */
+  margin-right: 20px; /* Espacio con el panel de información */
 }
+
 
 .color-info-panel {
   width: 250px;
@@ -25,6 +22,10 @@
   top: 0;
   left: 300px; /* Coloca el panel a la derecha de la paleta */
   z-index: 5;
+}
+
+.reset {
+  margin-left: 20px;
 }
 
 .color-item {
@@ -67,12 +68,13 @@
 }
 
 .buckets {
-  display: flex;
-  justify-content: space-between; /* Para distribuir los buckets en toda la fila */
-  gap: 20px; /* Espacio entre los buckets */
-  flex-wrap: wrap; /* Para permitir que los buckets se envuelvan si es necesario */
-  margin-top: 20px; /* Opcional: para agregar separación con el resto de los elementos */
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columnas por fila */
+  gap: 20px; /* Espaciado entre los botes */
+  margin-top: 20px;
+  justify-content: center; /* Centra los botes horizontalmente */
 }
+
 
 
 button {
@@ -92,16 +94,17 @@ button:hover {
 }
 
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute; /* Posición absoluta */
+  top: 50%;
+  left: 45%;
+  width: 20%;
+  height: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .modal-content {
@@ -129,8 +132,4 @@ button:hover {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
-}
-
-.modal-content button:hover {
-  background-color: #45a049;
 }
