@@ -1,14 +1,16 @@
 .key{
-    min-width: 30px;
+    font-family: "Fredoka", sans-serif;
+    min-width: 35px;
     padding: 5px;
-    height: 20vh;
+    height: 22vh;
     max-height: 20vh;
     min-height: 15vh;
     margin-left: 5px;
     margin-right: 5px;
     padding: 3px;
     background-color: white;
-    border: 1px solid saddlebrown;
+    border: 1px;
+    border-radius: 5px;
     color: black;
     font-weight: bold;
 }

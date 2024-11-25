@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stage-one',
@@ -9,40 +10,76 @@ import { Component } from '@angular/core';
   styleUrls: ['./stage-one.component.scss']
 })
 export class StageOneComponent {
+  @Output() complete = new EventEmitter<void>();
+
+  // Colores definidos
   colors = [
-    { name: 'Red', color: 'red', unlocked: true },
-    { name: 'Blue', color: 'blue', unlocked: true },
-    { name: 'Yellow', color: 'yellow', unlocked: true },
-    { name: 'Orange', color: 'orange', unlocked: false },
-    { name: 'Green', color: 'green', unlocked: false },
-    { name: 'Purple', color: 'purple', unlocked: false },
-    { name: 'Red Orange', color: 'red-orange', unlocked: false },
-    { name: 'Amber', color: 'amber', unlocked: false },
-    { name: 'Yellow Green', color: 'yellow-green', unlocked: false },
-    { name: 'Blue Green', color: 'blue-green', unlocked: false },
-    { name: 'Blue Purple', color: 'blue-purple', unlocked: false },
-    { name: 'Red Purple', color: 'red-purple', unlocked: false }
+    { name: 'Rojo', color: 'red', unlocked: true, description: 'Históricamente, el pigmento rojo se obtenía de la cochinilla, un insecto que vive en los nopales. Su tinte era muy apreciado en textiles y arte.' },
+    { name: 'Azul', color: 'blue', unlocked: true, description: 'El azul ultramar provenía del lapislázuli, una piedra preciosa extraída principalmente de Afganistán. Era uno de los pigmentos más costosos y valiosos.' },
+    { name: 'Amarillo', color: 'yellow', unlocked: true, description: 'El pigmento amarillo se extraía de fuentes naturales como la cúrcuma o minerales como el oropimente. Se utilizaba en pinturas y tintes.' },
+    { name: 'Naranja', color: 'orange', unlocked: false, description: 'El pigmento naranja se obtenía de minerales como el realgar, un compuesto de arsénico utilizado en pinturas antiguas.' },
+    { name: 'Verde', color: 'green', unlocked: false, description: 'Los tonos verdes se lograban con malaquita triturada, un mineral de cobre. También se combinaban pigmentos amarillos y azules.' },
+    { name: 'Púrpura', color: 'purple', unlocked: false, description: 'El púrpura se extraía de moluscos como el murex. Era símbolo de riqueza y poder debido a su complejidad para producirlo.' },
+    { name: 'Rojo Naranja', color: 'red-orange', unlocked: false, description: 'Un tono cálido intermedio entre rojo y naranja, representaba energía y creatividad, aunque no tenía una fuente específica histórica.' },
+    { name: 'Ámbar', color: 'amber', unlocked: false, description: 'El ámbar, un tono amarillo-anaranjado, evocaba luz y calidez. Podía lograrse mezclando pigmentos naturales de cúrcuma y minerales.' },
+    { name: 'Amarillo Verde', color: 'yellow-green', unlocked: false, description: 'Este tono fresco y vibrante se creaba mezclando pigmentos amarillos y verdes, usado para representar naturaleza joven.' },
+    { name: 'Azul Verde', color: 'blue-green', unlocked: false, description: 'Un tono de transición entre azul y verde, asociado al agua y la tranquilidad. Mezclaba azul ultramar con malaquita.' },
+    { name: 'Azul Púrpura', color: 'blue-purple', unlocked: false, description: 'Un color profundo e intrigante, resultado de la mezcla de lapislázuli y pigmentos púrpuras como el del murex.' },
+    { name: 'Rojo Púrpura', color: 'red-purple', unlocked: false, description: 'Un tono rico y lujoso, simbolizaba pasión y nobleza. Se lograba mezclando pigmentos de cochinilla con púrpura de murex.' }
   ];
 
-  emptyBuckets = Array(8).fill(null).map(() => ({ color: 'white' }));
+  // Propiedad para almacenar la imagen del cubo
+  bucketImage: string = 'assets/img/paint-buckets/whitePaint.png'; // Imagen inicial (cubo blanco)
+
   selectedBucketIndex: number | null = null;
   selectedColor: string | null = null;
   selectedColorName: string | null = null;
+  selectedColorDescription: string | null = null;
 
+  constructor(private router: Router) { }
+
+  emptyBuckets = Array(10).fill(null).map(() => ({
+    color: 'white',
+    image: 'assets/img/paint-buckets/whitePaint.png' // Imagen inicial de cada cubo
+  }));
+  
   mixColors(color: string) {
     if (this.selectedBucketIndex !== null) {
       const selectedBucket = this.emptyBuckets[this.selectedBucketIndex];
   
       if (selectedBucket.color === 'white') {
         selectedBucket.color = color;
+        selectedBucket.image = this.getBucketImage(color); // Actualiza la imagen del cubo
       } else {
         const { name, hex } = this.blendColors(selectedBucket.color, color);
         selectedBucket.color = hex;
+        selectedBucket.image = this.getBucketImage(name); // Actualiza la imagen tras mezclar
         this.unlockColors(name);
       }
     }
   }
+  
+  // Función para obtener la imagen según el nombre del color
+  getBucketImage(color: string): string {
+    const bucketImages: { [key: string]: string } = {
+      'red': 'assets/img/paint-buckets/redPaint.png',
+      'blue': 'assets/img/paint-buckets/bluePaint.png',
+      'yellow': 'assets/img/paint-buckets/yellowPaint.png',
+      'orange': 'assets/img/paint-buckets/orangePaint.png',
+      'green': 'assets/img/paint-buckets/greenPaint.png',
+      'purple': 'assets/img/paint-buckets/purplePaint.png',
+      'red-orange': 'assets/img/paint-buckets/red-orangePaint.png',
+      'amber': 'assets/img/paint-buckets/amberPaint.png',
+      'yellow-green': 'assets/img/paint-buckets/yellow-greenPaint.png',
+      'blue-green': 'assets/img/paint-buckets/blue-greenPaint.png',
+      'blue-purple': 'assets/img/paint-buckets/blue-purplePaint.png',
+      'red-purple': 'assets/img/paint-buckets/red-purplePaint.png',
+      'brown': 'assets/img/paint-buckets/brownPaint.png', // Imagen predeterminada
+    };
+    return bucketImages[color] || 'assets/img/paint-buckets/whitePaint.png'; // Imagen predeterminada si no se encuentra el color
+  }
 
+  // Función para mezclar los colores
   blendColors(color1: string, color2: string): { name: string; hex: string } {
     const colorsHexMap: { [key: string]: string } = {
       'red': '#FF0000',
@@ -67,7 +104,7 @@ export class StageOneComponent {
       'bluered': 'purple',
       'yellowred': 'orange',
       'yellowblue': 'green',
-      
+
       'redorange': 'red-orange',
       'orangered': 'red-orange',
       'yelloworange': 'amber',
@@ -93,6 +130,7 @@ export class StageOneComponent {
     const colorToUnlock = this.colors.find(c => c.color === color);
     if (colorToUnlock) {
       colorToUnlock.unlocked = true;
+      this.checkAllColorsUnlocked();
     }
   }
 
@@ -118,7 +156,9 @@ export class StageOneComponent {
 
   selectColor(color: string) {
     this.selectedColor = color;
-    this.selectedColorName = this.colors.find(c => c.color === color)?.name || '';
+    const selectedColorObj = this.colors.find(c => c.color === color);
+    this.selectedColorName = selectedColorObj?.name || null;
+    this.selectedColorDescription = selectedColorObj?.description || null;
   }
 
   selectBucket(index: number) {
@@ -129,9 +169,23 @@ export class StageOneComponent {
   }
 
   resetGame() {
-    this.emptyBuckets = Array(8).fill(null).map(() => ({ color: 'white' }));
+    this.emptyBuckets = Array(10).fill(null).map(() => ({
+      color: 'white',
+      image: 'assets/img/paint-buckets/whitePaint.png' // Imagen inicial del cubo
+    }));
     this.selectedColor = null;
     this.selectedColorName = null;
     this.selectedBucketIndex = null;
+  }
+
+  allColorsUnlocked: boolean = false;
+
+  checkAllColorsUnlocked() {
+    this.allColorsUnlocked = this.colors.every(color => color.unlocked);
+  }
+
+  unlockAllColors(): void {
+    // Lógica para desbloquear todos los colores
+    this.complete.emit(); // Notifica al componente padre
   }
 }
