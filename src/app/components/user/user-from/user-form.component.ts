@@ -18,9 +18,10 @@ export class UserFormComponent {
   @Input() userForm!: FormGroup;
   @Output() callSaveMethod: EventEmitter<IUser> = new EventEmitter<IUser>();
   @Output() callUpdateMethod: EventEmitter<IUser> = new EventEmitter<IUser>();
+  @Output() callPatchMethod: EventEmitter<IUser> = new EventEmitter();
 
   callSave() {
-    let order: IUser = {
+    let user: IUser = {
       email: this.userForm.controls['email'].value,
       name: this.userForm.controls['name'].value,
       lastname: this.userForm.controls['lastname'].value,
@@ -31,12 +32,20 @@ export class UserFormComponent {
       role: this.userForm.controls['role'].value
     }
     if(this.userForm.controls['id'].value) {
-      order.id = this.userForm.controls['id'].value;
+      user.id = this.userForm.controls['id'].value;
     } 
-    if(order.id) {
-      this.callUpdateMethod.emit(order);
+    if(user.id) {
+      this.callUpdateMethod.emit(user);
     } else {
-      this.callSaveMethod.emit(order);
+      this.callSaveMethod.emit(user);
     }
+  }
+
+  callPatch() {
+    const user: IUser = {
+      id: this.userForm.controls['id'].value,
+      active: this.userForm.controls['active'].value === 'true',
+    };
+    this.callPatchMethod.emit(user);
   }
 }
