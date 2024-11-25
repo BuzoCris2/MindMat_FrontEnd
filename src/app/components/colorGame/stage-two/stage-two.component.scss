@@ -36,6 +36,17 @@
     }
   }
 
+  .options button.correct {
+    background-color: #4caf50; /* Verde */
+    color: white;
+  }
+  
+  .options button.incorrect {
+    background-color: #f44336; /* Rojo */
+    color: white;
+  }
+  
+
   .next-stage {
     margin-top: 10px;
     padding: 10px 20px;

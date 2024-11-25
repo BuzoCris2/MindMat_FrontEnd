@@ -72,4 +72,29 @@ export class UserService extends BaseService<IUser> {
       }
     });
   }
+
+  updateActiveStatus(userId: number, active: number) {
+    this.editCustomSource(`${userId}/active`, { active }).subscribe({
+      next: (response: any) => {
+        this.alertService.displayAlert(
+          'success',
+          response.message || 'User active status updated successfully',
+          'center',
+          'top',
+          ['success-snackbar']
+        );
+        this.getAll(); // Actualiza la lista después de cambiar el estado
+      },
+      error: (err: any) => {
+        this.alertService.displayAlert(
+          'error',
+          'An error occurred updating the user active status',
+          'center',
+          'top',
+          ['error-snackbar']
+        );
+        console.error('error', err);
+      }
+    });
+  }  
 }

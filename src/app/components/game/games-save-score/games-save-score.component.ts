@@ -1,0 +1,64 @@
+import { CommonModule } from '@angular/common';
+import { Component, inject, Output, EventEmitter, Input, ElementRef, Renderer2, ViewChild, viewChild, OnInit, AfterViewInit } from '@angular/core';
+import { ModalComponent } from '../../modal/modal.component';
+import { ModalService } from '../../../services/modal.service';
+import { ScoreService } from '../../../services/score.service';
+import { IScore } from '../../../interfaces';
+
+@Component({
+  selector: 'app-games-save-score',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ModalComponent
+  ],
+  templateUrl: './games-save-score.component.html',
+  styleUrl: './games-save-score.component.scss'
+})
+export class GamesSaveScoreComponent implements AfterViewInit {
+  selectedGameId: number | null = null;
+  public starsEarned: string = '';
+  public correctAnswers: number = 0;
+  public wrongtAnswers: number = 0;
+  public scoreService: ScoreService = inject(ScoreService);
+  public modalService: ModalService = inject(ModalService);
+  scoreResponse: string = '';
+  @ViewChild('scoreModal') public scoreModal: any;
+  @ViewChild('keyboardScore') keyboarSection!: ElementRef <HTMLDivElement>;
+  @ViewChild('colorScore') colorSection!:  ElementRef <HTMLDivElement>;
+  @Output() calculationInit = new EventEmitter<number>();
+  
+
+
+  constructor() 
+  {
+    
+  }
+  closeModal(){
+    this.modalService.closeAll();
+  }
+  ngAfterViewInit(){
+    if (this.scoreModal = 1){
+    this.keyboarSection.nativeElement.classList.remove('display-none');
+      let score: IScore ={
+        rightAnswers: 8,
+        wrongAnswers: 8,
+        game: 	{
+          "id": 1,
+          "name": "Key",
+          "description": "GeneratedGame",
+          "createdAt": "2024-11-16T00:10:20.000+00:00",
+          "updatedAt": "2024-11-16T00:11:01.000+00:00"
+        },
+      }
+  this.scoreService.save(score).subscribe({
+    next: (response) => {
+        this.starsEarned = response.stars;
+        this.correctAnswers = response.rightAnswers;
+    },
+    error: (err) => {
+        console.error('Error saving score:', err);
+    }
+  });
+}}
+}
