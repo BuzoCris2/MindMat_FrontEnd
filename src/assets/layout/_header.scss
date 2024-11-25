@@ -96,11 +96,6 @@
   cursor: pointer;
   position: relative;
 
-  &:hover {
-    .onhover-show-div {
-      @extend %for-animated-hover-box;
-    }
-  }
 }
 
 .onhover-show-div {
@@ -109,7 +104,6 @@
   z-index: 8;
   background-color: $white;
   transition: all linear 0.3s;
-  @extend %for-animated-hover;
 
   li {
     a {
