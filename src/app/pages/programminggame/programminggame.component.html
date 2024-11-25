@@ -1,46 +1,65 @@
 <div class="programming-game-container">
-  <!-- Introducción de la historia -->
+  <!-- Introducción -->
   <div *ngIf="currentTextIndex === 0" class="story-panel">
-    <img src="assets/img/Characters/robot1.png" alt="Rover el Robot" />
-    <h1>¡Ayuda a Rover a llegar a su nave!</h1>
-    <p>Rover está perdido en un laberinto. Usa bloques de comandos para guiarlo hacia su nave espacial.</p>
-    <button (click)="updateTextIndex(1)">Continuar</button>
+    <img class="intro-image" src="assets/img/Characters/monkeyCharacter.png" alt="Rover el Mono" />
+    <h1>¡Ayuda a Rover a encontrar su camino!</h1>
+    <p>
+      Guía a Rover usando bloques de comandos para completar el tablero. ¡Evita los obstáculos y alcanza la meta!
+    </p>
+    <button class="start-button" (click)="updateTextIndex(1)">Comenzar</button>
   </div>
 
-  <!-- Juego principal -->
+  <!-- Tablero de juego -->
   <div *ngIf="currentTextIndex === 1" class="game-panel">
-    <h2>Nivel 1: Laberinto Sencillo</h2>
-    <div class="grid">
-      <!-- Generar celdas dinámicamente -->
-      <div
-        *ngFor="let cell of grid; let i = index"
-        [class.rover]="i === roverPosition"
-        [class.flag]="i === flagPosition"
-        [class.obstacle]="obstacles.includes(i)"
-        class="cell"
-      ></div>
-    </div>
+    <div class="game-container">
+      <!-- Tablero -->
+      <div class="grid">
+        <div
+          *ngFor="let cell of grid; let i = index"
+          class="cell"
+          [class.rover]="i === roverPosition"
+          [class.flag]="i === flagPosition"
+          [class.obstacle]="obstacles.includes(i)"
+        >
+          <!-- Animación de explosión si hay colisión -->
+          <div *ngIf="i === explosionPosition && isHitAnimating" class="explosion-animation">
+            <img src="assets/img/mathleship/hitAnim.gif" alt="Explosión" />
+          </div>
+  
+          <img *ngIf="i === roverPosition && !isHitAnimating" src="assets/img/Characters/monkeyCharacter.png" alt="Rover" />
+          <img *ngIf="i === flagPosition" src="assets/img/Characters/turtleCharacter2.png" alt="Meta" />
+          <img *ngIf="obstacles.includes(i) && !(i === explosionPosition && isHitAnimating)" src="assets/img/Characters/crocodileCharacter.png" alt="Obstáculo" />
+        </div>
+      </div>
 
-    <div class="commands-section">
-      <h3>Bloques de comandos:</h3>
-      <div class="block" draggable="true" (dragstart)="drag($event, 'move')">Avanzar</div>
-      <div class="block" draggable="true" (dragstart)="drag($event, 'left')">Girar Izquierda</div>
-      <div class="block" draggable="true" (dragstart)="drag($event, 'right')">Girar Derecha</div>
+      <!-- Bloques de comandos -->
+      <div class="command-section">
+        <img class="character-image" src="assets/img/Characters/monkeyCharacter.png" alt="Mono Decorativo" />
+        <div class="commands-section">
+          <h3>Elige tus comandos:</h3>
+          <div class="block" draggable="true" (dragstart)="drag($event, 'move')">Avanzar</div>
+          <div class="block" draggable="true" (dragstart)="drag($event, 'left')">Girar Izquierda</div>
+          <div class="block" draggable="true" (dragstart)="drag($event, 'right')">Girar Derecha</div>
+        </div>
+        <div class="dropzone" (dragover)="allowDrop($event)" (drop)="drop($event)">
+          <p *ngIf="commands.length === 0">Arrastra los comandos aquí</p>
+          <div *ngFor="let command of commands" class="command">{{ command }}</div>
+        </div>
+        <button class="start-button" (click)="executeCommands()">Ejecutar Comandos</button>
+      </div>
     </div>
-
-    <div class="dropzone" (dragover)="allowDrop($event)" (drop)="drop($event)">
-      <!-- Aquí se arrastran los bloques -->
-      <p *ngIf="commands.length === 0">Arrastra bloques aquí</p>
-      <div *ngFor="let command of commands" class="command">{{ command }}</div>
-    </div>
-
-    <button (click)="executeCommands()">Ejecutar Comandos</button>
   </div>
 
-  <!-- Fin del juego -->
+  <!-- Barra de vidas -->
+  <div class="lives-container" *ngIf="currentTextIndex === 1">
+    <img *ngFor="let life of lives" class="life" src="assets/img/heart.png" alt="Vida" />
+  </div>
+
+  <!-- Fin del nivel -->
   <div *ngIf="currentTextIndex === 2" class="end-screen">
-    <h1>¡Felicidades!</h1>
-    <p>Has ayudado a Rover a llegar a su nave.</p>
-    <button (click)="resetGame()">Jugar de nuevo</button>
+    <h1>¡Felicidades, nivel completado! 🎉</h1>
+    <p>¡Rover llegó a su destino con éxito!</p>
+    <img src="assets/img/Characters/turtleCharacter2.png" alt="Meta" class="meta-animation" />
+    <button (click)="resetGame()">Reiniciar</button>
   </div>
 </div>
