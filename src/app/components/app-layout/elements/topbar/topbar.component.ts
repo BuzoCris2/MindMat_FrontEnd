@@ -32,12 +32,13 @@ export class TopbarComponent implements OnInit {
       }
     });
   }
-  public shouldDisplayRoute(route: 'user-dashboard' | 'colorgame' | 'keyboard' | 'mathleship'|'dashboard'|'grow-your-tree'): boolean {
+  public shouldDisplayRoute(route: 'user-dashboard' | 'colorgame' | 'keyboard' | 'mathleship'|'programminggame'|'dashboard'|'grow-your-tree'): boolean {
     const routesAvailableForUser = {
       'user-dashboard': true,
       'colorgame': true,
       'keyboard': true,
       'mathleship':true,
+      'programminggame':true,
       'dashboard': true,
       'grow-your-tree': true,
       //'colorgame': this.authService.hasRole('user'),

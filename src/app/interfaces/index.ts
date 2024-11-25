@@ -1,3 +1,5 @@
+import { Time } from "@angular/common";
+
 export interface ILoginResponse {
   accessToken: string;
   expiresIn: number
@@ -69,6 +71,14 @@ export interface Game {
   route: string;
 }
 
+export interface IGame2 {
+  id: number;
+  name: string;
+  description?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface IOrder {
   id?: number;
   description?: string;
@@ -118,7 +128,18 @@ export interface IShip {
   cellsOccupied: IGridCell[];
 }
 
+export interface IScore {
+  id?: number;
+  obtainedAt?: string;
+  rightAnswers?: number;
+  stars?: number;
+  timeTaken?: string;
+  wrongAnswers?: number;
+  game?: IGame2;
+  user?: IUser;
+}
 export interface ITeam {
+  avatarId?: number;
   id?: number;
   name?: string;
   description?: string;
@@ -139,4 +160,5 @@ interface ITeacherLeader {
   lastname: string;
   email: string;  // Si necesitas también el email
   teamCount: number;
+
 }

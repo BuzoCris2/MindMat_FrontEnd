@@ -22,19 +22,22 @@ import { ReportsComponent } from './pages/reports/reports.component';
 import { ColorGamePageComponent } from './pages/color-game/color-game.component';
 
 import { UserDashboardComponent } from './pages/game-panel/user-dashboard.component';
+import { ProgrammingGameComponent } from './pages/programminggame/programminggame.component';
 import { TeamsComponent } from './pages/teams/teams.component';
+import { StageTwoComponent } from './components/colorGame/stage-two/stage-two.component';
+import { StageThreeComponent } from './components/colorGame/stage-three/stage-three.component';
 
 //export const routes: Routes = [
 
-export const routes: Routes = [  
+export const routes: Routes = [
   {
     path: '',
-    component: AuthLayoutComponent,  
+    component: AuthLayoutComponent,
     canActivate: [GuestGuard],
     children: [
       {
         path: '',
-        redirectTo: 'main', 
+        redirectTo: 'main',
         pathMatch: 'full',
       },
       {
@@ -50,11 +53,11 @@ export const routes: Routes = [
         component: SigUpComponent,
       },
       {
-        path: 'forgot-password', 
+        path: 'forgot-password',
         component: ForgotPasswordComponent,
       },
       {
-        path: 'reset-password', 
+        path: 'reset-password',
         component: ResetPasswordComponent,
       },
     ],
@@ -81,10 +84,10 @@ export const routes: Routes = [
       {
         path: 'users',
         component: UsersComponent,
-        canActivate:[AdminRoleGuard],
-        data: { 
+        canActivate: [AdminRoleGuard],
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin
           ],
           name: 'Usuarios',
@@ -94,9 +97,9 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent,
-        data: { 
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin,
             IRoleType.user
           ],
@@ -107,9 +110,9 @@ export const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
-        data: { 
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin,
             IRoleType.user
           ],
@@ -121,9 +124,9 @@ export const routes: Routes = [
       {
         path: 'reports',
         component: ReportsComponent,
-        data: { 
+        data: {
           authorities: [
-            IRoleType.admin, 
+            IRoleType.admin,
             IRoleType.superAdmin,
           ],
           name: 'Reportes',
@@ -133,7 +136,7 @@ export const routes: Routes = [
       {
         path: 'keyboard',
         component: KeyboardComponent,
-        data: { 
+        data: {
           authorities: [
             IRoleType.user,
           ],
@@ -144,7 +147,7 @@ export const routes: Routes = [
       {
         path: 'mathleship',
         component: MathleshipComponent,
-        data: { 
+        data: {
           authorities: [
             IRoleType.user,
           ],
@@ -155,9 +158,9 @@ export const routes: Routes = [
       {
         path: 'user-dashboard',
         component: UserDashboardComponent,
-        canActivate: [AuthGuard], 
-        data: { 
-          authorities: [IRoleType.user], 
+        canActivate: [AuthGuard],
+        data: {
+          authorities: [IRoleType.user],
           name: 'Panel de Juegos',
           showInDashboard: true,
           icon:'assets/img/dashboard/juegos.png',
@@ -175,6 +178,30 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'teams',
+        component: TeamsComponent,
+        data: {
+          authorities: [
+            IRoleType.admin,
+            IRoleType.superAdmin,
+            IRoleType.user,
+          ],
+          name: 'Teams',
+        }
+      },
+  {
+    path: 'programminggame',
+    component: ProgrammingGameComponent,
+    data: { 
+      authorities: [
+        IRoleType.admin, 
+        IRoleType.superAdmin,
+        IRoleType.user,
+      ],
+      name: 'Programming Game',
+    }
+  },  
+      {
         path: 'colorgame',
         component: ColorGamePageComponent,
         data: {
@@ -182,22 +209,49 @@ export const routes: Routes = [
             IRoleType.user,
           ],
           name: 'color game',
-          showInDashboard: false,
-        }
+        },
+        children: [
+          // Otras rutas aquí...
+          {
+            path: 'colorgame',
+            component: ColorGamePageComponent,
+            data: {
+              authorities: [
+                IRoleType.admin,
+                IRoleType.superAdmin,
+                IRoleType.user,
+              ],
+              name: 'color game',
+            },
+            children: [
+              {
+                path: 'stage-two',
+                component: StageTwoComponent,
+                data: {
+                  authorities: [
+                    IRoleType.admin,
+                    IRoleType.superAdmin,
+                    IRoleType.user,
+                  ],
+                  name: 'Stage 2',
+                },
+              },
+              {
+                path: 'stage-three',
+                component: StageThreeComponent,
+                data: {
+                  authorities: [
+                    IRoleType.admin,
+                    IRoleType.superAdmin,
+                    IRoleType.user,
+                  ],
+                  name: 'Stage 3',
+                },
+              },
+            ],
+          },
+        ],
       },
-      {
-        path: 'teams',
-        component: TeamsComponent,
-        data: {
-          authorities: [
-            IRoleType.admin, 
-            IRoleType.superAdmin,
-          ],
-          name: 'Equipos',
-          showInDashboard: true,
-          icon:'assets/img/dashboard/team.png',
-        }
-      }      
-    ],
-  },
-];
+    ]
+  }]
+   

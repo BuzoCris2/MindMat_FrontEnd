@@ -23,90 +23,22 @@
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
     </div>
     <div class="col-12 display-key-board" *ngIf="currentTextIndex === 3">
-        <app-key
-            name="1"
-            value="C"
-            backgroundColor="Red"
-            color="white"
-        />
-        <app-key
-            name="2"
-            value="Csharp"
-            backgroundColor="orangered"
-            color="white"
-
-        />
-        <app-key
-            name="3"
-            value="D"
-            backgroundColor="gold"
-            color="black"
-
-        />
-        <app-key
-            name="4"
-            value="Dsharp"
-            backgroundColor="GreenYellow"
-            color="black"
-        />
-        <app-key
-            name="5"
-            value="E"
-            backgroundColor="limegreen"
-            color="black"
-        />
-        <app-key
-            name="6"
-            value="F"
-            backgroundColor="MediumSpringGreen"
-            color="black"
-        />
-        <app-key
-            name="7"
-            value="Fsharp"
-            backgroundColor="DeepSkyBlue"
-            color="black"
-        />
-        <app-key
-            name="8"
-            value="G"
-            backgroundColor="DodgerBlue"
-            color="black"
-        />
-        <app-key
-            name="9"
-            value="Gsharp"
-            backgroundColor="MediumSlateBlue"
-            color="white"
-        />
-        <app-key
-            name="10"
-            value="A"
-            backgroundColor="RebeccaPurple"
-            color="white"
-        />
-        <app-key
-            name="11"
-            value="Asharp"
-            backgroundColor="Purple"
-            color="white"
-        />
-        <app-key
-            name="12"
-            value="B"
-            backgroundColor="darkred"
-            color="white"
-        />
-        <app-key
-            name="13"
-            value="C1"
-            backgroundColor="SaddleBrown"
-            color="white"
-        />
+        <ng-container *ngFor="let key of keys">
+            <app-key
+                name= "{{key.name}}"
+                value= "{{key.value}}"
+                backgroundColor= "{{key.backgroundColor}}"
+                color= "{{key.color}}"
+            />
+        </ng-container>
     </div>
     <app-games-knoledge-base 
         [numberOfPages] = 4
         (textIndexChange)="updateTextIndex($event)"
     />
+    <button (click)="saveScore()">save score</button>
+    <ng-template #scoreModal>
+        <app-games-save-score></app-games-save-score>
+    </ng-template>
 </div>
 }
