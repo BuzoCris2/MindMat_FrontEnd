@@ -8,14 +8,13 @@ import { UserService } from '../../services/user.service';
 import { ModalService } from '../../services/modal.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IUser } from '../../interfaces';
-import { CategoriesFormComponent } from '../../components/categories/categories-form/categories-form.component';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-users',
   standalone: true,
   imports: [
-    UserListComponent,PaginationComponent,ModalComponent,LoaderComponent,UserFormComponent,CategoriesFormComponent,CommonModule
+    UserListComponent,PaginationComponent,ModalComponent,LoaderComponent,UserFormComponent,CommonModule
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
@@ -67,6 +66,29 @@ export class UsersComponent {
   updateUser(user: IUser) {
     this.userService.update(user);
     this.modalService.closeAll();
+  }
+  
+  callPatch(user: IUser) {
+    this.userForm.controls['id'].setValue(user.id ? String(user.id) : '');
+    this.userForm.controls['active'].setValue(user.active ? String(user.active) : '');
+    this.modalService.displayModal('md', this.addUsersModal);
+  }  
+
+  userStatus(user: IUser) {
+    if (user.id !== undefined && user.active !== undefined) {
+      this.userService.updateActiveStatus(user.id, user.active ? 1 : 0); // Pasa el id y el estado activo como número
+      this.modalService.closeAll();
+    } else {
+      console.error("User ID or active status is missing.");
+    }
+  }  
+  
+  changeUserStatus(user: IUser) {
+    if (user.id !== undefined) {
+      this.userService.updateActiveStatus(user.id, user.active ? 0 : 1);  // Si está activo, lo desactivamos (0), si está inactivo, lo activamos (1)
+    } else {
+      console.error('User ID is undefined');
+    }
   }
   
 }
