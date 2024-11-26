@@ -75,6 +75,9 @@ align-self: center;
 }
 
 .button-container{
+    position: fixed; /* Fija la posición */
+    bottom: 0; /* Coloca el contenedor justo arriba del footer */
+    left: 0;
     width: 100%;
     background-color: var(--white);
     border-radius: 10px 10px 0px 0px;
@@ -82,6 +85,8 @@ align-self: center;
     display: flex;
     align-items: center;
     justify-content:center;
+    z-index: 1000; 
+    padding: 10px;
 }
 
 .button-container h1{
