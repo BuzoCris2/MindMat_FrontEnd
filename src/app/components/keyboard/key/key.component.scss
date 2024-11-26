@@ -14,3 +14,8 @@
     color: black;
     font-weight: bold;
 }
+
+.key:disabled{
+    background-color: var(--color-deshabilitado) !important;
+    color: white !important;
+}
