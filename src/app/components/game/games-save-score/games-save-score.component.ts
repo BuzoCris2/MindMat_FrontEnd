@@ -16,10 +16,8 @@ import { IScore } from '../../../interfaces';
   styleUrl: './games-save-score.component.scss'
 })
 export class GamesSaveScoreComponent implements AfterViewInit {
-  selectedGameId: number | null = null;
+  //public selectedGameId: number | null = null;
   public starsEarned: string = '';
-  public correctAnswers: number = 0;
-  public wrongtAnswers: number = 0;
   public scoreService: ScoreService = inject(ScoreService);
   public modalService: ModalService = inject(ModalService);
   scoreResponse: string = '';
@@ -27,22 +25,20 @@ export class GamesSaveScoreComponent implements AfterViewInit {
   @ViewChild('keyboardScore') keyboarSection!: ElementRef <HTMLDivElement>;
   @ViewChild('colorScore') colorSection!:  ElementRef <HTMLDivElement>;
   @Output() calculationInit = new EventEmitter<number>();
-  
-
-
-  constructor() 
-  {
-    
-  }
+  @Input() selectedGameId!: number;
+  @Input() wrongAnswers!: number;
+  @Input() correctAnswers!: number;
   closeModal(){
     this.modalService.closeAll();
   }
+
   ngAfterViewInit(){
-    if (this.scoreModal = 1){
-    this.keyboarSection.nativeElement.classList.remove('display-none');
+    if (this.selectedGameId == 1){
+      console.log("enchó");
+      this.keyboarSection.nativeElement.classList.remove('display-none');
       let score: IScore ={
-        rightAnswers: 8,
-        wrongAnswers: 8,
+        rightAnswers: this.correctAnswers,
+        wrongAnswers: this.wrongAnswers,
         game: 	{
           "id": 1,
           "name": "Key",
