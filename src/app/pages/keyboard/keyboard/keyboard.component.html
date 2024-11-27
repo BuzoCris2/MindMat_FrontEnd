@@ -14,21 +14,21 @@
         <h3>Tercera</h3>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
     </div>
-    <div *ngIf="currentTextIndex === 3">
-        <h3>Tercera</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
-    </div>
-    <div *ngIf="currentTextIndex === 3">
-        <h3>Tercera</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
+    <div id='scaleDisplay' *ngIf="currentTextIndex === 3">
+        <div id='scaleInfo'>
+            <h2>Escala {{scaleSelected.name}}</h2>
+            <h1>{{scaleSelected.display}}</h1>
+        </div>
     </div>
     <div class="col-12 display-key-board" *ngIf="currentTextIndex === 3">
         <ng-container *ngFor="let key of keys">
             <app-key
                 name= "{{key.name}}"
+                status="{{key.status}}"
                 value= "{{key.value}}"
                 backgroundColor= "{{key.backgroundColor}}"
                 color= "{{key.color}}"
+                (click)="currentNote(key.name)"
             />
         </ng-container>
     </div>
@@ -36,9 +36,12 @@
         [numberOfPages] = 4
         (textIndexChange)="updateTextIndex($event)"
     />
-    <button (click)="saveScore()">save score</button>
     <ng-template #scoreModal>
-        <app-games-save-score></app-games-save-score>
+        <app-games-save-score
+        [selectedGameId] = "selectedGame"
+        [correctAnswers]= "correctAnswers"
+        [wrongAnswers]= "wrongAnwsers"
+        />
     </ng-template>
 </div>
 }
