@@ -1,25 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, } from '@angular/core';
 import { MathleshipService } from '../../services/mathleship.service';
 import { TimerComponent } from '../../components/timer/timer.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IShip, IGridCell } from '../../interfaces';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
+import { GamesKnoledgeBaseComponent } from '../../components/game/games-knoledge-base/games-knoledge-base.component';
 import { ChangeDetectorRef } from '@angular/core';
+import { ModalService } from '../../services/modal.service';
+import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
   selector: 'app-mathleship',
   standalone: true,
   templateUrl: './mathleship.component.html',
   styleUrls: ['./mathleship.component.scss'],
-  imports: [CommonModule, FormsModule, TimerComponent, AlertModalComponent]
+  imports: [CommonModule, FormsModule, TimerComponent, AlertModalComponent, GamesKnoledgeBaseComponent]
 })
 export class MathleshipComponent implements OnInit {
   board: string[][] = [];
   timerValue: string = '03:00';
   shipsStatus: { [key: string]: boolean } = {};
   ships: IShip[] = [];
-
+  public modalService: ModalService = inject(ModalService);
   showAlert = false;
   alertType: 'time' | 'error' | 'success' = 'success';
   alertTitle = '¡Éxito!';
@@ -85,6 +88,11 @@ ngOnInit(): void {
       console.error('Error al inicializar el tablero:', err);
     },
   });
+}
+
+currentTextIndex: number = 0;
+updateTextIndex(newIndex: number) {
+  this.currentTextIndex = newIndex;
 }
 
 

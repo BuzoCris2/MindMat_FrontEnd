@@ -1,192 +1,212 @@
-<div class="game-container">
-<!---Columna izquierda-->
-  <div class="left-column">
-    <div class="mathleship-container">
-      <div class="column-labels">
-        <div *ngFor="let col of ['A', 'B', 'C', 'D', 'E', 'F']" class="column-label">
-          {{ col }}
-        </div>
+<div class="row p-4">
+  </div>
+  <div class="row p-4 displayExample">
+      <div *ngIf="currentTextIndex === 0">
+          <h1>Primera Pagina</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
       </div>
-    
-      <div class="board-with-row-labels">
-        <!-- Indicadores de filas -->
-        <div class="row-labels">
-          <div *ngFor="let row of [1, 2, 3, 4, 5, 6]" class="row-label">
-            {{ row }}
-          </div>
-        </div>
-    
-        <!-- Tablero -->
-        <div class="board">
-          <div *ngFor="let row of board; let i = index" class="board-row">
-            <div
-              *ngFor="let cell of row; let j = index"
-              class="board-cell"
-              [attr.data-row]="i"
-              [attr.data-col]="j"
-              [ngClass]="{
-                'cell-hit': cell === 'H',
-                'cell-miss': cell === 'M',
-                'hover-column': selectedPowerup === 0 && selectedColumnHover === j,
-                'hover-row': selectedPowerup === 1 && selectedRowHover === i,
-                'hover-cross': selectedPowerup === 2 && isCrossHovered(i, j)
-              }"
-              (mouseenter)="
-              selectedPowerup === 0
-                ? hoverColumn(j)
-                : selectedPowerup === 1
-                ? hoverRow(i)
-                : selectedPowerup === 2
-                ? hoverCross(i, j)
-                : null
-              "
-              (mouseleave)="
-                selectedPowerup === 0
-                  ? leaveColumn()
-                  : selectedPowerup === 1
-                  ? leaveRow()
-                  : selectedPowerup === 2
-                  ? leaveCross(i, j)
-                  : null
-              "
-              (click)="
-              selectedPowerup === 0
-                ? activateColumnPowerup(j)
-                : selectedPowerup === 1
-                ? activateRowPowerup(i)
-                : selectedPowerup === 2
-                ? activateCrossPowerup(i, j)
-                : selectCell(i, j)
-              "
-            >
-              <img
-                *ngIf="cell === 'H'"
-                src="assets/img/Various/circHit.png"
-                alt="Hit"
-              />
-              <img
-                *ngIf="cell === 'M'"
-                src="assets/img/Various/circNoHit.png"
-                alt="Miss"
-              />
-              <div
-                *ngIf="isHitAnimating && selectedHitRow === i && selectedHitColumn === j"
-                class="hit-animation"
-              >
-              <img
-              src="assets/img/mathleship/hitAnim.gif"
-              alt="Hit Animation"
-              class="hit-img"
-            />
+      <div *ngIf="currentTextIndex === 1">
+          <h2>Segunda Pagina</h2>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
+      </div>
+      <div *ngIf="currentTextIndex === 2">
+          <h3>Tercera</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
+      </div>
+      <div class="col-12 game-container" *ngIf="currentTextIndex === 3">
+          <!---Columna izquierda-->
+            <div class="left-column">
+              <div class="mathleship-container">
+                <div class="column-labels">
+                  <div *ngFor="let col of ['A', 'B', 'C', 'D', 'E', 'F']" class="column-label">
+                    {{ col }}
+                  </div>
+                </div>
+              
+                <div class="board-with-row-labels">
+                  <!-- Indicadores de filas -->
+                  <div class="row-labels">
+                    <div *ngFor="let row of [1, 2, 3, 4, 5, 6]" class="row-label">
+                      {{ row }}
+                    </div>
+                  </div>
+              
+                  <!-- Tablero -->
+                  <div class="board">
+                    <div *ngFor="let row of board; let i = index" class="board-row">
+                      <div
+                        *ngFor="let cell of row; let j = index"
+                        class="board-cell"
+                        [attr.data-row]="i"
+                        [attr.data-col]="j"
+                        [ngClass]="{
+                          'cell-hit': cell === 'H',
+                          'cell-miss': cell === 'M',
+                          'hover-column': selectedPowerup === 0 && selectedColumnHover === j,
+                          'hover-row': selectedPowerup === 1 && selectedRowHover === i,
+                          'hover-cross': selectedPowerup === 2 && isCrossHovered(i, j)
+                        }"
+                        (mouseenter)="
+                        selectedPowerup === 0
+                          ? hoverColumn(j)
+                          : selectedPowerup === 1
+                          ? hoverRow(i)
+                          : selectedPowerup === 2
+                          ? hoverCross(i, j)
+                          : null
+                        "
+                        (mouseleave)="
+                          selectedPowerup === 0
+                            ? leaveColumn()
+                            : selectedPowerup === 1
+                            ? leaveRow()
+                            : selectedPowerup === 2
+                            ? leaveCross(i, j)
+                            : null
+                        "
+                        (click)="
+                        selectedPowerup === 0
+                          ? activateColumnPowerup(j)
+                          : selectedPowerup === 1
+                          ? activateRowPowerup(i)
+                          : selectedPowerup === 2
+                          ? activateCrossPowerup(i, j)
+                          : selectCell(i, j)
+                        "
+                      >
+                        <img
+                          *ngIf="cell === 'H'"
+                          src="assets/img/Various/circHit.png"
+                          alt="Hit"
+                        />
+                        <img
+                          *ngIf="cell === 'M'"
+                          src="assets/img/Various/circNoHit.png"
+                          alt="Miss"
+                        />
+                        <div
+                          *ngIf="isHitAnimating && selectedHitRow === i && selectedHitColumn === j"
+                          class="hit-animation"
+                        >
+                        <img
+                        src="assets/img/mathleship/hitAnim.gif"
+                        alt="Hit Animation"
+                        class="hit-img"
+                      />
+                        </div>
+                      </div>
+                    </div>
+                  </div>        
+                </div> 
               </div>
             </div>
+            <div class="right-column">
+              <!-- Temporizador -->
+              <app-timer [initialTime]="6000"></app-timer>
+              
+              <div class="ships-container">
+                <img
+                  src="assets/img/mathleship/barco4.png"
+                  alt="Barco 4"
+                  class="ship-image"
+                  [class.ship-destroyed]="shipsStatus['ship1']"
+                />
+                <img
+                  src="assets/img/mathleship/barco3.png"
+                  alt="Barco 3"
+                  class="ship-image"
+                  [class.ship-destroyed]="shipsStatus['ship2']"
+                />
+                <img
+                  src="assets/img/mathleship/barco2.png"
+                  alt="Barco 2"
+                  class="ship-image"
+                  [class.ship-destroyed]="shipsStatus['ship3']"
+                />
+                <img
+                  src="assets/img/mathleship/barco1.png"
+                  alt="Barco 1"
+                  class="ship-image"
+                  [class.ship-destroyed]="shipsStatus['ship4']"
+                />
+              </div>
+              
+          
+              <div class="powerups-section">
+                <h3>PowerUps</h3>
+                <div class="powerups">
+                  <div
+                    class="powerup"
+                    *ngFor="let powerup of powerups; let i = index"
+                    [class.used]="powerup.used"
+                    [class.active]="selectedPowerup === i"
+                    (click)="selectPowerup(i)"
+                  >
+                    <img
+                    [src]="getPowerupImage(i)"
+                    [alt]="powerup.name"
+                    [style.filter]="powerup.used ? 'grayscale(100%)' : 'none'"
+                    [style.opacity]="powerup.used ? '0.5' : '1'"
+                    class="powerup-img"
+                  />
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Sección de operación matemática -->
+              
           </div>
-        </div>        
-      </div> 
-    </div>
-  </div>
-  <div class="right-column">
-    <!-- Temporizador -->
-    <app-timer [initialTime]="1000"></app-timer>
-    
-    <div class="ships-container">
-      <img
-        src="assets/img/mathleship/barco4.png"
-        alt="Barco 4"
-        class="ship-image"
-        [class.ship-destroyed]="shipsStatus['ship1']"
-      />
-      <img
-        src="assets/img/mathleship/barco3.png"
-        alt="Barco 3"
-        class="ship-image"
-        [class.ship-destroyed]="shipsStatus['ship2']"
-      />
-      <img
-        src="assets/img/mathleship/barco2.png"
-        alt="Barco 2"
-        class="ship-image"
-        [class.ship-destroyed]="shipsStatus['ship3']"
-      />
-      <img
-        src="assets/img/mathleship/barco1.png"
-        alt="Barco 1"
-        class="ship-image"
-        [class.ship-destroyed]="shipsStatus['ship4']"
-      />
-    </div>
-    
-
-    <div class="powerups-section">
-      <h3>PowerUps</h3>
-      <div class="powerups">
-        <div
-          class="powerup"
-          *ngFor="let powerup of powerups; let i = index"
-          [class.used]="powerup.used"
-          [class.active]="selectedPowerup === i"
-          (click)="selectPowerup(i)"
-        >
-          <img
-          [src]="getPowerupImage(i)"
-          [alt]="powerup.name"
-          [style.filter]="powerup.used ? 'grayscale(100%)' : 'none'"
-          [style.opacity]="powerup.used ? '0.5' : '1'"
-          class="powerup-img"
-        />
-        </div>
+          
       </div>
-    </div>
-    
-    <!-- Sección de operación matemática -->
-    <div class="modal-container" *ngIf="mathVisible">
-      <div class="modal">
-        <div
-          *ngIf="quickFeedbackVisible"
-          class="quick-feedback-overlay"
-          [ngClass]="quickFeedbackType"
-        >
-          {{ quickFeedbackMessage }}
-        </div>
-        <h2 *ngIf="!showAlert">Resuelve la Operación</h2>
-        <h2 *ngIf="showAlert" [ngClass]="{ 'success-message': alertType === 'success', 'error-message': alertType === 'error' }">
-          {{ alertMessage }}
-        </h2>
-          <div class="math-operation">
-            <div class="number">{{ number1 }}</div>
-            <div class="operator">{{ operator }}</div>
-            <div class="number">{{ number2 }}</div>
-            <div class="equals">=</div>
-            <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
+      <app-games-knoledge-base 
+          [numberOfPages] = 4
+          (textIndexChange)="updateTextIndex($event)"
+      />
+      <app-alert-modal
+                *ngIf="showAlert"
+                [alertType]="alertType"
+                [title]="alertTitle"
+                [message]="alertMessage"
+                [buttonText]="alertButtonText"
+                (closeAlert)="closeAlertModal()">
+            </app-alert-modal>
+            <div class="modal-container" *ngIf="mathVisible">
+              <div class="modal">
+                <div
+                  *ngIf="quickFeedbackVisible"
+                  class="quick-feedback-overlay"
+                  [ngClass]="quickFeedbackType"
+                >
+                  {{ quickFeedbackMessage }}
+                </div>
+                <h2 *ngIf="!showAlert">Resuelve la Operación</h2>
+                <h2 *ngIf="showAlert" [ngClass]="{ 'success-message': alertType === 'success', 'error-message': alertType === 'error' }">
+                  {{ alertMessage }}
+                </h2>
+                  <div class="math-operation">
+                    <div class="number">{{ number1 }}</div>
+                    <div class="operator">{{ operator }}</div>
+                    <div class="number">{{ number2 }}</div>
+                    <div class="equals">=</div>
+                    <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
+                  </div>
+                  <button
+                  *ngIf="!showAlert"
+                  class="btn-ready"
+                  [disabled]="userAnswer === ''"
+                  (click)="
+                    selectedPowerup === 0
+                      ? submitAnswerForColumn(lastSelectedColumn!)
+                      : selectedPowerup === 1
+                      ? submitAnswerForRow(lastSelectedRow!)
+                      : selectedPowerup === 2
+                      ? submitAnswerForCross(selectedRow!, selectedColumn!)
+                      : submitAnswer(selectedRow!, selectedColumn!)
+                  "
+                >
+                  Enviar
+                </button>                             
+            </div>    
           </div>
-          <button
-          *ngIf="!showAlert"
-          class="btn-ready"
-          [disabled]="userAnswer === ''"
-          (click)="
-            selectedPowerup === 0
-              ? submitAnswerForColumn(lastSelectedColumn!)
-              : selectedPowerup === 1
-              ? submitAnswerForRow(lastSelectedRow!)
-              : selectedPowerup === 2
-              ? submitAnswerForCross(selectedRow!, selectedColumn!)
-              : submitAnswer(selectedRow!, selectedColumn!)
-          "
-        >
-          Enviar
-        </button>                             
-    </div>    
   </div>
-
-  <app-alert-modal
-      *ngIf="showAlert"
-      [alertType]="alertType"
-      [title]="alertTitle"
-      [message]="alertMessage"
-      [buttonText]="alertButtonText"
-      (closeAlert)="closeAlertModal()">
-  </app-alert-modal>
-  
-</div>
-
   

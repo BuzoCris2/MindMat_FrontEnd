@@ -343,3 +343,44 @@
 .quick-feedback-overlay.error {
   background-color: var(--color-claro)
 }
+
+.displayExample p, h1, h2, h3{
+  font-family: Fredoka;
+}
+
+#scaleDisplay{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#scaleInfo{
+  padding: 10px 40px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 20px var(--sidebar-border);
+  font-family: Fredoka;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-oscuro);
+  font-weight: 700;
+  margin-bottom: -70px;
+  z-index: 2;
+  background-color: white;
+}
+#scaleInfo h1{
+  font-weight: 800;
+  font-size: 2rem;
+  background-color: var(--color-azul);
+  padding: 5px 15px;
+  border-radius: 10px;
+  color: white;
+}
+
+#scaleInfo h2{
+  font-weight: 700;
+}
+
+
