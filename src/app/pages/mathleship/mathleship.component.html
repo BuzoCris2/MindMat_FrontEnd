@@ -2,18 +2,66 @@
   </div>
   <div class="row p-4 displayExample">
       <div *ngIf="currentTextIndex === 0">
-          <h1>Primera Pagina</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
+        <div class="introPages pag1">
+          <h1>¡El mar nos espera!</h1>
+          <div class="intro-content">
+            <img src="assets/img/mathleship/lagartoCapitan.gif" alt="Lagarto Capitán" class="captain-image" />
+            <p>
+              ¡Capitán! Nos encontramos bajo ataque y solo tú puedes salvarnos a todos. Pero para ganar esta batalla necesitarás usar tus habilidades matemáticas.
+            </p>
+          </div>
+        </div>
       </div>
       <div *ngIf="currentTextIndex === 1">
-          <h2>Segunda Pagina</h2>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
+        <div class="introPages pag2">
+          <div class="row pag2Mision justify-content-center">
+            <div class="col-4">
+              <h1>¿Cuál es nuestra misión?</h1>
+              <p>Debes hundir todos los barcos enemigos resolviendo operaciones matemáticas correctamente.</p>
+            </div>
+            <div class="col-4">
+              <img src="assets/img/mathleship/ejemTablero.png" alt="Tablero de ejemplo" class="board-image" />
+            </div>
+          </div>
+          <div class="pag2Footer">
+            <p>
+              Son 4 barcos, cada uno más grande que el anterior. Se marcarán en rojo una vez han sido derribados.
+            </p>
+            <img src="assets/img/mathleship/ejemBarcos.png" alt="Ejemplo de barcos" class="ships-image" />
+          </div>
+        </div>        
       </div>
       <div *ngIf="currentTextIndex === 2">
-          <h3>Tercera</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
+        <div class="introPages pag3">
+          <h1>No te preocupes, contarás con la ayuda de varios “PowerUps”</h1>
+          <p>¡Pero piensa bien tu estrategia, porque solo pueden usarse una vez!</p>
+          <div class="row pag3Powers justify-content-center">
+            <div class="col-3">
+              <img src="assets/img/mathleship/powerUpFila.gif" />
+              <h2>Salvavidas</h2>
+              <p>Derriba toda una fila del tablero con un solo disparo</p>
+            </div>
+            <div class="col-3">
+              <img src="assets/img/mathleship/powerUpColumna.gif" />
+              <h2>Catalejo</h2>
+              <p>Derriba toda una columna del tablero con un solo disparo</p>
+            </div>
+            <div class="col-3">
+              <img src="assets/img/mathleship/powerUpCruz.gif" />
+              <h2>Ancla</h2>
+              <p>Derriba toda una zona con forma de “equis” del tablero con un solo disparo</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-12 game-container" *ngIf="currentTextIndex === 3">
+      <div *ngIf="currentTextIndex === 3">
+        <div class="introPages pag4">
+          <h1>Completa la misión antes de que se acabe el tiempo</h1>
+          <img src="assets/img/Various/animTiempo.gif" />
+          <p>¡Confiamos en tí, capitán!</p>
+        </div>
+    </div>
+      <div class="col-12 game-container" *ngIf="currentTextIndex === 4">
           <!---Columna izquierda-->
             <div class="left-column">
               <div class="mathleship-container">
@@ -159,7 +207,7 @@
           
       </div>
       <app-games-knoledge-base 
-          [numberOfPages] = 4
+          [numberOfPages] = 5
           (textIndexChange)="updateTextIndex($event)"
       />
       <app-alert-modal
