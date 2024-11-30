@@ -150,8 +150,12 @@
             </div>
             <div class="right-column">
               <!-- Temporizador -->
-              <app-timer [initialTime]="6000"></app-timer>
-              
+              <app-timer
+                [initialTime]="180"
+                (timeRemaining)="updateRemainingTime($event)"
+                (timerEnded)="endGame()"
+              ></app-timer>
+
               <div class="ships-container">
                 <img
                   src="assets/img/mathleship/barco4.png"
@@ -210,6 +214,13 @@
           [numberOfPages] = 5
           (textIndexChange)="updateTextIndex($event)"
       />
+      <ng-template #scoreModal>
+        <app-games-save-score
+          [selectedGameId]="selectedGame"
+          [startTime]="gameStartTime"
+        ></app-games-save-score>
+      </ng-template>
+      
       <app-alert-modal
                 *ngIf="showAlert"
                 [alertType]="alertType"

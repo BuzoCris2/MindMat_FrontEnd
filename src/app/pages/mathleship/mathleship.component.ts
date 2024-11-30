@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, } from '@angular/core';
+import { Component, OnInit, inject, ViewChild } from '@angular/core';
 import { MathleshipService } from '../../services/mathleship.service';
 import { TimerComponent } from '../../components/timer/timer.component';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,8 @@ import { AlertModalComponent } from '../../components/alert/alert-modal.componen
 import { GamesKnoledgeBaseComponent } from '../../components/game/games-knoledge-base/games-knoledge-base.component';
 import { ChangeDetectorRef } from '@angular/core';
 import { ModalService } from '../../services/modal.service';
+import { ScoreService } from '../../services/score.service';
+import { GamesSaveScoreComponent } from '../../components/game/games-save-score/games-save-score.component';
 import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
@@ -15,14 +17,26 @@ import { ModalComponent } from '../../components/modal/modal.component';
   standalone: true,
   templateUrl: './mathleship.component.html',
   styleUrls: ['./mathleship.component.scss'],
-  imports: [CommonModule, FormsModule, TimerComponent, AlertModalComponent, GamesKnoledgeBaseComponent]
+  imports: [CommonModule, FormsModule, TimerComponent, GamesSaveScoreComponent, AlertModalComponent, GamesKnoledgeBaseComponent, ]
 })
 export class MathleshipComponent implements OnInit {
   board: string[][] = [];
+
+  public gameStartTime: Date = new Date();
   timerValue: string = '03:00';
+  remainingTime: number = 0;
+  public isGameActive: boolean = true;
+  public starsEarned: number = 0;
+  selectedGame: number = 0;
+  public correctAnswers: number = 0;
+  public wrongAnswers: number = 0;
+
   shipsStatus: { [key: string]: boolean } = {};
   ships: IShip[] = [];
+
   public modalService: ModalService = inject(ModalService);
+  public scoreService: ScoreService = inject(ScoreService);
+
   showAlert = false;
   alertType: 'time' | 'error' | 'success' = 'success';
   alertTitle = '¡Éxito!';
@@ -54,7 +68,14 @@ export class MathleshipComponent implements OnInit {
   selectedRowHover: number | null = null;
   lastSelectedRow: number | null = null;
 
-  constructor(private mathleshipService: MathleshipService, private cdr: ChangeDetectorRef) {}
+  @ViewChild('scoreModal') public scoreModal: any;
+
+  constructor(
+    private mathleshipService: MathleshipService,
+    private cdr: ChangeDetectorRef
+) {
+    this.selectedGame = 3; // Inicialización dentro del constructor
+}
 
   /*ngOnInit(): void {
     this.initializeGame();
@@ -127,7 +148,8 @@ updateTextIndex(newIndex: number) {
         this.shipsStatus[`ship${index + 1}`] = true;
       }
     });
-  
+
+    this.checkGameOver();
     console.log('Estado actualizado de los barcos:', this.shipsStatus);
   }
   
@@ -668,6 +690,35 @@ updateTextIndex(newIndex: number) {
     return correctAnswer;
   }
   
+  updateRemainingTime(time: number): void {
+    this.remainingTime = time;
+  }
+
+  saveScore() {
+    const timeTaken = this.calculateElapsedTime(); // Calcula el tiempo transcurrido
+    this.selectedGame = 3; // ID del juego Mathleship
   
+    // Muestra el modal con la referencia del template del modal
+    this.modalService.displayModal('md', this.scoreModal);
+  }  
+
+checkGameOver(): void {
+  const allShipsDestroyed = Object.values(this.shipsStatus).every(status => status === true);
+  if (allShipsDestroyed) {
+    console.log("¡Todos los barcos han sido derribados! El juego ha terminado.");
+    this.endGame(); // Llama al método para finalizar el juego y mostrar el modal
+  }
+}
+
+endGame(): void {
+  console.log("¡El juego Mathleship ha terminado!");
+  this.saveScore(); // Guardar el puntaje y abrir el modal
+}
+
+
+  calculateElapsedTime(): number {
+    const now = new Date();
+    return Math.floor((now.getTime() - this.gameStartTime.getTime()) / 1000);
+  }
 
 }
