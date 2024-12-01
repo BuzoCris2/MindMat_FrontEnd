@@ -1,171 +1,271 @@
-<div class="game-container">
-<!---Columna izquierda-->
-  <div class="left-column">
-    <div class="mathleship-container">
-      <div class="column-labels">
-        <div *ngFor="let col of ['A', 'B', 'C', 'D', 'E', 'F']" class="column-label">
-          {{ col }}
-        </div>
-      </div>
-    
-      <div class="board-with-row-labels">
-        <!-- Indicadores de filas -->
-        <div class="row-labels">
-          <div *ngFor="let row of [1, 2, 3, 4, 5, 6]" class="row-label">
-            {{ row }}
+<div class="row p-4">
+  </div>
+  <div class="row p-4 displayExample">
+      <div *ngIf="currentTextIndex === 0">
+        <div class="introPages pag1">
+          <h1>¡El mar nos espera!</h1>
+          <div class="intro-content">
+            <img src="assets/img/mathleship/lagartoCapitan.gif" alt="Lagarto Capitán" class="captain-image" />
+            <p>
+              ¡Capitán! Nos encontramos bajo ataque y solo tú puedes salvarnos a todos. Pero para ganar esta batalla necesitarás usar tus habilidades matemáticas.
+            </p>
           </div>
         </div>
-    
-        <!-- Tablero -->
-        <div class="board">
-          <div *ngFor="let row of board; let i = index" class="board-row">
-            <div
-              *ngFor="let cell of row; let j = index"
-              class="board-cell"
-              [attr.data-row]="i"
-              [attr.data-col]="j"
-              [ngClass]="{
-                'cell-hit': cell === 'H',
-                'cell-miss': cell === 'M',
-                'hover-column': selectedPowerup === 0 && selectedColumnHover === j,
-                'hover-row': selectedPowerup === 1 && selectedRowHover === i,
-                'hover-cross': selectedPowerup === 2 && isCrossHovered(i, j)
-              }"
-              (mouseenter)="
-              selectedPowerup === 0
-                ? hoverColumn(j)
-                : selectedPowerup === 1
-                ? hoverRow(i)
-                : selectedPowerup === 2
-                ? hoverCross(i, j)
-                : null
-              "
-              (mouseleave)="
-                selectedPowerup === 0
-                  ? leaveColumn()
-                  : selectedPowerup === 1
-                  ? leaveRow()
-                  : selectedPowerup === 2
-                  ? leaveCross(i, j)
-                  : null
-              "
-              (click)="
-              selectedPowerup === 0
-                ? activateColumnPowerup(j)
-                : selectedPowerup === 1
-                ? activateRowPowerup(i)
-                : selectedPowerup === 2
-                ? activateCrossPowerup(i, j)
-                : selectCell(i, j)
-              "
-            >
-              <img
-                *ngIf="cell === 'H'"
-                src="assets/img/Various/circHit.png"
-                alt="Hit"
-              />
-              <img
-                *ngIf="cell === 'M'"
-                src="assets/img/Various/circNoHit.png"
-                alt="Miss"
-              />
-              <div
-                *ngIf="isHitAnimating && selectedHitRow === i && selectedHitColumn === j"
-                class="hit-animation"
-              >
-              <img
-              src="assets/img/mathleship/hitAnim.gif"
-              alt="Hit Animation"
-              class="hit-img"
-            />
-              </div>
+      </div>
+      <div *ngIf="currentTextIndex === 1">
+        <div class="introPages pag2">
+          <div class="row pag2Mision justify-content-center">
+            <div class="col-4">
+              <h1>¿Cuál es nuestra misión?</h1>
+              <p>Debes hundir todos los barcos enemigos resolviendo operaciones matemáticas correctamente.</p>
+            </div>
+            <div class="col-4">
+              <img src="assets/img/mathleship/ejemTablero.png" alt="Tablero de ejemplo" class="board-image" />
             </div>
           </div>
+          <div class="pag2Footer">
+            <p>
+              Son 4 barcos, cada uno más grande que el anterior. Se marcarán en rojo una vez han sido derribados.
+            </p>
+            <img src="assets/img/mathleship/ejemBarcos.png" alt="Ejemplo de barcos" class="ships-image" />
+          </div>
         </div>        
-      </div> 
-    </div>
-  </div>
-  <div class="right-column">
-    <!-- Temporizador -->
-    <app-timer [initialTime]="1000"></app-timer>
-    
-    <div class="ships-container">
-      <img src="assets/img/mathleship/barco4.png" alt="Barco 4" class="ship-image" />
-      <img src="assets/img/mathleship/barco3.png" alt="Barco 3" class="ship-image" />
-      <img src="assets/img/mathleship/barco2.png" alt="Barco 2" class="ship-image" />
-      <img src="assets/img/mathleship/barco1.png" alt="Barco 1" class="ship-image" />
-    </div>
-
-    <div class="powerups-section">
-      <h3>PowerUps</h3>
-      <div class="powerups">
-        <div
-          class="powerup"
-          *ngFor="let powerup of powerups; let i = index"
-          [class.used]="powerup.used"
-          [class.active]="selectedPowerup === i"
-          (click)="selectPowerup(i)"
-        >
-          <img
-          [src]="getPowerupImage(i)"
-          [alt]="powerup.name"
-          [style.filter]="powerup.used ? 'grayscale(100%)' : 'none'"
-          [style.opacity]="powerup.used ? '0.5' : '1'"
-          class="powerup-img"
-        />
+      </div>
+      <div *ngIf="currentTextIndex === 2">
+        <div class="introPages pag3">
+          <h1>No te preocupes, contarás con la ayuda de varios “PowerUps”</h1>
+          <p>¡Pero piensa bien tu estrategia, porque solo pueden usarse una vez!</p>
+          <div class="row pag3Powers justify-content-center">
+            <div class="col-3">
+              <img src="assets/img/mathleship/powerUpFila.gif" />
+              <h2>Salvavidas</h2>
+              <p>Derriba toda una fila del tablero con un solo disparo</p>
+            </div>
+            <div class="col-3">
+              <img src="assets/img/mathleship/powerUpColumna.gif" />
+              <h2>Catalejo</h2>
+              <p>Derriba toda una columna del tablero con un solo disparo</p>
+            </div>
+            <div class="col-3">
+              <img src="assets/img/mathleship/powerUpCruz.gif" />
+              <h2>Ancla</h2>
+              <p>Derriba toda una zona con forma de “equis” del tablero con un solo disparo</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Sección de operación matemática -->
-    <div class="modal-container" *ngIf="mathVisible">
-      <div class="modal">
-        <div
-          *ngIf="quickFeedbackVisible"
-          class="quick-feedback-overlay"
-          [ngClass]="quickFeedbackType"
-        >
-          {{ quickFeedbackMessage }}
+      <div *ngIf="currentTextIndex === 3">
+        <div class="introPages pag4">
+          <h1>Completa la misión antes de que se acabe el tiempo</h1>
+          <img src="assets/img/Various/animTiempo.gif" />
+          <p>¡Confiamos en tí, capitán!</p>
         </div>
-        <h2 *ngIf="!showAlert">Resuelve la Operación</h2>
-        <h2 *ngIf="showAlert" [ngClass]="{ 'success-message': alertType === 'success', 'error-message': alertType === 'error' }">
-          {{ alertMessage }}
-        </h2>
-          <div class="math-operation">
-            <div class="number">{{ number1 }}</div>
-            <div class="operator">{{ operator }}</div>
-            <div class="number">{{ number2 }}</div>
-            <div class="equals">=</div>
-            <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
+    </div>
+      <div class="col-12 game-container" *ngIf="currentTextIndex === 4">
+          <!---Columna izquierda-->
+            <div class="left-column">
+              <div class="mathleship-container">
+                <div class="column-labels">
+                  <div *ngFor="let col of ['A', 'B', 'C', 'D', 'E', 'F']" class="column-label">
+                    {{ col }}
+                  </div>
+                </div>
+              
+                <div class="board-with-row-labels">
+                  <!-- Indicadores de filas -->
+                  <div class="row-labels">
+                    <div *ngFor="let row of [1, 2, 3, 4, 5, 6]" class="row-label">
+                      {{ row }}
+                    </div>
+                  </div>
+              
+                  <!-- Tablero -->
+                  <div class="board">
+                    <div *ngFor="let row of board; let i = index" class="board-row">
+                      <div
+                        *ngFor="let cell of row; let j = index"
+                        class="board-cell"
+                        [attr.data-row]="i"
+                        [attr.data-col]="j"
+                        [ngClass]="{
+                          'cell-hit': cell === 'H',
+                          'cell-miss': cell === 'M',
+                          'hover-column': selectedPowerup === 0 && selectedColumnHover === j,
+                          'hover-row': selectedPowerup === 1 && selectedRowHover === i,
+                          'hover-cross': selectedPowerup === 2 && isCrossHovered(i, j)
+                        }"
+                        (mouseenter)="
+                        selectedPowerup === 0
+                          ? hoverColumn(j)
+                          : selectedPowerup === 1
+                          ? hoverRow(i)
+                          : selectedPowerup === 2
+                          ? hoverCross(i, j)
+                          : null
+                        "
+                        (mouseleave)="
+                          selectedPowerup === 0
+                            ? leaveColumn()
+                            : selectedPowerup === 1
+                            ? leaveRow()
+                            : selectedPowerup === 2
+                            ? leaveCross(i, j)
+                            : null
+                        "
+                        (click)="
+                        selectedPowerup === 0
+                          ? activateColumnPowerup(j)
+                          : selectedPowerup === 1
+                          ? activateRowPowerup(i)
+                          : selectedPowerup === 2
+                          ? activateCrossPowerup(i, j)
+                          : selectCell(i, j)
+                        "
+                      >
+                        <img
+                          *ngIf="cell === 'H'"
+                          src="assets/img/Various/circHit.png"
+                          alt="Hit"
+                        />
+                        <img
+                          *ngIf="cell === 'M'"
+                          src="assets/img/Various/circNoHit.png"
+                          alt="Miss"
+                        />
+                        <div
+                          *ngIf="isHitAnimating && selectedHitRow === i && selectedHitColumn === j"
+                          class="hit-animation"
+                        >
+                        <img
+                        src="assets/img/mathleship/hitAnim.gif"
+                        alt="Hit Animation"
+                        class="hit-img"
+                      />
+                        </div>
+                      </div>
+                    </div>
+                  </div>        
+                </div> 
+              </div>
+            </div>
+            <div class="right-column">
+              <!-- Temporizador -->
+              <app-timer
+                [initialTime]="180"
+                (timeRemaining)="updateRemainingTime($event)"
+                (timerEnded)="endGame()"
+              ></app-timer>
+
+              <div class="ships-container">
+                <img
+                  src="assets/img/mathleship/barco4.png"
+                  alt="Barco 4"
+                  class="ship-image"
+                  [class.ship-destroyed]="shipsStatus['ship1']"
+                />
+                <img
+                  src="assets/img/mathleship/barco3.png"
+                  alt="Barco 3"
+                  class="ship-image"
+                  [class.ship-destroyed]="shipsStatus['ship2']"
+                />
+                <img
+                  src="assets/img/mathleship/barco2.png"
+                  alt="Barco 2"
+                  class="ship-image"
+                  [class.ship-destroyed]="shipsStatus['ship3']"
+                />
+                <img
+                  src="assets/img/mathleship/barco1.png"
+                  alt="Barco 1"
+                  class="ship-image"
+                  [class.ship-destroyed]="shipsStatus['ship4']"
+                />
+              </div>
+              
+          
+              <div class="powerups-section">
+                <h3>PowerUps</h3>
+                <div class="powerups">
+                  <div
+                    class="powerup"
+                    *ngFor="let powerup of powerups; let i = index"
+                    [class.used]="powerup.used"
+                    [class.active]="selectedPowerup === i"
+                    (click)="selectPowerup(i)"
+                  >
+                    <img
+                    [src]="getPowerupImage(i)"
+                    [alt]="powerup.name"
+                    [style.filter]="powerup.used ? 'grayscale(100%)' : 'none'"
+                    [style.opacity]="powerup.used ? '0.5' : '1'"
+                    class="powerup-img"
+                  />
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Sección de operación matemática -->
+              
           </div>
-          <button
-          *ngIf="!showAlert"
-          class="btn-ready"
-          [disabled]="userAnswer === ''"
-          (click)="
-            selectedPowerup === 0
-              ? submitAnswerForColumn(lastSelectedColumn!)
-              : selectedPowerup === 1
-              ? submitAnswerForRow(lastSelectedRow!)
-              : selectedPowerup === 2
-              ? submitAnswerForCross(selectedRow!, selectedColumn!)
-              : submitAnswer(selectedRow!, selectedColumn!)
-          "
-        >
-          Enviar
-        </button>                             
-    </div>    
+          
+      </div>
+      <app-games-knoledge-base 
+          [numberOfPages] = 5
+          (textIndexChange)="updateTextIndex($event)"
+      />
+      <ng-template #scoreModal>
+        <app-games-save-score
+          [selectedGameId]="selectedGame"
+          [startTime]="gameStartTime"
+        ></app-games-save-score>
+      </ng-template>
+      
+      <app-alert-modal
+                *ngIf="showAlert"
+                [alertType]="alertType"
+                [title]="alertTitle"
+                [message]="alertMessage"
+                [buttonText]="alertButtonText"
+                (closeAlert)="closeAlertModal()">
+            </app-alert-modal>
+            <div class="modal-container" *ngIf="mathVisible">
+              <div class="modal">
+                <div
+                  *ngIf="quickFeedbackVisible"
+                  class="quick-feedback-overlay"
+                  [ngClass]="quickFeedbackType"
+                >
+                  {{ quickFeedbackMessage }}
+                </div>
+                <h2 *ngIf="!showAlert">Resuelve la Operación</h2>
+                <h2 *ngIf="showAlert" [ngClass]="{ 'success-message': alertType === 'success', 'error-message': alertType === 'error' }">
+                  {{ alertMessage }}
+                </h2>
+                  <div class="math-operation">
+                    <div class="number">{{ number1 }}</div>
+                    <div class="operator">{{ operator }}</div>
+                    <div class="number">{{ number2 }}</div>
+                    <div class="equals">=</div>
+                    <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
+                  </div>
+                  <button
+                  *ngIf="!showAlert"
+                  class="btn-ready"
+                  [disabled]="userAnswer === ''"
+                  (click)="
+                    selectedPowerup === 0
+                      ? submitAnswerForColumn(lastSelectedColumn!)
+                      : selectedPowerup === 1
+                      ? submitAnswerForRow(lastSelectedRow!)
+                      : selectedPowerup === 2
+                      ? submitAnswerForCross(selectedRow!, selectedColumn!)
+                      : submitAnswer(selectedRow!, selectedColumn!)
+                  "
+                >
+                  Enviar
+                </button>                             
+            </div>    
+          </div>
   </div>
-
-  <app-alert-modal
-      *ngIf="showAlert"
-      [alertType]="alertType"
-      [title]="alertTitle"
-      [message]="alertMessage"
-      [buttonText]="alertButtonText"
-      (closeAlert)="closeAlertModal()">
-  </app-alert-modal>
-  
-</div>
-
   
