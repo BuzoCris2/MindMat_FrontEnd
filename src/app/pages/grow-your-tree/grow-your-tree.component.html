@@ -1,3 +1,9 @@
+<app-background [isVisible]="isGameActive">
+    <div class="game-content">
+      <h1>¡Bienvenido al juego!</h1>
+      <p>Resuelve operaciones matemáticas para hacer crecer tu árbol.</p>
+    </div>
+  </app-background>
 @defer {
     <div class="row p-4">
     </div>
@@ -23,8 +29,8 @@
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
         </div>
         <app-games-knoledge-base 
-        [numberOfPages] = 4
-        (textIndexChange)="updateTextIndex($event)"
-    />
+        [numberOfPages]="4"
+        (textIndexChange)="updateTextIndex($event)">
+        </app-games-knoledge-base>
 </div>
 }

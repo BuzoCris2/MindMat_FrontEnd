@@ -92,6 +92,7 @@ export const routes: Routes = [
           ],
           name: 'Usuarios',
           showInDashboard: true,
+          icon:'assets/img/dashboard/usuario.png',
         }
       },
       {
@@ -131,6 +132,7 @@ export const routes: Routes = [
           ],
           name: 'Reportes',
           showInDashboard: true,
+          icon:'assets/img/dashboard/reportes.png',
         }
       },
       {
@@ -183,10 +185,11 @@ export const routes: Routes = [
         data: {
           authorities: [
             IRoleType.admin,
-            IRoleType.superAdmin,
-            IRoleType.user,
+            IRoleType.superAdmin
           ],
-          name: 'Teams',
+          name: 'Equipos',
+          showInDashboard: true,
+          icon:'assets/img/dashboard/team.png',
         }
       },
   {
