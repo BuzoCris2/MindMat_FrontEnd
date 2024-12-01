@@ -108,5 +108,9 @@
         [numberOfPages] = 4
         (textIndexChange)="updateTextIndex($event)"
     />
+    <button (click)="saveScore()">save score</button>
+    <ng-template #scoreModal>
+        <app-games-save-score></app-games-save-score>
+    </ng-template>
 </div>
 }
