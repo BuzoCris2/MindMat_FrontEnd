@@ -1,10 +1,8 @@
-import { OnInit } from '@angular/core';
-import { Component, inject, EventEmitter, NgModule,  ViewChild, Output } from '@angular/core';
+import { GamesSaveScoreComponent } from './../../../components/game/games-save-score/games-save-score.component';
+import { Component, inject, ViewChild, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KeyComponent } from '../../../components/keyboard/key/key.component';
 import { GamesKnoledgeBaseComponent } from '../../../components/game/games-knoledge-base/games-knoledge-base.component';
-import { GamesSaveScoreComponent } from '../../../components/game/games-save-score/games-save-score.component';
-import { IScore } from '../../../interfaces';
 import { ScoreService } from '../../../services/score.service';
 import { ModalComponent } from '../../../components/modal/modal.component';
 import { ModalService } from '../../../services/modal.service';
@@ -16,46 +14,109 @@ import { ModalService } from '../../../services/modal.service';
     CommonModule,
     KeyComponent,
     GamesKnoledgeBaseComponent,
-    GamesSaveScoreComponent,
-    ModalComponent
+    GamesSaveScoreComponent
   ],
   templateUrl: './keyboard.component.html',
   styleUrl: './keyboard.component.scss'
 })
-export class KeyboardComponent {
+export class KeyboardComponent implements OnInit{
   public starsEarned: string = '';
+  public scales= [
+    {name: 'mayor', display: 'T - T - st - T - T - T - st', responseExpected: ['T', 'T', 'st', 'T', 'T', 'T', 'st']},
+    {name: 'menor', display: 'T - st - T - T - st - T - T', responseExpected: ['T', 'st', 'T', 'T', 'st', 'T', 'T']},
+    {name: 'mixolidia', display: 'T - T - st - T - T - st - T', responseExpected: ['T', 'T', 'st', 'T', 'T', 'st', 'T']}
+  ];
+  public scaleSelected = {name: '', display: '', responseExpected: ['']};
+  public scalePlayed = [''];
   public scoreService: ScoreService = inject(ScoreService);
   public modalService: ModalService = inject(ModalService);
+  selectedGame: number = 0;
+  correctAnswers: number = 0;
+  wrongAnwsers: number = 0;
+  public keys = [
+    {name: '1', value: 'C', backgroundColor: 'Red', color: 'white', status: 'toPlay', tone: ''},
+    {name: '2', value: 'Csharp', backgroundColor: 'orangered', color: 'white', status: 'blocked', tone: ''},
+    {name: '3', value: 'D', backgroundColor: 'gold', color: 'black', status: 'blocked', tone: ''},
+    {name: '4', value: 'Dsharp', backgroundColor: 'GreenYellow', color: 'black', status: 'blocked', tone: ''},
+    {name: '5', value: 'E', backgroundColor: 'limegreen', color: 'black', status: 'blocked', tone: ''},
+    {name: '6', value: 'F', backgroundColor: 'MediumSpringGreen', color: 'black', status: 'blocked', tone: ''},
+    {name: '7', value: 'Fsharp', backgroundColor: 'DeepSkyBlue', color: 'black', status: 'blocked', tone: ''},
+    {name: '8', value: 'G', backgroundColor: 'DodgerBlue', color: 'black', status: 'blocked', tone: ''},
+    {name: '9', value: 'Gsharp', backgroundColor: 'MediumSlateBlue', color: 'white', status: 'blocked', tone: ''},
+    {name: '10', value: 'A', backgroundColor: 'RebeccaPurple', color: 'white', status: 'blocked', tone: ''},
+    {name: '11', value: 'Asharp', backgroundColor: 'Purple', color: 'white', status: 'blocked', tone: ''},
+    {name: '12', value: 'B', backgroundColor: 'darkred', color: 'white', status: 'blocked', tone: ''},
+    {name: '13', value: 'C1', backgroundColor: 'brown', color: 'white', status: 'blocked', tone: ''}
+  ];
   @ViewChild('scoreModal') public scoreModal: any;
+  constructor(){
+    this.selectedGame = 1;
+  }
+  ngOnInit(): void {
+    let scale = Math.floor(Math.random() * 3);
+    this.scaleSelected = this.scales[scale];
+  }
+  
   currentTextIndex: number = 0;
   updateTextIndex(newIndex: number) {
     this.currentTextIndex = newIndex;
   }
   
+
   closeModal(){
     this.modalService.closeAll();
   }
 
-  saveScore(){
-    let score: IScore ={
-        rightAnswers: 10,
-        wrongAnswers: 2,
-        game: 	{
-          "id": 1,
-          "name": "Key",
-          "description": "GeneratedGame",
-          "createdAt": "2024-11-16T00:10:20.000+00:00",
-          "updatedAt": "2024-11-16T00:11:01.000+00:00"
-        },
+  saveScore(correct: number, wrong: number){
+    this.correctAnswers = correct;
+    this.wrongAnwsers = wrong;
+    this.selectedGame = 1;
+    this.modalService.displayModal('md', this.scoreModal);
+  }
+
+  currentNote(key: string){
+    let numberKey = Number(key);
+    if(this.keys[numberKey-1].tone != ''){
+      this.scalePlayed.push(this.keys[numberKey-1].tone);
     }
-    this.scoreService.save(score).subscribe({
-      next: (response) => {
-          this.starsEarned = response.stars;
-          this.modalService.displayModal('md', this.scoreModal);
-      },
-      error: (err) => {
-          console.error('Error saving score:', err);
+    for (let i = numberKey-2; i >= 0; i--) {
+      this.keys[i].tone = '';
+    }
+    if(this.keys[numberKey-1].status == 'toPlay' && numberKey < this.keys.length-1){
+      this.keys[numberKey].status='toPlay';
+      this.keys[numberKey].tone='st';
+      this.keys[numberKey+1].status='toPlay';
+      this.keys[numberKey+1].tone='T';
+    }else if(this.keys[numberKey-1].status == 'toPlay' && numberKey < this.keys.length){
+      this.keys[numberKey].status='toPlay';
+      this.keys[numberKey].tone='st';
+    }else if(this.keys[numberKey-1].status == 'toPlay' && numberKey == this.keys.length){
+      this.scalePlayed.splice(0, 1)
+      console.log(this.scalePlayed);
+      this.verifyAnswers();
+    }
+  }
+
+  verifyAnswers(){
+    let correctCounter = 0;
+    let wrongCounter = 0;
+    for(let i = 0; i<this.scalePlayed.length; i++){
+      if(this.scalePlayed[i] == this.scaleSelected.responseExpected[i]){
+        correctCounter ++;
+        console.log("+1");
+      }else {
+        wrongCounter ++;
+        console.log("-1");
       }
-  });
+    }
+    let diferenceResponse = 0;
+    if(this.scaleSelected.responseExpected.length > this.scalePlayed.length){
+      diferenceResponse = this.scaleSelected.responseExpected.length - this.scalePlayed.length;
+    }
+    wrongCounter = wrongCounter + diferenceResponse;
+    console.log(this.scalePlayed);
+    console.log(this.scaleSelected.responseExpected);
+    console.log("Correctas: "+ this.scoreModal.correctAnswers + ', Erroneas: '+this.scoreModal.wrongAnswers);
+    this.saveScore(correctCounter, wrongCounter);
   }
 }

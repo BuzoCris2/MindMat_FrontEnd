@@ -14,133 +14,34 @@
         <h3>Tercera</h3>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
     </div>
-    <div *ngIf="currentTextIndex === 3">
-        <h3>Tercera</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
-    </div>
-    <div *ngIf="currentTextIndex === 3">
-        <h3>Tercera</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
+    <div id='scaleDisplay' *ngIf="currentTextIndex === 3">
+        <div id='scaleInfo'>
+            <h2>Escala {{scaleSelected.name}}</h2>
+            <h1>{{scaleSelected.display}}</h1>
+        </div>
     </div>
     <div class="col-12 display-key-board" *ngIf="currentTextIndex === 3">
-        <app-key
-            name="1"
-            value="C"
-            backgroundColor="Red"
-            color="white"
-        />
-        <app-key
-            name="2"
-            value="Csharp"
-            backgroundColor="orangered"
-            color="white"
-
-        />
-        <app-key
-            name="3"
-            value="D"
-            backgroundColor="gold"
-            color="black"
-
-        />
-        <app-key
-            name="4"
-            value="Dsharp"
-            backgroundColor="GreenYellow"
-            color="black"
-        />
-        <app-key
-            name="5"
-            value="E"
-            backgroundColor="limegreen"
-            color="black"
-        />
-        <app-key
-            name="6"
-            value="F"
-            backgroundColor="MediumSpringGreen"
-            color="black"
-        />
-        <app-key
-            name="7"
-            value="Fsharp"
-            backgroundColor="DeepSkyBlue"
-            color="black"
-        />
-        <app-key
-            name="8"
-            value="G"
-            backgroundColor="DodgerBlue"
-            color="black"
-        />
-        <app-key
-            name="9"
-            value="Gsharp"
-            backgroundColor="MediumSlateBlue"
-            color="white"
-        />
-        <app-key
-            name="10"
-            value="A"
-            backgroundColor="RebeccaPurple"
-            color="white"
-        />
-        <app-key
-            name="11"
-            value="Asharp"
-            backgroundColor="Purple"
-            color="white"
-        />
-        <app-key
-            name="12"
-            value="B"
-            backgroundColor="darkred"
-            color="white"
-        />
-        <app-key
-            name="13"
-            value="C1"
-            backgroundColor="SaddleBrown"
-            color="white"
-        />
+        <ng-container *ngFor="let key of keys">
+            <app-key
+                name= "{{key.name}}"
+                status="{{key.status}}"
+                value= "{{key.value}}"
+                backgroundColor= "{{key.backgroundColor}}"
+                color= "{{key.color}}"
+                (click)="currentNote(key.name)"
+            />
+        </ng-container>
     </div>
     <app-games-knoledge-base 
         [numberOfPages] = 4
         (textIndexChange)="updateTextIndex($event)"
     />
-    <button (click)="saveScore()">save score</button>
     <ng-template #scoreModal>
-        <app-modal
-        [hideConfirmAction] = "true"
-        [hideFooter]= "true"
-        modalBodyClass="none"
-        modalContentClass="modal-content"
-        >
-        <div class="modal-content-custom">
-            <h1>¡Felicidades!</h1>
-            <h2>Haz ganado {{starsEarned}} estrellas</h2>
-            <div class="modal-stars">
-                <img src="../../../../assets/img/Various/Star.png">
-                <h1>x</h1>
-                <h1>{{starsEarned}}</h1>
-            </div>
-            <h2>Respuestas</h2>
-            <div class="answers">
-                
-                <div  id="wright-answers">
-                    <h1 class="answer-title">5</h1>
-                    <h3>Correctas</h3>
-                </div>
-                <div id="wrong-answers">
-                    <h1 class="answer-title">5</h1>
-                    <h3>Incorrectas</h3>
-                </div>
-            </div>
-            <div class="modal-button-container">
-                <button #startGame (click)="closeModal()" class="continue">Continuar</button>
-            </div>
-        </div>
-        </app-modal>
+        <app-games-save-score
+        [selectedGameId] = "selectedGame"
+        [correctAnswers]= "correctAnswers"
+        [wrongAnswers]= "wrongAnwsers"
+        />
     </ng-template>
 </div>
 }

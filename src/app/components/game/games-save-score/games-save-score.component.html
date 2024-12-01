@@ -1,0 +1,33 @@
+<app-modal
+    [hideConfirmAction] = "true"
+    [hideFooter]= "true"
+    modalBodyClass="none"
+    modalContentClass="modal-content"
+    >
+    <div class="modal-content-custom">
+        <h1>¡Felicidades!</h1>
+        <h2>Haz ganado {{starsEarned}} estrellas</h2>
+        <div class="modal-stars">
+            <img src="../../../../assets/img/Various/Star.png">
+            <h1>x</h1>
+            <h1>{{starsEarned}}</h1>
+        </div>
+        <div class="display-none" #keyboardScore>
+        <h2>Respuestas</h2>
+    
+            <div class="answers">
+                <div  id="wright-answers">
+                    <h1 class="answer-title">{{correctAnswers}}</h1>
+                    <h3>Correctas</h3>
+                </div>
+                <div id="wrong-answers">
+                    <h1 class="answer-title">{{wrongAnswers}}</h1>
+                    <h3>Incorrectas</h3>
+                </div>
+            </div>
+        </div>
+        <div class="modal-button-container">
+            <button #startGame (click)="closeModal()" class="continue">Continuar</button>
+        </div>
+    </div>
+</app-modal>
