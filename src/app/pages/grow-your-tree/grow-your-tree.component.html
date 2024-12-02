@@ -1,7 +1,7 @@
 <app-background [isVisible]="isGameActive">
     <div class="game-content">
-      <h1>¡Bienvenido al juego!</h1>
-      <p>Resuelve operaciones matemáticas para hacer crecer tu árbol.</p>
+        <app-growing-tree [growthStage]="growthStage" class="growing-tree"></app-growing-tree>
+        <app-math-operations [mathVisible]="isGameActive" (answerCorrect)="handleAnswerCorrect()"></app-math-operations>
     </div>
   </app-background>
 @defer {
@@ -30,7 +30,8 @@
         </div>
         <app-games-knoledge-base 
         [numberOfPages]="4"
-        (textIndexChange)="updateTextIndex($event)">
-        </app-games-knoledge-base>
+        (textIndexChange)="updateTextIndex($event)"
+        (gameStart)="startGame()">
+      </app-games-knoledge-base>
 </div>
 }

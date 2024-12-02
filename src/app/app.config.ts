@@ -8,10 +8,12 @@ import { baseUrlInterceptor } from './interceptors/base-url.interceptor';
 import { accessTokenInterceptor } from './interceptors/access-token.interceptor';
 import { handleErrorsInterceptor } from './interceptors/handle-errors.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes), 
+    provideAnimations(),
     provideClientHydration(),
     provideHttpClient(
       withInterceptors([

@@ -60,7 +60,11 @@ export class GamesKnoledgeBaseComponent {
   popUpGame(){
     this.modalService.displayModal('md', this.addTestModal);
   }
-
+  
+  startGame() {
+    this.gameStart.emit(); // Notificar al padre que el juego ha comenzado
+    this.modalService.closeAll();
+  }
 
   cancelGame(){
     this.modalService.closeAll();

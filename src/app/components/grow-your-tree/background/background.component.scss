@@ -1,14 +1,22 @@
 .game-background {
   position: fixed;
-  top: 0;
+  top: 75px;
   left: 0;
-  width: 90%;
-  height: 100%;
-  background-image: url('../../../../assets/img/tree-game/fondo-arbol1.jpg');
-  background-size: 100%;
-  background-position: center;
+  right: 0;
+  width: 100%;
+  height: calc(100% - 75px); // Ajuste para cubrir la pantalla sin tapar la barra superior
+  background-color: #a3d3a1; // Color verde claro para los lados y el fondo
   z-index: 500; /* Por encima del contenido base */
   display: flex;
   align-items: center;
   justify-content: center;
+
+  .background-image {
+    background-image: url('../../../../assets/img/tree-game/fondo-arbol1.jpg');
+    background-size: auto;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    width: 80%;
+    height: 100%;
+  }
 }

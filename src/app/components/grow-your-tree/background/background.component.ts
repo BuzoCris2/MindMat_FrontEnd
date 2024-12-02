@@ -6,8 +6,8 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './background.component.html',
-  styleUrl: './background.component.scss'
+  styleUrls: ['./background.component.scss'],
 })
 export class BackgroundComponent {
-  @Input() isVisible: boolean = false; 
+  @Input() isVisible: boolean = false;
 }
