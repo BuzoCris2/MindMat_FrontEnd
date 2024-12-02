@@ -29,7 +29,7 @@
   <button class="reset" (click)="resetGame()">Limpiar pintura</button>
 </div>
 
-<div class="modal" >
+<div class="modal" *ngIf="allColorsUnlocked">
   <div class="modal-content">
     <h2>¡Felicidades!</h2>
     <p>Has desbloqueado todos los colores.</p>

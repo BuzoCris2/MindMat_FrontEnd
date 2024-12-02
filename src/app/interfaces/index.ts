@@ -162,3 +162,27 @@ interface ITeacherLeader {
   teamCount: number;
 
 }
+
+export interface IUserAchievement {
+  id: number;
+  user: {
+    id: number;
+    name: string;
+    lastname: string;
+    // Otros campos del usuario si es necesario
+  };
+  achievement: {
+    id: number;
+    name: string;
+    description: string;
+    // Otros campos del logro si es necesario
+  };
+  achievedAt: string;  // Fecha en que el logro fue alcanzado
+}
+
+
+export interface IAchievement {
+  id: any;
+  name: string;
+  description: string;
+}
