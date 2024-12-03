@@ -24,13 +24,14 @@ export class GamesSaveScoreComponent implements AfterViewInit {
   @ViewChild('scoreModal') public scoreModal: any;
   @ViewChild('keyboardScore') keyboarSection!: ElementRef<HTMLDivElement>;
   @ViewChild('colorScore') colorSection!: ElementRef<HTMLDivElement>;
-  @ViewChild('standardContinueButton') standardContinueButton!: ElementRef<HTMLDivElement>;
   @ViewChild('mathleshipScore') mathleshipSection!:  ElementRef <HTMLDivElement>;
+  @ViewChild('standardContinueButton') standardContinueButton!: ElementRef<HTMLDivElement>;
   @Output() calculationInit = new EventEmitter<number>();
   @Input() selectedGameId!: number;
   @Input() wrongAnswers!: number;
   @Input() correctAnswers!: number;
-  closeModal(){
+  @Input() startTime!: Date;
+  closeModal() {
     this.modalService.closeAll();
   }
 
@@ -49,14 +50,90 @@ export class GamesSaveScoreComponent implements AfterViewInit {
           "updatedAt": "2024-11-16T00:11:01.000+00:00"
         },
       }
-  this.scoreService.save(score).subscribe({
-    next: (response) => {
-        this.starsEarned = response.stars;
-        this.correctAnswers = response.rightAnswers;
-    },
-    error: (err) => {
-        console.error('Error saving score:', err);
+      this.scoreService.save(score).subscribe({
+        next: (response) => {
+          this.starsEarned = response.stars;
+          this.correctAnswers = response.rightAnswers;
+        },
+        error: (err) => {
+          console.error('Error saving score:', err);
+        }
+      });
+    } if (this.selectedGameId === 3) {
+      console.log("Cargando puntaje para Mathleship...");
+      const timeTaken = this.calculateElapsedTime();
+      this.mathleshipSection.nativeElement.classList.remove('display-none');
+      const score: IScore = {
+        rightAnswers: 0,
+        wrongAnswers: 0,
+        game: {
+          id: 3,
+          "name": "Mathleship",
+          "description": "Juego basado en operaciones matemáticas.",
+          "createdAt": "2024-11-29T00:10:20.000+00:00",
+          "updatedAt": "2024-11-29T00:11:01.000+00:00"
+        },
+        timeTaken: timeTaken
+      };
+    
+      this.scoreService.save(score).subscribe({
+        next: (response) => {
+          this.starsEarned = response.stars;
+          console.log("Estrellas obtenidas:", this.starsEarned);
+        },
+        error: (err) => {
+          console.error("Error guardando el puntaje:", err);
+        }
+      });
     }
-  });
-}}
+     else if (this.selectedGameId == 5) {
+      this.colorSection.nativeElement.classList.remove('display-none');
+      this.standardContinueButton.nativeElement.classList.add('display-none');
+      let score: IScore = {
+        rightAnswers: this.correctAnswers,
+        wrongAnswers: this.wrongAnswers,
+        game: {
+          "id": 5,
+          "name": "Color",
+          "description": "GeneratedGame",
+          "createdAt": "2024-11-16T00:10:20.000+00:00",
+          "updatedAt": "2024-11-16T00:11:01.000+00:00"
+        },
+      }
+      this.scoreService.save(score).subscribe({
+        next: (response) => {
+          this.starsEarned = response.stars;
+          this.correctAnswers = response.rightAnswers;
+        },
+        error: (err) => {
+          console.error('Error saving score:', err);
+        }
+      });
+    }
+  }
+
+  @Output() resetQuizEvent = new EventEmitter<void>();  // Evento para reiniciar el quiz
+  @Output() unlockAllQuestionsEvent = new EventEmitter<void>();  // Evento para continuar
+
+  constructor() {}
+
+  // Método para emitir el evento de reinicio
+  onResetQuiz() {
+    this.resetQuizEvent.emit();  // Emite el evento
+  }
+
+  // Método para emitir el evento de continuar
+  onUnlockAllQuestions() {
+    this.unlockAllQuestionsEvent.emit();  // Emite el evento
+  }
+
+  calculateElapsedTime(): string {
+    if (!this.startTime) {
+        console.error("Start time no está definido.");
+        return "00:00:00";
+    }
+    const endTime = new Date();
+    const elapsedTime = Math.floor((endTime.getTime() - this.startTime.getTime()) / 1000);
+    return new Date(elapsedTime * 1000).toISOString().substr(11, 8);
+  }
 }
