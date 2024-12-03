@@ -24,11 +24,13 @@ export class GamesSaveScoreComponent implements AfterViewInit {
   @ViewChild('scoreModal') public scoreModal: any;
   @ViewChild('keyboardScore') keyboarSection!: ElementRef<HTMLDivElement>;
   @ViewChild('colorScore') colorSection!: ElementRef<HTMLDivElement>;
+  @ViewChild('mathleshipScore') mathleshipSection!:  ElementRef <HTMLDivElement>;
   @ViewChild('standardContinueButton') standardContinueButton!: ElementRef<HTMLDivElement>;
   @Output() calculationInit = new EventEmitter<number>();
   @Input() selectedGameId!: number;
   @Input() wrongAnswers!: number;
   @Input() correctAnswers!: number;
+  @Input() startTime!: Date;
   closeModal() {
     this.modalService.closeAll();
   }
@@ -57,7 +59,34 @@ export class GamesSaveScoreComponent implements AfterViewInit {
           console.error('Error saving score:', err);
         }
       });
-    } else if (this.selectedGameId == 5) {
+    } if (this.selectedGameId === 3) {
+      console.log("Cargando puntaje para Mathleship...");
+      const timeTaken = this.calculateElapsedTime();
+      this.mathleshipSection.nativeElement.classList.remove('display-none');
+      const score: IScore = {
+        rightAnswers: 0,
+        wrongAnswers: 0,
+        game: {
+          id: 3,
+          "name": "Mathleship",
+          "description": "Juego basado en operaciones matemáticas.",
+          "createdAt": "2024-11-29T00:10:20.000+00:00",
+          "updatedAt": "2024-11-29T00:11:01.000+00:00"
+        },
+        timeTaken: timeTaken
+      };
+    
+      this.scoreService.save(score).subscribe({
+        next: (response) => {
+          this.starsEarned = response.stars;
+          console.log("Estrellas obtenidas:", this.starsEarned);
+        },
+        error: (err) => {
+          console.error("Error guardando el puntaje:", err);
+        }
+      });
+    }
+     else if (this.selectedGameId == 5) {
       this.colorSection.nativeElement.classList.remove('display-none');
       this.standardContinueButton.nativeElement.classList.add('display-none');
       let score: IScore = {
@@ -96,5 +125,15 @@ export class GamesSaveScoreComponent implements AfterViewInit {
   // Método para emitir el evento de continuar
   onUnlockAllQuestions() {
     this.unlockAllQuestionsEvent.emit();  // Emite el evento
+  }
+
+  calculateElapsedTime(): string {
+    if (!this.startTime) {
+        console.error("Start time no está definido.");
+        return "00:00:00";
+    }
+    const endTime = new Date();
+    const elapsedTime = Math.floor((endTime.getTime() - this.startTime.getTime()) / 1000);
+    return new Date(elapsedTime * 1000).toISOString().substr(11, 8);
   }
 }
