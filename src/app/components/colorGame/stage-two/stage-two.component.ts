@@ -23,10 +23,10 @@ export class StageTwoComponent {
     this.complete.emit(); // Notifica al componente padre
   }
 
-questions = [
+  questions = [
     {
       question: '¿Cómo se obtenía históricamente el pigmento rojo?',
-      options: ['De la cochinilla', 'De minerales de arsénico', 'De hojas secas'],
+      options: [ 'De minerales de arsénico', 'De la cochinilla', 'De hojas secas'],
       correctAnswer: 'De la cochinilla'
     },
     {
@@ -36,7 +36,7 @@ questions = [
     },
     {
       question: '¿Qué fuente natural se usaba para obtener amarillo?',
-      options: ['Cúrcuma', 'Oro en polvo', 'Hojas de arce'],
+      options: ['Oro en polvo','Cúrcuma', 'Hojas de arce'],
       correctAnswer: 'Cúrcuma'
     },
     {
@@ -46,12 +46,12 @@ questions = [
     },
     {
       question: '¿Qué se usaba para obtener tonos verdes?',
-      options: ['Malaquita triturada', 'Hojas de albahaca', 'Pasto fermentado'],
+      options: ['Hojas de albahaca', 'Pasto fermentado','Malaquita triturada'],
       correctAnswer: 'Malaquita triturada'
     },
     {
       question: '¿Qué combinación de minerales daba lugar al púrpura?',
-      options: ['Murex', 'Oxidación del cobre', 'Polvo de amatista'],
+      options: ['Oxidación del cobre','Murex', 'Polvo de amatista'],
       correctAnswer: 'Murex'
     },
     {
@@ -61,7 +61,7 @@ questions = [
     },
     {
       question: '¿Cuál era el origen del pigmento ámbar?',
-      options: ['Cúrcuma y minerales', 'Hojas de arce y polvo de amatista', 'Flores secas y realgar'],
+      options: ['Hojas de arce y polvo de amatista','Cúrcuma y minerales', 'Flores secas y realgar'],
       correctAnswer: 'Cúrcuma y minerales'
     }
   ];
