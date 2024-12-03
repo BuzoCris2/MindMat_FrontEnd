@@ -9,5 +9,8 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./background.component.scss'],
 })
 export class BackgroundComponent {
-  @Input() isVisible: boolean = false;
+  @Input() isVisible: boolean = false;  
+  @Input() backgroundState: 'sunny' | 'cloudy' | 'rainy' = 'sunny'; 
+
+
 }

@@ -1,9 +1,15 @@
-<app-background [isVisible]="isGameActive">
-    <div class="game-content">
-        <app-growing-tree [growthStage]="growthStage" class="growing-tree"></app-growing-tree>
-        <app-math-operations [mathVisible]="isGameActive" (answerCorrect)="handleAnswerCorrect()"></app-math-operations>
-    </div>
-  </app-background>
+<app-background [isVisible]="isGameActive" [backgroundState]="backgroundState">
+  <div class="game-content">
+    <app-growing-tree [growthStage]="growthStage" class="growing-tree"></app-growing-tree>
+  </div>
+</app-background>
+
+<!-- Colocamos el modal de operaciones fuera del componente de fondo para que no sea afectado por los efectos del background -->
+<app-math-operations 
+*ngIf="isGameActive"
+[mathVisible]="isGameActive"
+(answerCorrect)="handleAnswerCorrect()">
+</app-math-operations>
 @defer {
     <div class="row p-4">
     </div>

@@ -16,6 +16,8 @@ export class GrowYourTreeComponent {
   currentTextIndex: number = 0;
   isGameActive: boolean = false; // Indica si el juego está activo
   growthStage: number = 0; // Controla la etapa de crecimiento del árbol
+  backgroundState: 'sunny' | 'cloudy' | 'rainy' = 'sunny'; // Estado del fondo
+  correctAnswersForGrowth: number = 0; // Contador de respuestas correctas para el crecimiento del árbol
 
   // Método para actualizar el índice recibido desde el hijo
   updateTextIndex(newIndex: number) {
@@ -27,13 +29,38 @@ export class GrowYourTreeComponent {
   }
 
   startGame() {
-    this.isGameActive = true; // Activar el juego y el fondo
+    this.isGameActive = true; // Activar el juego 
+    this.backgroundState = 'sunny';
   }
 
   // Incrementa la etapa de crecimiento del árbol y genera una nueva operación matemática
   handleAnswerCorrect() {
-    if (this.growthStage < 3) {
-      this.growthStage++;
+    // Actualizar el estado del fondo en cada respuesta correcta
+    this.updateBackgroundState();
+
+    // Incrementar el contador de respuestas correctas para el crecimiento del árbol
+    this.correctAnswersForGrowth++;
+
+    // Cada 3 respuestas correctas, incrementar la etapa de crecimiento del árbol
+    if (this.correctAnswersForGrowth >= 3) {
+      this.correctAnswersForGrowth = 0; // Reiniciar el contador
+      if (this.growthStage < 8) {
+        this.growthStage++;
+      }
+    }
+  }
+
+  updateBackgroundState() {
+    switch (this.backgroundState) {
+      case 'sunny':
+        this.backgroundState = 'cloudy';
+        break;
+      case 'cloudy':
+        this.backgroundState = 'rainy';
+        break;
+      case 'rainy':
+        this.backgroundState = 'sunny';
+        break;
     }
   }
 

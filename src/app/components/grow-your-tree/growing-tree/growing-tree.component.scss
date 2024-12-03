@@ -10,9 +10,8 @@
   }
   
   .tree {
-    width: 100px; /* Ajusta el tamaño inicial del árbol */
-    height: 200px; /* Ajusta el tamaño inicial del árbol */
-    background-image: url('../../../../assets/img/tree-game/arbol.jpg'); /* Imagen del árbol */
+    width: 250px; /* Ajusta el tamaño inicial del árbol */
+    height: 600px; /* Ajusta el tamaño inicial del árbol */
     background-size: cover;
     background-position: center;
     transform-origin: bottom; /* Para que crezca desde la base del árbol */
