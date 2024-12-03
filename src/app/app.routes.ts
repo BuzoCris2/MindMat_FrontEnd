@@ -26,6 +26,7 @@ import { ProgrammingGameComponent } from './pages/programminggame/programminggam
 import { TeamsComponent } from './pages/teams/teams.component';
 import { StageTwoComponent } from './components/colorGame/stage-two/stage-two.component';
 import { StageThreeComponent } from './components/colorGame/stage-three/stage-three.component';
+import { AchievementsComponent } from './pages/achievements/achievements.component';
 
 //export const routes: Routes = [
 
@@ -124,7 +125,7 @@ export const routes: Routes = [
       },
       {
         path: 'reports',
-        component: ReportsComponent,
+        component: AchievementsComponent,
         data: {
           authorities: [
             IRoleType.admin,
