@@ -58,7 +58,6 @@ export class GamesSaveScoreComponent implements AfterViewInit {
         }
       });
     } else if (this.selectedGameId == 5) {
-      console.log("prapra");
       this.colorSection.nativeElement.classList.remove('display-none');
       this.standardContinueButton.nativeElement.classList.add('display-none');
       let score: IScore = {

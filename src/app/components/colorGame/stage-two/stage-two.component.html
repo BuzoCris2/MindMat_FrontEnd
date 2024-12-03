@@ -17,13 +17,18 @@
       {{ isAnswerCorrect ? '¡Correcto!' : 'Incorrecto, la respuesta era: ' + questions[currentQuestionIndex].correctAnswer }}
     </p>
   </div>
+  
+  <!-- Aquí se muestra el modal al final del cuestionario -->
   <ng-template #scoreModal>
-    <app-games-save-score
-    [selectedGameId] = "selectedGame"
-    [correctAnswers]= "correctAnswers"
-    [wrongAnswers]= "wrongAnswers"
-    (resetQuizEvent)="resetQuiz()" 
-    (unlockAllQuestionsEvent)="unlockAllQuestions()"
-    />
+    <div class="modal-overlay"></div> <!-- Fondo oscuro de overlay -->
+    <div class="modal-container">
+      <app-games-save-score
+        [selectedGameId]="selectedGame"
+        [correctAnswers]="correctAnswers"
+        [wrongAnswers]="wrongAnswers"
+        (resetQuizEvent)="resetQuiz()" 
+        (unlockAllQuestionsEvent)="unlockAllQuestions()">
+      </app-games-save-score>
+    </div>
   </ng-template>
 </div>
