@@ -1,38 +1,59 @@
-<div class="stage-one-container">
-  <div class="color-palette">
-    <ng-container *ngFor="let color of colors">
-      <div *ngIf="color.unlocked" 
-           class="color-item" 
-           [ngClass]="{ 'selected': color.color === selectedColor }"
-           [ngStyle]="{'background-color': colorHex(color.color)}"
-           (click)="selectColor(color.color)">
+@defer{
+<div class="row p-4">
+</div>
+<div>
+  <div *ngIf="currentTextIndex === 0">
+    <h1>Juego de mezcla de pintura</h1>
+    <p>¡Es hora de mezclar colores! En este juego, podrás combinar diferentes colores para crear nuevos tonos. Tienes
+      que usar tus conocimientos y creatividad para ver qué colores puedes hacer al mezclar. ¿Listo para descubrir
+      nuevos colores?
+    </p>
+  </div>
+  <div *ngIf="currentTextIndex === 1">
+    <h1>Preguntas sobre la pintura</h1>
+    <p>Ahora que has aprendido a mezclar colores, es el momento de poner a prueba lo que sabes. Responderás algunas
+      preguntas divertidas sobre los colores y cómo se hacen. ¡Muestra todo lo que has aprendido y diviértete!
+    </p>
+  </div>
+  <div *ngIf="currentTextIndex === 2">
+    <h1>Juego de pintar</h1>
+    <p>Es tu turno de ser un gran artista. Usa todos los colores que has desbloqueado para pintar tu propio cuadro.
+      Tienes un lienzo en blanco y muchos colores para elegir. ¡Hazlo tan bonito como quieras!
+    </p>
+  </div>
+  <div class="stage-one-container" *ngIf="currentTextIndex === 3">
+    <div class="color-palette">
+      <ng-container *ngFor="let color of colors">
+        <div *ngIf="color.unlocked" class="color-item" [ngClass]="{ 'selected': color.color === selectedColor }"
+          [ngStyle]="{'background-color': colorHex(color.color)}" (click)="selectColor(color.color)">
+        </div>
+      </ng-container>
+    </div>
+    <!-- Panel lateral para mostrar la información del color seleccionado -->
+    <div class="color-info-panel" *ngIf="selectedColor">
+      <h3>Información del Color</h3>
+      <p><strong>Color:</strong> {{ selectedColor }}</p>
+      <p><strong>Nombre:</strong> {{ selectedColorName }}</p>
+      <p><strong>Código Hex:</strong> {{ colorHex(selectedColor) }}</p>
+      <p><strong>Descripción:</strong> {{ selectedColorDescription }}</p>
+    </div>
+
+
+    <div class="buckets">
+      <div *ngFor="let bucket of emptyBuckets; let i = index" class="bucket-container" (click)="selectBucket(i)">
+        <img [src]="bucket.image" class="bucket-image" alt="Bucket">
       </div>
-    </ng-container>
+    </div>
+
+    <button class="reset" (click)="resetGame()">Limpiar pintura</button>
   </div>
-
-  <!-- Panel lateral para mostrar la información del color seleccionado -->
-  <div class="color-info-panel" *ngIf="selectedColor">
-    <h3>Información del Color</h3>
-    <p><strong>Color:</strong> {{ selectedColor }}</p>
-    <p><strong>Nombre:</strong> {{ selectedColorName }}</p>
-    <p><strong>Código Hex:</strong> {{ colorHex(selectedColor) }}</p>
-    <p><strong>Descripción:</strong> {{ selectedColorDescription }}</p>
-  </div>
-  
-
-  <div class="buckets">
-    <div *ngFor="let bucket of emptyBuckets; let i = index" class="bucket-container" (click)="selectBucket(i)">
-      <img [src]="bucket.image" class="bucket-image" alt="Bucket">
-    </div>    
-  </div>
-
-  <button class="reset" (click)="resetGame()">Limpiar pintura</button>
-</div>
-
-<div class="modal" *ngIf="allColorsUnlocked">
-  <div class="modal-content">
-    <h2>¡Felicidades!</h2>
-    <p>Has desbloqueado todos los colores.</p>
-    <button (click)="unlockAllColors()">Siguiente</button>
+  <app-games-knoledge-base [numberOfPages]=4 (textIndexChange)="updateTextIndex($event)" />
+  <div class="modal" *ngIf="allColorsUnlocked">
+    <div class="modal-content">
+      <h2>¡Felicidades!</h2>
+      <p>Has desbloqueado todos los colores.</p>
+      <button (click)="unlockAllColors()">Siguiente</button>
+    </div>
   </div>
 </div>
+}

@@ -58,12 +58,35 @@ export class StageThreeComponent {
 
   clearCanvas() {
     this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+    // Dibujar el fondo blanco
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
   }
+  
 
   saveCanvas() {
-    const link = document.createElement('a');
-    link.download = 'canvas.png';
-    link.href = this.canvas.nativeElement.toDataURL();
-    link.click();
+    // Guardar el estado actual del lienzo
+    const canvasData = this.canvas.nativeElement.toDataURL();
+  
+    // Dibujar el fondo blanco (sobre el lienzo vacío)
+    this.ctx.fillStyle = '#FFFFFF';
+    this.ctx.fillRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
+  
+    // Volver a cargar el contenido previamente dibujado (el lienzo original)
+    const img = new Image();
+    img.src = canvasData;
+  
+    img.onload = () => {
+      // Dibujar la imagen original sobre el fondo blanco
+      this.ctx.drawImage(img, 0, 0);
+  
+      // Descargar la imagen con el fondo blanco
+      const link = document.createElement('a');
+      link.download = 'canvas.png';
+      link.href = this.canvas.nativeElement.toDataURL();
+      link.click();
+    };
   }
+  
+  
 }
