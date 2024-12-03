@@ -1,5 +1,5 @@
 <div class="stage-two-container">
-  <div *ngIf="!isQuizCompleted(); else quizResult">
+  <div *ngIf="!isQuizCompleted(); else scoreModal">
     <h2>Pregunta {{ currentQuestionIndex + 1 }}/{{ questions.length }}</h2>
     <p>{{ questions[currentQuestionIndex].question }}</p>
     <div class="options">
@@ -17,11 +17,13 @@
       {{ isAnswerCorrect ? '¡Correcto!' : 'Incorrecto, la respuesta era: ' + questions[currentQuestionIndex].correctAnswer }}
     </p>
   </div>
-
-  <ng-template #quizResult>
-    <h2>¡Juego completado!</h2>
-    <p>Tu puntaje: {{ score }}/{{ questions.length }}</p>
-    <button (click)="resetQuiz()">Reiniciar</button>
-    <button (click)="unlockAllQuestions()">Continuar</button>
+  <ng-template #scoreModal>
+    <app-games-save-score
+    [selectedGameId] = "selectedGame"
+    [correctAnswers]= "correctAnswers"
+    [wrongAnswers]= "wrongAnswers"
+    (resetQuizEvent)="resetQuiz()" 
+    (unlockAllQuestionsEvent)="unlockAllQuestions()"
+    />
   </ng-template>
 </div>
