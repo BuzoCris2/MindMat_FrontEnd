@@ -1,4 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { BaseService } from './base-service';
 import { IUserAchievement, ISearch } from '../interfaces';
 import { AlertService } from './alert.service';
@@ -7,12 +9,14 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AchievementsService extends BaseService<IUserAchievement> {  // Cambiado a IUserAchievement
-  protected override source: string = 'achievements';
+export class AchievementsService {
+
+  constructor(private http: HttpClient) {}
+  //protected override source: string = 'achievements';
   private achievementListSignal = signal<IUserAchievement[]>([]);  // Cambiado a IUserAchievement[]
   
-  get achievements$() {
-    return this.achievementListSignal;
+  getAchievements(): Observable<any[]> {
+    return this.http.get<any[]>('score/achievements');
   }
 
   public search: ISearch = { 
@@ -26,6 +30,7 @@ export class AchievementsService extends BaseService<IUserAchievement> {  // Cam
   private alertService: AlertService = inject(AlertService);
 
   // Obtener todos los logros
+  /*
   getAll() {
     this.findAllWithParams({ page: this.search.page, size: this.search.size }).subscribe({
       next: (response: any) => {
@@ -114,5 +119,5 @@ export class AchievementsService extends BaseService<IUserAchievement> {  // Cam
         console.error('Error', err);
       }
     });
-  }
+  }*/
 }
