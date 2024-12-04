@@ -5,34 +5,45 @@
     <div class='about-keyboard pag-1' *ngIf="currentTextIndex === 0">
         <h1>¡A saltar notas!</h1>
         <img src="../../../../assets/img/keyboard/KeyboardIcon.png">
-        <p>¡Aventurero! Estamos explorando la <strong>Jungla Musical</strong>, y solo tus habilidades musicales pueden ayudarnos a cruzar el <strong>Puentono</strong>. ¿Estás listo para el desafío?</p>
+        <p>¡Aventurero! Estamos explorando la <strong>Jungla Musical</strong>, y solo tus habilidades musicales pueden
+            ayudarnos a cruzar el <strong>Puentono</strong>. ¿Estás listo para el desafío?</p>
     </div>
     <div class='pag-2 about-keyboard' *ngIf="currentTextIndex === 1">
         <h1>¿Qué es el puentono?</h1>
-        <p>El <strong>Puentono</strong> es un puente mágico formado por tablas coloridas, cada tabla representa una <strong>nota musical</strong> distinta. Cuando pisas una tabla, esta genera el sonido de su nota y comienza a brillar. ¡Es como caminar sobre música!</p>
+        <p>El <strong>Puentono</strong> es un puente mágico formado por tablas coloridas, cada tabla representa una
+            <strong>nota musical</strong> distinta. Cuando pisas una tabla, esta genera el sonido de su nota y comienza
+            a brillar. ¡Es como caminar sobre música!</p>
         <img src="../../../../assets/img/keyboard/KeyboardImg.PNG">
         <h1>¿Cúal es el reto?</h1>
-        <p>Para cruzar el <strong>Puentono</strong>, deberás tocar la <strong>escala musical</strong> que aparece en el <strong>Escaletrero</strong>, un letrero especial que muestra la secuencia de notas que debes seguir y el nombre de la escala a la que pertenece.</p>
+        <p>Para cruzar el <strong>Puentono</strong>, deberás tocar la <strong>escala musical</strong> que aparece en el
+            <strong>Escaletrero</strong>, un letrero especial que muestra la secuencia de notas que debes seguir y el
+            nombre de la escala a la que pertenece.</p>
         <img src="../../../../assets/img/keyboard/Escablero.PNG">
-        <p>Pero no te preocupes en la siguiente pagina se te brindarán todos los conocimientos que necesitarás de <strong>teoría musical</strong> para lograr tu objetivo.</p>
+        <p>Pero no te preocupes en la siguiente pagina se te brindarán todos los conocimientos que necesitarás de
+            <strong>teoría musical</strong> para lograr tu objetivo.</p>
     </div>
     <div class='pag-3 about-keyboard' *ngIf="currentTextIndex === 2">
         <h1>¿Qué es una escala musical?</h1>
-        <p>Una <strong>escala musical</strong> es un patrón de notas que, juntas, transmiten emociones y sensaciones. Las escalas están compuestas por <strong>tonos</strong> y <strong>semitonos</strong>, que puedes pensar como saltos grandes o pequeños en el puente.</p>
+        <p>Una <strong>escala musical</strong> es un patrón de notas que, juntas, transmiten emociones y sensaciones.
+            Las escalas están compuestas por <strong>tonos</strong> y <strong>semitonos</strong>, que puedes pensar como
+            saltos grandes o pequeños en el puente.</p>
         <img src="../../../../assets/img/keyboard/Escalamenor.PNG">
         <div class="tones-section">
             <div class="tone-semitone">
                 <h2>Tonos</h2>
-                <p>Un <strong>Tono</strong>, representado por la letra <strong>T</strong>, es un salto grande que implica saltar dos tablas del <strong>Puentablero</strong>. </p>
+                <p>Un <strong>Tono</strong>, representado por la letra <strong>T</strong>, es un salto grande que
+                    implica saltar dos tablas del <strong>Puentablero</strong>. </p>
                 <img src="../../../../assets/img/keyboard/Tono.PNG">
             </div>
             <div class="tone-semitone">
                 <h2>Semitonos</h2>
-                <p>Un <strong>Semitono</strong>, representado por las letras <strong>st</strong>, es un salto pequeño que solo avanza una tabla. </p>
+                <p>Un <strong>Semitono</strong>, representado por las letras <strong>st</strong>, es un salto pequeño
+                    que solo avanza una tabla. </p>
                 <img src="../../../../assets/img/keyboard/semitono.PNG">
             </div>
         </div>
-        <p>Recuerda, para dar saltos en el <strong>Puentono</strong> solo sigue las indicaciones del <strong>Escablero</strong>, haz click en el tono o semitono de la nota que este te indique.</p>
+        <p>Recuerda, para dar saltos en el <strong>Puentono</strong> solo sigue las indicaciones del
+            <strong>Escablero</strong>, haz click en el tono o semitono de la nota que este te indique.</p>
     </div>
     <div id='scaleDisplay' *ngIf="currentTextIndex === 3">
         <div id='scaleInfo'>
@@ -42,27 +53,15 @@
     </div>
     <div class="col-12 display-key-board" *ngIf="currentTextIndex === 3">
         <ng-container *ngFor="let key of keys">
-            <app-key
-                name= "{{key.name}}"
-                status="{{key.status}}"
-                value= "{{key.value}}"
-                backgroundColor= "{{key.backgroundColor}}"
-                color= "{{key.color}}"
-                customClass="{{key.customClass}}"
-                (click)="currentNote(key.name)"
-            />
+            <app-key name="{{key.name}}" status="{{key.status}}" value="{{key.value}}"
+                backgroundColor="{{key.backgroundColor}}" color="{{key.color}}" customClass="{{key.customClass}}"
+                (click)="currentNote(key.name)" />
         </ng-container>
     </div>
-    <app-games-knoledge-base 
-        [numberOfPages] = 4
-        (textIndexChange)="updateTextIndex($event)"
-    />
+    <app-games-knoledge-base [numberOfPages]=4 (textIndexChange)="updateTextIndex($event)" />
     <ng-template #scoreModal>
-        <app-games-save-score
-        [selectedGameId] = "selectedGame"
-        [correctAnswers]= "correctAnswers"
-        [wrongAnswers]= "wrongAnwsers"
-        />
+        <app-games-save-score [selectedGameId]="selectedGame" [correctAnswers]="correctAnswers"
+            [wrongAnswers]="wrongAnwsers" />
     </ng-template>
 </div>
 }

@@ -2,21 +2,30 @@
 <div class="row p-4">
 </div>
 <div>
-  <div *ngIf="currentTextIndex === 0">
+  <div class="pag-info about-colors" *ngIf="currentTextIndex === 0">
     <h1>Juego de mezcla de pintura</h1>
-    <p>¡Es hora de mezclar colores! En este juego, podrás combinar diferentes colores para crear nuevos tonos. Tienes
-      que usar tus conocimientos y creatividad para ver qué colores puedes hacer al mezclar. Son un total de 12 colores!
-      recuerda leer la descripción de cada color
-      ¿Listo para descubrir nuevos colores?
+    <p>¡Es hora de mezclar colores! En este juego, podrás <strong>combinar</strong> diferentes colores para crear nuevos tonos. Tienes
+      que usar tus conocimientos y creatividad para ver qué colores puedes hacer al mezclar. 
     </p>
+    
+    <img src="../../../../assets/img/ColorGame/blendExample.png">
+    <h1>¿Cúal es el reto?</h1>
+    <p>Tienes que descubrir los diferentes colores del circulo cromatico, divididos en 3 grupos (Primarios, secundarios y terciarios).
+    </p>
+    <img src="../../../../assets/img/ColorGame/AllColors.png">
+    
   </div>
-  <div *ngIf="currentTextIndex === 1">
+  <div class="pag-info about-colors" *ngIf="currentTextIndex === 1">
     <h1>Preguntas sobre la pintura</h1>
     <p>Una vez que hayas aprendido a mezclar colores, es el momento de poner a prueba lo que sabes. Responderás algunas
       preguntas divertidas sobre los colores y cómo se hacen. ¡Muestra todo lo que has aprendido y diviértete!
     </p>
+    <p>
+      Al final podrás obtener una <strong>estampilla</strong>!
+    </p>
+    <img src="../../../../assets/img/achievement-icons/5.png" >
   </div>
-  <div *ngIf="currentTextIndex === 2">
+  <div class="pag-info about-colors" *ngIf="currentTextIndex === 2">
     <h1>Juego de pintar</h1>
     <p>Es tu turno de ser un gran artista. Usa todos los colores que has desbloqueado para pintar tu propio cuadro.
       Tienes un lienzo en blanco y muchos colores para elegir. ¡Hazlo tan bonito como quieras!
@@ -30,7 +39,7 @@
       <p><strong>Código Hex:</strong> {{ colorHex(selectedColor) }}</p>
       <p><strong>Descripción:</strong> {{ selectedColorDescription }}</p>
     </div>
-    
+
     <div class="color-palette">
       <ng-container *ngFor="let color of colors">
         <div *ngIf="color.unlocked" class="color-item" [ngClass]="{ 'selected': color.color === selectedColor }"
@@ -40,7 +49,7 @@
     </div>
 
     <!-- Panel lateral para mostrar la información del color seleccionado -->
-    
+
 
 
     <div class="buckets">
