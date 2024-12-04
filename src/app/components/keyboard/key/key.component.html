@@ -1,6 +1,6 @@
 <button #key
 [disabled]="status === 'blocked'" 
-class="key" 
+class="key {{customClass}}" 
 value="{{value}}" 
 style="background-color: {{backgroundColor}}; color:{{color}}" 
 (click)="playNote(value)">
