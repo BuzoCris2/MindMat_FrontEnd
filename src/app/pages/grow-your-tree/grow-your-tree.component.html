@@ -4,12 +4,31 @@
   </div>
 </app-background>
 
-<!-- Colocamos el modal de operaciones fuera del componente de fondo para que no sea afectado por los efectos del background -->
+<app-timer
+*ngIf="isGameActive"
+[initialTime]="30"
+(timeRemaining)="updateRemainingTime($event)"
+(timerEnded)="endGame()"
+class="timer-position">
+</app-timer>
+
 <app-math-operations 
 *ngIf="isGameActive"
 [mathVisible]="isGameActive"
-(answerCorrect)="handleAnswerCorrect()">
+(answerCorrect)="handleAnswerCorrect()" class="operations-position">
 </app-math-operations>
+
+<app-games-save-score
+  *ngIf="showScoreModal"
+  [selectedGameId]="4"
+  [correctAnswers]="correctAnswers"
+  [wrongAnswers]="wrongAnswers"
+  [startTime]="gameStartTime"
+  (continueClicked)="onContinue()"
+  class="save-score-modal">
+</app-games-save-score>
+
+
 @defer {
     <div class="row p-4">
     </div>
