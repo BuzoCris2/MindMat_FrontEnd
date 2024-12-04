@@ -6,6 +6,7 @@ import { GamesKnoledgeBaseComponent } from '../../../components/game/games-knole
 import { ScoreService } from '../../../services/score.service';
 import { ModalComponent } from '../../../components/modal/modal.component';
 import { ModalService } from '../../../services/modal.service';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-keyboard',
@@ -14,6 +15,7 @@ import { ModalService } from '../../../services/modal.service';
     CommonModule,
     KeyComponent,
     GamesKnoledgeBaseComponent,
+    RouterLink,
     GamesSaveScoreComponent
   ],
   templateUrl: './keyboard.component.html',
@@ -30,26 +32,29 @@ export class KeyboardComponent implements OnInit{
   public scalePlayed = [''];
   public scoreService: ScoreService = inject(ScoreService);
   public modalService: ModalService = inject(ModalService);
+  lastKey: number = 0;
   selectedGame: number = 0;
   correctAnswers: number = 0;
   wrongAnwsers: number = 0;
   public keys = [
-    {name: '1', value: 'C', backgroundColor: 'Red', color: 'white', status: 'toPlay', tone: ''},
-    {name: '2', value: 'Csharp', backgroundColor: 'orangered', color: 'white', status: 'blocked', tone: ''},
-    {name: '3', value: 'D', backgroundColor: 'gold', color: 'black', status: 'blocked', tone: ''},
-    {name: '4', value: 'Dsharp', backgroundColor: 'GreenYellow', color: 'black', status: 'blocked', tone: ''},
-    {name: '5', value: 'E', backgroundColor: 'limegreen', color: 'black', status: 'blocked', tone: ''},
-    {name: '6', value: 'F', backgroundColor: 'MediumSpringGreen', color: 'black', status: 'blocked', tone: ''},
-    {name: '7', value: 'Fsharp', backgroundColor: 'DeepSkyBlue', color: 'black', status: 'blocked', tone: ''},
-    {name: '8', value: 'G', backgroundColor: 'DodgerBlue', color: 'black', status: 'blocked', tone: ''},
-    {name: '9', value: 'Gsharp', backgroundColor: 'MediumSlateBlue', color: 'white', status: 'blocked', tone: ''},
-    {name: '10', value: 'A', backgroundColor: 'RebeccaPurple', color: 'white', status: 'blocked', tone: ''},
-    {name: '11', value: 'Asharp', backgroundColor: 'Purple', color: 'white', status: 'blocked', tone: ''},
-    {name: '12', value: 'B', backgroundColor: 'darkred', color: 'white', status: 'blocked', tone: ''},
-    {name: '13', value: 'C1', backgroundColor: 'brown', color: 'white', status: 'blocked', tone: ''}
+    {name: '1', value: 'C', backgroundColor: 'Red', color: 'white', status: 'toPlay', tone: '', customClass : ''},
+    {name: '2', value: 'Csharp', backgroundColor: 'orangered', color: 'white', status: 'blocked', tone: '', customClass : ''},
+    {name: '3', value: 'D', backgroundColor: 'gold', color: 'black', status: 'blocked', tone: '', customClass : ''},
+    {name: '4', value: 'Dsharp', backgroundColor: 'GreenYellow', color: 'black', status: 'blocked', tone: '', customClass : ''},
+    {name: '5', value: 'E', backgroundColor: 'limegreen', color: 'black', status: 'blocked', tone: '', customClass : ''},
+    {name: '6', value: 'F', backgroundColor: 'MediumSpringGreen', color: 'black', status: 'blocked', tone: '', customClass : ''},
+    {name: '7', value: 'Fsharp', backgroundColor: 'DeepSkyBlue', color: 'black', status: 'blocked', tone: '', customClass : ''},
+    {name: '8', value: 'G', backgroundColor: 'DodgerBlue', color: 'black', status: 'blocked', tone: '', customClass : ''},
+    {name: '9', value: 'Gsharp', backgroundColor: 'MediumSlateBlue', color: 'white', status: 'blocked', tone: '', customClass : ''},
+    {name: '10', value: 'A', backgroundColor: 'RebeccaPurple', color: 'white', status: 'blocked', tone: '', customClass : ''},
+    {name: '11', value: 'Asharp', backgroundColor: 'Purple', color: 'white', status: 'blocked', tone: '', customClass : ''},
+    {name: '12', value: 'B', backgroundColor: 'darkred', color: 'white', status: 'blocked', tone: '', customClass : ''},
+    {name: '13', value: 'C1', backgroundColor: 'brown', color: 'white', status: 'blocked', tone: '', customClass : ''}
   ];
   @ViewChild('scoreModal') public scoreModal: any;
-  constructor(){
+  constructor(
+    private router: Router
+  ){
     this.selectedGame = 1;
   }
   ngOnInit(): void {
@@ -72,10 +77,15 @@ export class KeyboardComponent implements OnInit{
     this.wrongAnwsers = wrong;
     this.selectedGame = 1;
     this.modalService.displayModal('md', this.scoreModal);
+    this.router.navigateByUrl('/app/user-dashboard');
   }
 
   currentNote(key: string){
     let numberKey = Number(key);
+    if(numberKey-1 >= this.lastKey ){
+      this.keys[numberKey-1].customClass = 'played-note';
+      this.lastKey = numberKey-1;
+    }
     if(this.keys[numberKey-1].tone != ''){
       this.scalePlayed.push(this.keys[numberKey-1].tone);
     }
