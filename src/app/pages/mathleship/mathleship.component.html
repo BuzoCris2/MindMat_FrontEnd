@@ -151,7 +151,7 @@
             <div class="right-column">
               <!-- Temporizador -->
               <app-timer
-                [initialTime]="180"
+                [initialTime]="3"
                 (timeRemaining)="updateRemainingTime($event)"
                 (timerEnded)="endGame()"
               ></app-timer>
@@ -222,13 +222,13 @@
       </ng-template>
       
       <app-alert-modal
-                *ngIf="showAlert"
-                [alertType]="alertType"
-                [title]="alertTitle"
-                [message]="alertMessage"
-                [buttonText]="alertButtonText"
-                (closeAlert)="closeAlertModal()">
-            </app-alert-modal>
+        *ngIf="showAlert"
+        [alertType]="alertType"
+        [title]="alertTitle"
+        [message]="alertMessage"
+        [buttonText]="alertButtonText"
+        (closeAlert)="closeAlertModal()">
+      </app-alert-modal>
             <div class="modal-container" *ngIf="mathVisible">
               <div class="modal">
                 <div

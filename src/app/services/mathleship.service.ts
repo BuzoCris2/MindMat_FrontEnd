@@ -21,7 +21,6 @@ export class MathleshipService {
   }
 
   getShips(): Observable<IShip[]> {
-    console.log("Llamada al backend para obtener los barcos");
     return this.http.get<IShip[]>(`${this.baseUrl}/initialize`);
   }
   

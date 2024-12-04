@@ -11,6 +11,7 @@ import { ModalService } from '../../services/modal.service';
 import { ScoreService } from '../../services/score.service';
 import { GamesSaveScoreComponent } from '../../components/game/games-save-score/games-save-score.component';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mathleship',
@@ -69,10 +70,12 @@ export class MathleshipComponent implements OnInit {
   lastSelectedRow: number | null = null;
 
   @ViewChild('scoreModal') public scoreModal: any;
+  @ViewChild(AlertModalComponent) alertModalComponent!: AlertModalComponent;
 
   constructor(
     private mathleshipService: MathleshipService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
 ) {
     this.selectedGame = 3; // Inicialización dentro del constructor
 }
@@ -284,7 +287,7 @@ updateTextIndex(newIndex: number) {
 
   closeAlertModal() {
     this.showAlert = false;
-  }
+  }  
 
   closeMathModal() {
     this.mathVisible = false;
@@ -704,15 +707,19 @@ updateTextIndex(newIndex: number) {
 
 checkGameOver(): void {
   const allShipsDestroyed = Object.values(this.shipsStatus).every(status => status === true);
-  if (allShipsDestroyed) {
+  if (allShipsDestroyed && this.remainingTime > 0) {
     console.log("¡Todos los barcos han sido derribados! El juego ha terminado.");
     this.endGame(); // Llama al método para finalizar el juego y mostrar el modal
   }
 }
 
 endGame(): void {
-  console.log("¡El juego Mathleship ha terminado!");
-  this.saveScore(); // Guardar el puntaje y abrir el modal
+  if (this.remainingTime <= 0) {
+    
+  } else {
+    // Guardar el puntaje y abrir el modal si todos los barcos han sido destruidos
+    this.saveScore();
+  }
 }
 
 
