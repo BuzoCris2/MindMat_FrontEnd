@@ -23,14 +23,6 @@
     </p>
   </div>
   <div class="stage-one-container" *ngIf="currentTextIndex === 3">
-    <div class="color-palette">
-      <ng-container *ngFor="let color of colors">
-        <div *ngIf="color.unlocked" class="color-item" [ngClass]="{ 'selected': color.color === selectedColor }"
-          [ngStyle]="{'background-color': colorHex(color.color)}" (click)="selectColor(color.color)">
-        </div>
-      </ng-container>
-    </div>
-    <!-- Panel lateral para mostrar la información del color seleccionado -->
     <div class="color-info-panel" *ngIf="selectedColor">
       <h3>Información del Color</h3>
       <p><strong>Color:</strong> {{ selectedColor }}</p>
@@ -38,6 +30,17 @@
       <p><strong>Código Hex:</strong> {{ colorHex(selectedColor) }}</p>
       <p><strong>Descripción:</strong> {{ selectedColorDescription }}</p>
     </div>
+    
+    <div class="color-palette">
+      <ng-container *ngFor="let color of colors">
+        <div *ngIf="color.unlocked" class="color-item" [ngClass]="{ 'selected': color.color === selectedColor }"
+          [ngStyle]="{'background-color': colorHex(color.color)}" (click)="selectColor(color.color)">
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Panel lateral para mostrar la información del color seleccionado -->
+    
 
 
     <div class="buckets">

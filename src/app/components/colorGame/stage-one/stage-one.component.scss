@@ -18,10 +18,10 @@
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: absolute; /* No interfiere con los clics en la paleta */
   top: 0;
-  left: 300px; /* Coloca el panel a la derecha de la paleta */
+  left: 300px; /* Coloca el panel a la izquierda de la paleta */
   z-index: 5;
+  margin-right: 20px;
 }
 
 .reset {
