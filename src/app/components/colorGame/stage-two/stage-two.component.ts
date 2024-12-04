@@ -49,7 +49,7 @@ export class StageTwoComponent {
     },
     {
       question: '¿Qué fuente natural se usaba para obtener amarillo?',
-      options: ['Oro en polvo','Cúrcuma', 'Hojas de arce'],
+      options: ['Oro en polvo', 'Hojas de arce','Cúrcuma'],
       correctAnswer: 'Cúrcuma'
     },
     {
