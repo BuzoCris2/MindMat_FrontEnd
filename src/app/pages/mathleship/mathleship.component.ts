@@ -22,6 +22,8 @@ import { Router } from '@angular/router';
 })
 export class MathleshipComponent implements OnInit {
   board: string[][] = [];
+  columns: string[] = []; // Se llenará con datos del backend
+  rows: number[] = [];
 
   public gameStartTime: Date = new Date();
   timerValue: string = '03:00';
@@ -55,6 +57,7 @@ export class MathleshipComponent implements OnInit {
   operator: string = '';
   userAnswer: string = '';
   resultMessage: string = '';
+  maxTimeForFullStars: number = 40;
 
   powerups = [
     { name: 'Row Shot', used: false },
@@ -100,6 +103,8 @@ export class MathleshipComponent implements OnInit {
   }*/
 
 ngOnInit(): void {
+  this.fetchGridData();
+
   this.mathleshipService.initializeBoard().subscribe({
     next: (ships: IShip[]) => {
       console.log('Datos de barcos recibidos desde el backend:', ships);
@@ -110,6 +115,17 @@ ngOnInit(): void {
     },
     error: (err) => {
       console.error('Error al inicializar el tablero:', err);
+    },
+  });
+}
+
+fetchGridData(): void {
+  this.mathleshipService.getGridData().subscribe({
+    next: (data) => {
+      this.columns = data.columns;
+      this.rows = data.rows;
+    },
+    error: (err) => {
     },
   });
 }
@@ -698,8 +714,8 @@ updateTextIndex(newIndex: number) {
   }
 
   saveScore() {
-    const timeTaken = this.calculateElapsedTime(); // Calcula el tiempo transcurrido
-    this.selectedGame = 3; // ID del juego Mathleship
+    const timeTaken = this.calculateElapsedTime();
+    this.selectedGame = 3;
   
     // Muestra el modal con la referencia del template del modal
     this.modalService.displayModal('md', this.scoreModal);
@@ -719,6 +735,7 @@ endGame(): void {
   } else {
     // Guardar el puntaje y abrir el modal si todos los barcos han sido destruidos
     this.saveScore();
+    this.maxTimeForFullStars = 120;
   }
 }
 

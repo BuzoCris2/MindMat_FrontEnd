@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { IShip } from '../interfaces';
 
 @Injectable({
@@ -28,4 +28,12 @@ export class MathleshipService {
   get board$() {
     return this.boardSignal;
   }
+
+  getGridData(): Observable<{ columns: string[]; rows: number[] }> {
+    return of({
+      columns: ['A', 'B', 'C', 'D', 'E', 'F'],
+      rows: [1, 2, 3, 4, 5, 6],
+    });
+  }
+  
 }

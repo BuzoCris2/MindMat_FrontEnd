@@ -66,7 +66,7 @@
             <div class="left-column">
               <div class="mathleship-container">
                 <div class="column-labels">
-                  <div *ngFor="let col of ['A', 'B', 'C', 'D', 'E', 'F']" class="column-label">
+                  <div *ngFor="let col of columns" class="column-label">
                     {{ col }}
                   </div>
                 </div>
@@ -74,7 +74,7 @@
                 <div class="board-with-row-labels">
                   <!-- Indicadores de filas -->
                   <div class="row-labels">
-                    <div *ngFor="let row of [1, 2, 3, 4, 5, 6]" class="row-label">
+                    <div *ngFor="let row of rows" class="row-label">
                       {{ row }}
                     </div>
                   </div>
@@ -218,6 +218,7 @@
         <app-games-save-score
           [selectedGameId]="selectedGame"
           [startTime]="gameStartTime"
+          [maxTimeForFullStars]="40"
         ></app-games-save-score>
       </ng-template>
       
