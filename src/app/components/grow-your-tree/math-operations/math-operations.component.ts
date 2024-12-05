@@ -12,8 +12,8 @@ import { FormsModule } from '@angular/forms';
 export class MathOperationsComponent {
   @Input() mathVisible: boolean = false;
   @Output() closeModal = new EventEmitter<void>();
-  @Output() answerCorrect = new EventEmitter<void>(); // Emitir evento si se completa un ciclo
-
+  @Output() answerCorrect = new EventEmitter<void>(); 
+  @Output() answerWrong = new EventEmitter<void>();
   number1: number = 0;
   number2: number = 0;
   operator: string = '';
@@ -30,7 +30,7 @@ export class MathOperationsComponent {
   correctAnswersCount: number = 0; // Contador de respuestas correctas en el ciclo actual
   progressPercentage: number = 0; // Porcentaje de la barra de progreso
   totalCorrectAnswers: number = 0; // Total de respuestas correctas en el juego
-  currentPhase: string = 'Absorción de luz'; // Fase inicial del ciclo de fotosíntesis
+  currentPhase: string = 'Absorción de luz'; 
 
   phases = ['Captura de luz solar', 'Fabricación de energía', 'Fabricación de comida']; // Fases del ciclo
 
@@ -70,13 +70,14 @@ export class MathOperationsComponent {
 
       // Si se completan tres respuestas correctas, reinicia la barra y emite el evento
       if (this.correctAnswersCount === 3) {
-        this.correctAnswersCount = 0; // Reiniciar el contador
-        this.progressPercentage = 0; // Reiniciar la barra de progreso
+        this.correctAnswersCount = 0; 
+        this.progressPercentage = 0; 
       }
 
       this.generateMathOperation(); // Generar una nueva operación matemática después de la respuesta correcta
     } else {
       this.showFeedbackMessage(false);
+      this.answerWrong.emit();
     }
 
     setTimeout(() => {
@@ -120,7 +121,6 @@ export class MathOperationsComponent {
       this.quickFeedbackType = 'error';
     }
     this.quickFeedbackVisible = true;
-
     setTimeout(() => {
       this.quickFeedbackVisible = false;
     }, 1000);

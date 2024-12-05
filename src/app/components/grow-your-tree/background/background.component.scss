@@ -33,7 +33,7 @@
       filter: brightness(0.7) saturate(0.6); 
     }
 
-    /* Añadir imagen de nubes para los estados "cloudy" y "rainy" */
+
     &.cloudy::before,
     &.rainy::before {
       content: '';
@@ -42,15 +42,15 @@
       left: 0;
       width: 100%;
       height: 30%;
-      background-image: url('../../../../assets/img/tree-game/nube.png'); // Imagen de las nubes
+      background-image: url('../../../../assets/img/tree-game/nube.png'); 
       background-repeat: repeat-x;
       background-position: top;
       background-size: 20%;
       pointer-events: none;
-      z-index: 1; // Asegurarnos de que esté por encima del fondo, pero debajo de cualquier otro contenido
+      z-index: 1; 
     }
 
-    /* Añadir imagen de lluvia para el estado "rainy" */
+    
     &.rainy::after {
       content: '';
       position: absolute;
@@ -58,13 +58,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('../../../../assets/img/tree-game/lluvia.png'); // Imagen de lluvia
-      background-repeat: repeat;
-      opacity: 0.5; // Hacer la lluvia semi-transparente para un efecto visual agradable
-      animation: rain-fall 1.5s linear infinite; // Animación suave de la lluvia
+      background-image: url('../../../../assets/img/tree-game/lluvia.png');   background-repeat: repeat;
+      opacity: 0.5; 
+      animation: rain-fall 1.5s linear infinite; 
       pointer-events: none;
       background-size: 30%;
-      z-index: 2; // Asegurarnos de que la lluvia esté por encima del fondo y las nubes
+      z-index: 2; 
     }
   }
 

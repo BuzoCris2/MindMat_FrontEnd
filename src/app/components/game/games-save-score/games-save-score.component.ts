@@ -114,6 +114,8 @@ export class GamesSaveScoreComponent implements AfterViewInit {
       this.scoreService.save(score).subscribe({
         next: (response) => {
           this.starsEarned = response.stars;
+          this.correctAnswers = response.rightAnswers;
+          this.wrongAnswers = response.wrongAnswers;
           console.log("Estrellas obtenidas:", this.starsEarned);
         },
         error: (err) => {

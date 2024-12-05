@@ -1,14 +1,14 @@
 .timer-position {
     position: fixed;
-    top: 10%; // Ajusta según tu preferencia
-    right: 1%; // Ajusta según tu preferencia
-    z-index: 1000; // Asegúrate de que esté visible por encima del fondo
-    background-color: rgba(255, 255, 255, 0.85); // Fondo blanco con más opacidad para un mejor contraste
-    padding: 15px; // Un padding un poco mayor para darle más espacio
-    border-radius: 12px; // Bordes redondeados para suavizar el diseño
-    border: 2px solid #D3D3D3; // Borde gris claro para que resalte sutilmente
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); // Añadir una sombra para un efecto de elevación
-    width: fit-content; // Ajustar el ancho al contenido
+    top: 10%; 
+    right: 1%; 
+    z-index: 1000; 
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 15px; 
+    border-radius: 12px; 
+    border: 2px solid #D3D3D3; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); 
+    width: fit-content; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,7 +22,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1000; // Asegúrate de que esté por encima del fondo y demás componentes
+    z-index: 1000; 
   }
 
   .save-score-modal {
@@ -30,5 +30,67 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1000; // Asegúrate de que esté por encima del fondo y demás componentes
+    z-index: 1000; 
+  }
+
+  .introPages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-verde-oscuro);
+  }
+  
+  .tree-image {
+    width: 400px;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .growth-image {
+    width: 300px;
+    height: auto;
+    margin-top: 20px;
+  }
+  
+  .pag1 h1, .pag2 h1, .pag3 h1, .pag4 h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    font-family: "Fredoka", sans-serif;
+    margin-bottom: 20px;
+  }
+  
+  .pag1 p, .pag2 p, .pag3 p, .pag4 p {
+    font-size: 1.25rem;
+    max-width: 600px;
+    line-height: 1.6;
+    font-family: "Sarabun", sans-serif;
+  }
+  
+  .pag3Powers img {
+    width: 150px;
+    height: auto;
+  }
+  
+  .pag3Powers h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-family: "Fredoka", sans-serif;
+  }
+  
+  .pag3Powers p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    font-family: "Sarabun", sans-serif;
+    max-width: 300px;
+    line-height: 1.4;
+  }
+
+  .ciclo{
+    width: 400px;
+    height: auto;
+    margin-bottom: 20px;
   }

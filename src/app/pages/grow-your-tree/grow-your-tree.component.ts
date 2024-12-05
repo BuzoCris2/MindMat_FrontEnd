@@ -18,19 +18,18 @@ import { ModalService } from '../../services/modal.service';
 })
 export class GrowYourTreeComponent {
   currentTextIndex: number = 0;
-  isGameActive: boolean = false; // Indica si el juego está activo
-  growthStage: number = 0; // Controla la etapa de crecimiento del árbol
-  backgroundState: 'sunny' | 'cloudy' | 'rainy' = 'sunny'; // Estado del fondo
-  correctAnswersForGrowth: number = 0; // Contador de respuestas correctas para el crecimiento del árbol
-  remainingTime: number = 0; // Tiempo restante del juego
-  correctAnswers: number = 0; // Total de respuestas correctas
-  wrongAnswers: number = 0; // Total de respuestas incorrectas
-  gameStartTime: Date = new Date(); // Tiempo de inicio del juego
-  showScoreModal: boolean = false; // Controla la visibilidad del modal de puntuación
+  isGameActive: boolean = false; 
+  growthStage: number = 0; 
+  backgroundState: 'sunny' | 'cloudy' | 'rainy' = 'sunny'; 
+  correctAnswersForGrowth: number = 0; 
+  remainingTime: number = 0; 
+  correctAnswers: number = 0; 
+  wrongAnswers: number = 0; 
+  gameStartTime: Date = new Date(); 
+  showScoreModal: boolean = false; 
   
   constructor(private modalService: ModalService, private router: Router) {}
 
-  // Método para actualizar el índice recibido desde el hijo
   updateTextIndex(newIndex: number) {
     this.currentTextIndex = newIndex;
 
@@ -40,11 +39,10 @@ export class GrowYourTreeComponent {
   }
 
   startGame() {
-    this.isGameActive = true; // Activar el juego 
+    this.isGameActive = true; 
     this.backgroundState = 'sunny';
-    this.gameStartTime = new Date(); // Registrar el tiempo de inicio del juego
-    this.showScoreModal = false; // Ocultar el modal de puntuación si se había mostrado antes
-  }
+    this.gameStartTime = new Date(); 
+    this.showScoreModal = false;   }
 
   // Incrementa la etapa de crecimiento del árbol y genera una nueva operación matemática
   handleAnswerCorrect() {
@@ -57,7 +55,7 @@ export class GrowYourTreeComponent {
 
     // Cada 3 respuestas correctas, incrementar la etapa de crecimiento del árbol
     if (this.correctAnswersForGrowth >= 3) {
-      this.correctAnswersForGrowth = 0; // Reiniciar el contador
+      this.correctAnswersForGrowth = 0; 
       if (this.growthStage < 8) {
         this.growthStage++;
       }
@@ -65,7 +63,7 @@ export class GrowYourTreeComponent {
   }
 
   handleAnswerWrong() {
-    this.wrongAnswers++; // Incrementar el total de respuestas incorrectas
+    this.wrongAnswers++; 
   }
 
   updateBackgroundState() {
@@ -82,20 +80,19 @@ export class GrowYourTreeComponent {
     }
   }
 
-  // Método para actualizar el tiempo restante
+
   updateRemainingTime(time: number): void {
     this.remainingTime = time;
   }
 
-  // Método para terminar el juego
+  
   endGame() {
     console.log('¡El tiempo se ha agotado! El juego ha terminado.');
     this.saveScore(); // Guardar el puntaje y abrir el modal
   }
 
   saveScore() {
-    const elapsedTime = this.calculateElapsedTime(); // Calcula el tiempo transcurrido
-    // Mostrar el modal de guardar puntuación
+    const elapsedTime = this.calculateElapsedTime(); 
     this.showScoreModal = true;
   }
 
@@ -108,4 +105,6 @@ export class GrowYourTreeComponent {
     this.isGameActive = false;
     this.router.navigateByUrl('/app/user-dashboard');
   }
+
+  
 }
