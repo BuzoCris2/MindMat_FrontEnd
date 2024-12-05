@@ -8,7 +8,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
+
 export class TeamService extends BaseService<ITeam>{
+  
 
   protected override source: string = 'teams';
   private teamListSignal = signal<ITeam[]>([]);
@@ -28,14 +31,12 @@ export class TeamService extends BaseService<ITeam>{
       next: (response: any) => {
         console.log('Respuesta del servidor:', response);
   
-        // Ajustar asignación según el formato
+        // Ahora el backend devuelve un array directo, no un objeto con `data`.
         if (Array.isArray(response)) {
-          this.teamListSignal.set(response); // Si la respuesta es un arreglo directo
-        } else if (response.data) {
-          this.teamListSignal.set(response.data); // Si la respuesta tiene una propiedad `data`
+          this.teamListSignal.set(response); // Directamente asignamos la lista al signal.
         } else {
           console.warn('Formato inesperado de respuesta:', response);
-          this.teamListSignal.set([]);
+          this.teamListSignal.set([]); // Si el formato no es válido, asegúrate de limpiar la lista.
         }
   
         console.log('Datos actualizados en teamListSignal:', this.teamListSignal());
@@ -44,7 +45,7 @@ export class TeamService extends BaseService<ITeam>{
         console.error('Error al obtener los datos:', err);
       },
     });
-  }
+  }  
   
   getAllByUser() {
     this.findAllWithParamsAndCustomSource(

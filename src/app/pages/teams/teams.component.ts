@@ -69,7 +69,14 @@ export class TeamsComponent {
   
   constructor() {
     this.teamService.search.page = 1;
+    const isAdmin = this.authService.getUser()?.role?.name === 'ADMIN' || this.authService.getUser()?.role?.name === 'SUPER_ADMIN';
+
+  // Llama al método correspondiente según el rol.
+  if (isAdmin) {
+    this.teamService.getAll();
+  } else {
     this.teamService.getAllByUser();
+  }
   }
 
   teams = computed(() => this.teamService.teams$());
