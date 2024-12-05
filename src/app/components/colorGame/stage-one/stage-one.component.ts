@@ -1,16 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { GamesKnoledgeBaseComponent } from '../../game/games-knoledge-base/games-knoledge-base.component';
 
 @Component({
   selector: 'app-stage-one',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,GamesKnoledgeBaseComponent],
   templateUrl: './stage-one.component.html',
   styleUrls: ['./stage-one.component.scss']
 })
 export class StageOneComponent {
   @Output() complete = new EventEmitter<void>();
+
+  currentTextIndex: number = 0;
+  updateTextIndex(newIndex: number) {
+    this.currentTextIndex = newIndex;
+  }
 
   // Colores definidos
   colors = [
@@ -48,39 +54,44 @@ export class StageOneComponent {
       const selectedBucket = this.emptyBuckets[this.selectedBucketIndex];
   
       if (selectedBucket.color === 'white') {
-        selectedBucket.color = color;
-        selectedBucket.image = this.getBucketImage(color); // Actualiza la imagen del cubo
+        selectedBucket.color = color; // Asignar color por nombre
+        selectedBucket.image = this.getBucketImage(color); // Obtener imagen por nombre
       } else {
-        const { name, hex } = this.blendColors(selectedBucket.color, color);
-        selectedBucket.color = hex;
-        selectedBucket.image = this.getBucketImage(name); // Actualiza la imagen tras mezclar
-        this.unlockColors(name);
+        const { name, hex } = this.blendColors(selectedBucket.color, color); // Usar nombre para la mezcla
+        selectedBucket.color = name; // Guardar nombre del color
+        selectedBucket.image = this.getBucketImage(name); // Asignar imagen según el nombre
+        this.unlockColors(name); // Desbloquear color por nombre
       }
     }
-  }
+  }  
   
-  // Función para obtener la imagen según el nombre del color
-  getBucketImage(color: string): string {
-    const bucketImages: { [key: string]: string } = {
-      'red': 'assets/img/paint-buckets/redPaint.png',
-      'blue': 'assets/img/paint-buckets/bluePaint.png',
-      'yellow': 'assets/img/paint-buckets/yellowPaint.png',
-      'orange': 'assets/img/paint-buckets/orangePaint.png',
-      'green': 'assets/img/paint-buckets/greenPaint.png',
-      'purple': 'assets/img/paint-buckets/purplePaint.png',
-      'red-orange': 'assets/img/paint-buckets/red-orangePaint.png',
-      'amber': 'assets/img/paint-buckets/amberPaint.png',
-      'yellow-green': 'assets/img/paint-buckets/yellow-greenPaint.png',
-      'blue-green': 'assets/img/paint-buckets/blue-greenPaint.png',
-      'blue-purple': 'assets/img/paint-buckets/blue-purplePaint.png',
-      'red-purple': 'assets/img/paint-buckets/red-purplePaint.png',
-      'brown': 'assets/img/paint-buckets/brownPaint.png', // Imagen predeterminada
-    };
-    return bucketImages[color] || 'assets/img/paint-buckets/whitePaint.png'; // Imagen predeterminada si no se encuentra el color
-  }
-
-  // Función para mezclar los colores
   blendColors(color1: string, color2: string): { name: string; hex: string } {
+    // Combinaciones de colores basadas en los nombres
+    const colorCombinations: { [key: string]: string } = {
+      'redblue': 'purple',
+      'redyellow': 'orange',
+      'blueyellow': 'green',
+      'bluered': 'purple',
+      'yellowred': 'orange',
+      'yellowblue': 'green',
+  
+      'redorange': 'red-orange',
+      'orangered': 'red-orange',
+      'yelloworange': 'amber',
+      'orangeyellow': 'amber',
+      'yellowgreen': 'yellow-green',
+      'greenyellow': 'yellow-green',
+      'bluegreen': 'blue-green',
+      'greenblue': 'blue-green',
+      'bluepurple': 'blue-purple',
+      'purpleblue': 'blue-purple',
+      'redpurple': 'red-purple',
+      'purplered': 'red-purple',
+    };
+  
+    // Asegurarse de que los colores estén en minúsculas para la comparación
+    const combination = `${color1}${color2}`.toLowerCase(); 
+    const mixedColorName = colorCombinations[combination] || 'brown'; // Usar un color predeterminado
     const colorsHexMap: { [key: string]: string } = {
       'red': '#FF0000',
       'blue': '#0000FF',
@@ -96,34 +107,11 @@ export class StageOneComponent {
       'red-purple': '#C00040',
       'brown': '#8B4513'
     };
-
-    const colorCombinations: { [key: string]: string } = {
-      'redblue': 'purple',
-      'redyellow': 'orange',
-      'blueyellow': 'green',
-      'bluered': 'purple',
-      'yellowred': 'orange',
-      'yellowblue': 'green',
-
-      'redorange': 'red-orange',
-      'orangered': 'red-orange',
-      'yelloworange': 'amber',
-      'orangeyellow': 'amber',
-      'yellowgreen': 'yellow-green',
-      'greenyellow': 'yellow-green',
-      'bluegreen': 'blue-green',
-      'greenblue': 'blue-green',
-      'bluepurple': 'blue-purple',
-      'purpleblue': 'blue-purple',
-      'redpurple': 'red-purple',
-      'purplered': 'red-purple',
-    };
-
-    const combination = `${color1}${color2}`.toLowerCase();
-    const colorName = colorCombinations[combination] || 'brown';
-    const colorHex = colorsHexMap[colorName] || '#8B4513';
-
-    return { name: colorName, hex: colorHex };
+  
+    // Obtener el color hexadecimal
+    const colorHex = colorsHexMap[mixedColorName];
+  
+    return { name: mixedColorName, hex: colorHex };
   }
 
   unlockColors(color: string) {
@@ -166,6 +154,26 @@ export class StageOneComponent {
     if (this.selectedColor) {
       this.mixColors(this.selectedColor);
     }
+  }
+  
+  // Función para obtener la imagen según el nombre del color
+  getBucketImage(color: string): string {
+    const bucketImages: { [key: string]: string } = {
+      'red': 'assets/img/paint-buckets/redPaint.png',
+      'blue': 'assets/img/paint-buckets/bluePaint.png',
+      'yellow': 'assets/img/paint-buckets/yellowPaint.png',
+      'orange': 'assets/img/paint-buckets/orangePaint.png',
+      'green': 'assets/img/paint-buckets/greenPaint.png',
+      'purple': 'assets/img/paint-buckets/purplePaint.png',
+      'red-orange': 'assets/img/paint-buckets/red-orangePaint.png',
+      'amber': 'assets/img/paint-buckets/amberPaint.png',
+      'yellow-green': 'assets/img/paint-buckets/yellow-greenPaint.png',
+      'blue-green': 'assets/img/paint-buckets/blue-greenPaint.png',
+      'blue-purple': 'assets/img/paint-buckets/blue-purplePaint.png',
+      'red-purple': 'assets/img/paint-buckets/red-purplePaint.png',
+      'brown': 'assets/img/paint-buckets/brownPaint.png', // Imagen predeterminada
+    };
+    return bucketImages[color] || 'assets/img/paint-buckets/whitePaint.png'; // Imagen predeterminada si no se encuentra el color
   }
 
   resetGame() {

@@ -11,6 +11,7 @@ import { ModalService } from '../../services/modal.service';
 import { ScoreService } from '../../services/score.service';
 import { GamesSaveScoreComponent } from '../../components/game/games-save-score/games-save-score.component';
 import { ModalComponent } from '../../components/modal/modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mathleship',
@@ -21,6 +22,8 @@ import { ModalComponent } from '../../components/modal/modal.component';
 })
 export class MathleshipComponent implements OnInit {
   board: string[][] = [];
+  columns: string[] = []; // Se llenará con datos del backend
+  rows: number[] = [];
 
   public gameStartTime: Date = new Date();
   timerValue: string = '03:00';
@@ -54,6 +57,7 @@ export class MathleshipComponent implements OnInit {
   operator: string = '';
   userAnswer: string = '';
   resultMessage: string = '';
+  maxTimeForFullStars: number = 40;
 
   powerups = [
     { name: 'Row Shot', used: false },
@@ -69,10 +73,12 @@ export class MathleshipComponent implements OnInit {
   lastSelectedRow: number | null = null;
 
   @ViewChild('scoreModal') public scoreModal: any;
+  @ViewChild(AlertModalComponent) alertModalComponent!: AlertModalComponent;
 
   constructor(
     private mathleshipService: MathleshipService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
 ) {
     this.selectedGame = 3; // Inicialización dentro del constructor
 }
@@ -97,6 +103,8 @@ export class MathleshipComponent implements OnInit {
   }*/
 
 ngOnInit(): void {
+  this.fetchGridData();
+
   this.mathleshipService.initializeBoard().subscribe({
     next: (ships: IShip[]) => {
       console.log('Datos de barcos recibidos desde el backend:', ships);
@@ -107,6 +115,17 @@ ngOnInit(): void {
     },
     error: (err) => {
       console.error('Error al inicializar el tablero:', err);
+    },
+  });
+}
+
+fetchGridData(): void {
+  this.mathleshipService.getGridData().subscribe({
+    next: (data) => {
+      this.columns = data.columns;
+      this.rows = data.rows;
+    },
+    error: (err) => {
     },
   });
 }
@@ -284,7 +303,7 @@ updateTextIndex(newIndex: number) {
 
   closeAlertModal() {
     this.showAlert = false;
-  }
+  }  
 
   closeMathModal() {
     this.mathVisible = false;
@@ -695,8 +714,8 @@ updateTextIndex(newIndex: number) {
   }
 
   saveScore() {
-    const timeTaken = this.calculateElapsedTime(); // Calcula el tiempo transcurrido
-    this.selectedGame = 3; // ID del juego Mathleship
+    const timeTaken = this.calculateElapsedTime();
+    this.selectedGame = 3;
   
     // Muestra el modal con la referencia del template del modal
     this.modalService.displayModal('md', this.scoreModal);
@@ -704,15 +723,20 @@ updateTextIndex(newIndex: number) {
 
 checkGameOver(): void {
   const allShipsDestroyed = Object.values(this.shipsStatus).every(status => status === true);
-  if (allShipsDestroyed) {
+  if (allShipsDestroyed && this.remainingTime > 0) {
     console.log("¡Todos los barcos han sido derribados! El juego ha terminado.");
     this.endGame(); // Llama al método para finalizar el juego y mostrar el modal
   }
 }
 
 endGame(): void {
-  console.log("¡El juego Mathleship ha terminado!");
-  this.saveScore(); // Guardar el puntaje y abrir el modal
+  if (this.remainingTime <= 0) {
+    
+  } else {
+    // Guardar el puntaje y abrir el modal si todos los barcos han sido destruidos
+    this.saveScore();
+    this.maxTimeForFullStars = 120;
+  }
 }
 
 
