@@ -15,17 +15,10 @@ export class KeyComponent {
   @Input() backgroundColor: string = '';
   @Input() color: string = '';
   @Input() tone: string = '';
+  @Input() customClass: string = '';
   
   playNote(note: string){
     let sound = new Audio("../assets/audio/keyboard/"+note+".mp3");
     sound.play();
   }
-
-  /*
-  ngOnInit(): void {
-    
-    if (this.status == 'blocked'){
-      this.key.nativeElement.disabled = true;
-    }
-}*/
 }
