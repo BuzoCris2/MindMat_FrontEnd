@@ -12,6 +12,7 @@ import { ModalComponent } from "../../components/modal/modal.component";
 import { AvatarSelectorComponent } from '../../components/user/avatar-selector/avatar-selector.component';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
 import { CommonModule } from '@angular/common';
+import { computed } from '@angular/core';
 
 @Component({
   selector: 'app-teams',
@@ -70,9 +71,12 @@ export class TeamsComponent {
     this.teamService.search.page = 1;
     this.teamService.getAllByUser();
   }
+
+  teams = computed(() => this.teamService.teams$());
   
   saveTeam(team: ITeam) {
     this.teamService.save(team);
+
     this.modalService.closeAll();
   }
 

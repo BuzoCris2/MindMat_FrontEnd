@@ -47,29 +47,24 @@ export class TeamService extends BaseService<ITeam>{
   }
   
   getAllByUser() {
-    this.findAllWithParamsAndCustomSource(`byTeacher/${this.authService.getUser()?.id}`, { page: this.search.page, size: this.search.size }).subscribe({
+    this.findAllWithParamsAndCustomSource(
+      `byTeacher/${this.authService.getUser()?.id}`,
+      { page: this.search.page, size: this.search.size }
+    ).subscribe({
       next: (response: any) => {
-        console.log('Respuesta del servidor:', response);
-        
-        // Ajustar asignación según el formato
+        // Verifica la respuesta y ajusta según el formato del backend
         if (Array.isArray(response)) {
-          this.teamListSignal.set(response); // Si la respuesta es un arreglo directo
+          this.teamListSignal.set(response); // Si la respuesta es un array
         } else if (response.data) {
-          this.teamListSignal.set(response.data); // Si la respuesta tiene una propiedad `data`
-        } else {
-          console.warn('Formato inesperado de respuesta:', response);
-          this.teamListSignal.set([]); // Si la respuesta no es válida, se asegura de que el signal no quede con undefined
+          this.teamListSignal.set(response.data); // Si viene dentro de "data"
         }
-        
-        console.log('Datos actualizados en teamListSignal:', this.teamListSignal());
       },
       error: (err: any) => {
-        console.error('Error al obtener los datos:', err);
-        this.teamListSignal.set([]); // Asegurarse de que no quede undefined si hay error
-      }
+        console.error('Error al obtener los equipos:', err);
+      },
     });
   }
-
+  
   getCountByTeacher() {
     this.findAllWithParamsAndCustomSource(`countByTeacher/${this.authService.getUser()?.id}`, { page: this.search.page, size: this.search.size }).subscribe({
       next: (response: any) => {
@@ -99,6 +94,7 @@ export class TeamService extends BaseService<ITeam>{
       next: (response: any) => {
         this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
         this.getAllByUser();
+        console.log (response)
       },
       error: (err: any) => {
         this.alertService.displayAlert('error', 'An error occurred adding the user','center', 'top', ['error-snackbar']);

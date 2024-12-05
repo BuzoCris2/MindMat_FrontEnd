@@ -1,91 +1,121 @@
+/* Contenedor principal */
 .programming-game-container {
   display: flex;
-  flex-direction: column; /* Organización en columnas */
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between; /* Incluye espacio para la barra inferior */
   height: 100vh;
-  background-color: var(--color-claro); /* Fondo claro */
   text-align: center;
+  background-color: var(--color-claro);
 }
 
-.story-panel {
+/* Diseño de las páginas introductorias */
+.introPages {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 20px; /* Espaciado entre los elementos */
+  height: 100%;
+  padding: 20px;
+  color: var(--color-oscuro);
 }
 
-.story-panel img.intro-image {
-  max-width: 200px; /* Tamaño ajustado del mono */
-  height: auto;
+.intro-title {
+  font-size: 3rem;
+  font-weight: bold;
   margin-bottom: 20px;
+  font-family: "Fredoka", sans-serif;
+  color: var(--color-oscuro);
 }
 
-.story-panel h1 {
-  font-size: 2rem; /* Tamaño más grande para el título */
-  color: var(--color-oscuro); /* Usar el color oscuro para el título */
-  margin: 0;
+.intro-image {
+  width: 400px;
+  height: auto;
+  margin: 20px 0;
 }
 
-.story-panel p {
-  font-size: 1.2rem; /* Texto más grande para la descripción */
-  color: var(--body-font-color); /* Color más visible para el texto */
-  margin: 0;
+.intro-description {
+  font-size: 1.5rem;
+  max-width: 700px;
+  line-height: 1.8;
+  color: #4a5568;
+  font-family: "Sarabun", sans-serif;
+  margin: 0 auto;
 }
 
-.start-button {
-  margin-top: 20px; /* Espaciado superior para separar el botón */
-  background-color: var(--color-azul); /* Fondo azul del botón */
-  color: var(--color-claro); /* Texto blanco claro */
-  border: none;
-  border-radius: 8px; /* Bordes redondeados */
-  padding: 10px 20px; /* Espaciado interno */
-  font-size: 1rem; /* Tamaño del texto del botón */
-  font-weight: bold; /* Texto en negrita */
-  cursor: pointer; /* Cambia el cursor al pasar por encima */
-  transition: all 0.3s ease; /* Transición suave para los efectos */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra del botón */
-}
-
-.start-button:hover {
-  background-color: var(--color-celeste); /* Color celeste al pasar el mouse */
-  color: var(--color-oscuro); /* Texto oscuro al pasar el mouse */
-  transform: scale(1.1); /* Agrandamiento del botón */
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Sombra más prominente */
-}
-
-.start-button:active {
-  transform: scale(0.95); /* Efecto al presionar el botón */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra reducida */
-}
-
-.game-container {
-  display: flex;
-  flex-direction: row; /* Alinea el tablero y la barra de comandos horizontalmente */
-  justify-content: center; /* Centra los elementos horizontalmente */
-  align-items: flex-start; /* Alinea la parte superior del tablero y los comandos */
-  gap: 60px; /* Espacio entre el tablero y los comandos */
-  width: 100%; /* Usa todo el ancho disponible */
-  max-width: 1200px; /* Define un ancho máximo */
-  margin: 0 auto; /* Centra el contenedor horizontalmente */
-}
-
+/* Tablero de juego */
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, 100px); /* Define una cuadrícula de 5x5 */
-  gap: 15px; /* Espaciado entre las celdas */
+  grid-template-columns: repeat(5, 100px); 
+  gap: 10px;
 }
+
 
 .cell {
   width: 100px;
   height: 100px;
   background-color: var(--color-gris);
   border: 2px solid var(--color-grisOscuro);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  border-radius: 8px;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative; 
+  overflow: hidden; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.cell img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; 
+}
+
+
+
+.cell.rover {
+  background-color: var(--color-verde);
+}
+
+.cell.flag {
+  background-color: var(--color-amarillo);
+}
+
+.cell.obstacle {
+  background-color: var(--color-rojo);
+}
+
+.commands {
+  display: flex; 
+  flex-direction: column;
+  gap: 10px;
+}
+
+.block {
+  background-color: var(--color-azul);
+  padding: 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  cursor: grab;
+  transition: transform 0.3s ease;
+}
+
+.block:hover {
+  transform: scale(1.1);
+}
+
+.dropzone {
+  margin-top: 20px;
+  padding: 10px;
+  border: 2px dashed var(--color-deshabilitado);
+  height: 150px;
+  width: 120px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .explosion-animation {
@@ -97,101 +127,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
-  pointer-events: none;
+  z-index: 2; 
 }
 
 .explosion-animation img {
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain;
+  object-fit: contain; 
 }
 
-.cell img {
-  max-width: 80%;
-  max-height: 80%;
-}
-
-.cell.rover {
-  background-color: var(--color-verde);
-  border: 3px solid var(--color-oscuro);
-  animation: pulse 1s infinite alternate;
-}
-
-.cell.flag {
-  background-color: var(--color-amarillo);
-  border: 3px solid var(--color-oscuro);
-}
-
-.cell.obstacle {
-  background-color: var(--color-rojo);
-  border: 3px solid var(--color-oscuro);
-}
-
-.command-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Alinea los comandos al inicio verticalmente */
-  width: 200px; /* Define un ancho fijo para la barra de comandos */
-  text-align: center;
-}
-
-.character-image {
-  max-width: 100px; /* Ajusta el tamaño del mono decorativo */
-  margin-bottom: 20px;
-}
-
-.commands-section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.block {
-  background-color: var(--color-azul);
-  padding: 15px;
-  border-radius: 8px;
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  cursor: grab;
-  transition: all 0.3s ease;
-}
-
-.block:hover {
-  transform: scale(1.05);
-}
-
-.dropzone {
-  margin-top: 20px;
-  padding: 10px;
-  border: 2px dashed var(--color-deshabilitado);
-  height: 150px;
-  width: 120px;
-  border-radius: 8px;
-  text-align: center;
-  background-color: var(--color-claro);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
-}
-
-.dropzone .command {
-  padding: 8px 12px;
-  background-color: var(--color-grisOscuro);
-  color: var(--color-claro);
-  border-radius: 4px;
-  width: 80%;
-  text-align: center;
-  font-size: 0.9rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .lives-container {
   display: flex;
@@ -201,34 +145,166 @@
 }
 
 .life {
-  width: 60px;
-  height: 40px;
+  width: 50px;
+  height: auto;
 }
 
-.life-message {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--color-rojo);
+/* Barra inferior */
+.footer-nav {
+  position: fixed; /* Fija la barra en la parte inferior */
+  bottom: 0; /* Colócala en la parte inferior */
+  left: 0; /* Asegúrate de que esté alineada a la izquierda */
+  width: 100%; /* Ocupa todo el ancho de la pantalla */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  border-top: 2px solid #e5e5e5;
+  z-index: 1000; /* Asegúrate de que quede encima de otros elementos */
+}
+
+.footer-button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-family: "Fredoka", sans-serif;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.footer-button.prev {
+  background-color: #c4c4c4;
   color: white;
-  padding: 15px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-  animation: fadeOut 3s forwards;
 }
 
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-  }
-  80% {
-    opacity: 1;
-  }
+.footer-button.next {
+  background-color: var(--color-azul);
+  color: white;
+}
+
+.footer-button:hover {
+  transform: scale(1.1);
+}
+
+.footer-page {
+  font-size: 1.5rem;
+  font-family: "Fredoka", sans-serif;
+  margin: 0 20px;
+  color: var(--color-oscuro);
+}
+
+.navigation-button {
+  background-color: var(--color-azul);
+  color: var(--color-claro);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navigation-button:hover {
+  background-color: var(--color-celeste);
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navigation-button:active {
+  transform: scale(0.95);
+}
+
+.confirmation-page img {
+  width: 300px; /* Reduce el tamaño de la imagen */
+  height: auto;
+  margin-bottom: 20px; /* Separa la imagen del texto */
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 20px; /* Separa los botones */
+  justify-content: center; /* Centra los botones */
+}
+
+.confirmation-page p {
+  font-size: 1.5rem;
+  max-width: 700px;
+  line-height: 1.8;
+  color: #4a5568;
+  margin-bottom: 20px;
+}
+
+.confirmation-page img {
+  width: 400px;
+  height: auto;
+  margin: 20px 0; /* Similar al diseño de intro-image */
+  border-radius: 10px; /* Opcional: redondea las esquinas */
+}
+
+/* Animación de elementos */
+.meta-animation {
+  width: 200px;
+  height: auto;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%,
   100% {
-    opacity: 0;
-    display: none;
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .intro-title {
+    font-size: 2rem;
+  }
+
+  .intro-description {
+    font-size: 1.2rem;
+    max-width: 90%;
+  }
+
+  .intro-image {
+    width: 250px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(5, 70px);
+    gap: 8px;
+  }
+
+  .cell {
+    width: 70px;
+    height: 70px;
+  }
+
+  .footer-button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .footer-page {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr); /* Menos columnas en pantallas pequeñas */
+  }
+  .cell {
+    width: 60px;
+    height: 60px;
+  }
+}
+
