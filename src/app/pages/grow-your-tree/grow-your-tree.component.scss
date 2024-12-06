@@ -16,6 +16,7 @@
 
   .operation-position{
     position: fixed;
+    z-index: 950; 
   }
   .save-score-modal {
     position: fixed;
@@ -40,6 +41,8 @@
     justify-content: center;
     text-align: center;
     color: var(--color-verde-oscuro);
+    padding-top: 40px; /* Añadido para desplazar el contenido hacia abajo */
+    padding-bottom: 40px; /* Añadido para crear más espacio abajo */
   }
   
   .tree-image {
