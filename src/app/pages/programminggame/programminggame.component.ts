@@ -63,12 +63,13 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
   } 
 
 
-  // Variables relacionadas con la puntuación y el estado del juego
+  
   public gameStartTime: Date = new Date();
   public starsEarned: number = 0;
   remainingTime: number = 0;
+  
 
-  // Servicios inyectados
+  
   public modalService: ModalService = inject(ModalService);
   public programmingGameService: ProgrammingGameService = inject(ProgrammingGameService);
   public scoreService: ScoreService = inject(ScoreService);
@@ -81,14 +82,17 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
       console.error('Posiciones conflictivas en el tablero');
     }
   }
-
-
-  // Función para actualizar el índice de pantallas introductorias
-  updateTextIndex(newIndex: number): void {
+  
+  updateTextIndex(newIndex: number) {
     this.currentTextIndex = newIndex;
+
+    if (newIndex === 3) { 
+      this.startGame();
+    }
   }
 
-  // Navegación entre pantallas introductorias (Barra inferior)
+
+  
   navigateToPrevious(): void {
     if (this.currentTextIndex > 0) {
       this.currentTextIndex--;
@@ -101,7 +105,7 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // Métodos relacionados con el juego
+  
   drag(event: DragEvent, command: string): void {
     event.dataTransfer?.setData('command', command);
   }
@@ -216,38 +220,13 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
     const now = new Date();
     return Math.floor((now.getTime() - this.gameStartTime.getTime()) / 1000);
   }
-  
+ 
 
   saveScore(): void {
-    const timeTaken = this.calculateElapsedTime(); 
-    const formattedTime = new Date(timeTaken * 1000).toISOString().substr(11, 8); // Formato HH:mm:ss
-    
-    const scoreData: IScore = {
-      game: {
-        id: this.selectedGameId, 
-        name: "Programming Game",
-        description: "Usa comandos para que Rover alcance la meta",
-      },
-      rightAnswers: 0, 
-      wrongAnswers: 0, 
-      stars: this.starsEarned, 
-      timeTaken: formattedTime, 
-      obtainedAt: new Date().toISOString(), 
-    };
-  
-    this.scoreService.save(scoreData).subscribe({
-      next: (response) => {
-        console.log('Puntaje guardado exitosamente:', response);
-        this.showCongratulationsPopup = true; // Mostrar modal de felicitaciones
-      },
-      error: (err) => {
-        console.error('Error guardando el puntaje:', err);
-      },
-    });
+    this.selectedGameId=2;
+    this.modalService.displayModal('lg', this.scoreModal);
   }
-  
    
-
   updateStarsBasedOnTime(): void {
     const elapsedTime = this.calculateElapsedTime();
   
@@ -263,13 +242,11 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
       this.starsEarned = 0;
     }
   }
-
   restartGame(): void {
     this.resetGame(); 
     this.showCongratulationsPopup = false; 
     this.timerComponent.startTimer(); 
   }
-
   resetGame(): void {
     this.currentTextIndex = 0;
     this.roverPosition = 0;
@@ -282,9 +259,8 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
     this.starsEarned = 0;    
     this.validatePositions();
   }
-  
 
-  validatePositions(): void {
+    validatePositions(): void {
     if (this.roverPosition === this.flagPosition || this.obstacles.includes(this.roverPosition)) {
       console.error('Posiciones conflictivas en el tablero');
     }
@@ -300,20 +276,18 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
     
   onTimerEnded(): void {
     console.log('¡El tiempo se ha agotado!');
-    this.updateStarsBasedOnTime(); // Actualiza las estrellas basadas en el tiempo restante
-    this.saveScore(); // Guarda el puntaje y muestra el modal
+    this.updateStarsBasedOnTime(); 
+    this.saveScore(); 
   }
 
   onContinue(): void {
     this.modalService.closeAll(); 
     this.resetGame(); 
   }
-
   
   triggerGameOverPopup(): void {
     this.showGameOverPopup = true;
-  }
-  
+  }  
   
 
   closeLifeMessagePopup(): void {
