@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router'; 
 import { GamesKnoledgeBaseComponent } from '../../components/game/games-knoledge-base/games-knoledge-base.component';
@@ -8,11 +8,20 @@ import { MathOperationsComponent } from '../../components/grow-your-tree/math-op
 import { TimerComponent } from '../../components/timer/timer.component';
 import { GamesSaveScoreComponent } from '../../components/game/games-save-score/games-save-score.component';
 import { ModalService } from '../../services/modal.service';
+import { ScoreService } from '../../services/score.service';
 
 @Component({
   selector: 'app-grow-your-tree',
   standalone: true,
-  imports: [CommonModule, GamesKnoledgeBaseComponent, BackgroundComponent, GrowingTreeComponent, MathOperationsComponent, TimerComponent, GamesSaveScoreComponent],
+  imports: [
+    CommonModule,
+    GamesKnoledgeBaseComponent,
+    BackgroundComponent,
+    GrowingTreeComponent,
+    MathOperationsComponent,
+    TimerComponent,
+    GamesSaveScoreComponent,
+  ],
   templateUrl: './grow-your-tree.component.html',
   styleUrls: ['./grow-your-tree.component.scss']
 })
@@ -21,49 +30,46 @@ export class GrowYourTreeComponent {
   isGameActive: boolean = false; 
   growthStage: number = 0; 
   backgroundState: 'sunny' | 'cloudy' | 'rainy' = 'sunny'; 
-  correctAnswersForGrowth: number = 0; 
-  remainingTime: number = 0; 
   correctAnswers: number = 0; 
   wrongAnswers: number = 0; 
   gameStartTime: Date = new Date(); 
-  showScoreModal: boolean = false; 
-  
-  constructor(private modalService: ModalService, private router: Router) {}
+  selectedGame: number = 4;
+  remainingTime: number = 0; 
+
+  public scoreService: ScoreService = inject(ScoreService);
+  public modalService: ModalService = inject(ModalService);
+
+  @ViewChild('scoreModal') public scoreModal: any;
+
+  constructor(private router: Router) {
+    this.selectedGame = 4;
+  }
 
   updateTextIndex(newIndex: number) {
     this.currentTextIndex = newIndex;
 
-    if (newIndex === 3) { // Última página
+    if (newIndex === 3) { 
       this.startGame();
     }
   }
 
   startGame() {
-    this.isGameActive = true; 
+    this.isGameActive = true;
     this.backgroundState = 'sunny';
     this.gameStartTime = new Date(); 
-    this.showScoreModal = false;   }
+  }
 
-  // Incrementa la etapa de crecimiento del árbol y genera una nueva operación matemática
   handleAnswerCorrect() {
-    // Actualizar el estado del fondo en cada respuesta correcta
+    this.correctAnswers++;
     this.updateBackgroundState();
 
-    // Incrementar el contador de respuestas correctas para el crecimiento del árbol
-    this.correctAnswersForGrowth++;
-    this.correctAnswers++; // Incrementar el total de respuestas correctas
-
-    // Cada 3 respuestas correctas, incrementar la etapa de crecimiento del árbol
-    if (this.correctAnswersForGrowth >= 3) {
-      this.correctAnswersForGrowth = 0; 
-      if (this.growthStage < 8) {
-        this.growthStage++;
-      }
+    if (this.correctAnswers % 3 === 0 && this.growthStage < 8) {
+      this.growthStage++;
     }
   }
 
   handleAnswerWrong() {
-    this.wrongAnswers++; 
+    this.wrongAnswers++;
   }
 
   updateBackgroundState() {
@@ -80,31 +86,23 @@ export class GrowYourTreeComponent {
     }
   }
 
-
   updateRemainingTime(time: number): void {
     this.remainingTime = time;
   }
 
-  
   endGame() {
-    console.log('¡El tiempo se ha agotado! El juego ha terminado.');
-    this.saveScore(); // Guardar el puntaje y abrir el modal
+    this.saveScore(); 
   }
 
   saveScore() {
-    const elapsedTime = this.calculateElapsedTime(); 
-    this.showScoreModal = true;
+    this.modalService.displayModal('md', this.scoreModal);
   }
 
-  calculateElapsedTime(): number {
-    const now = new Date();
-    return Math.floor((now.getTime() - this.gameStartTime.getTime()) / 1000);
-  }
-  
   onContinue() {
+    this.modalService.closeAll();
     this.isGameActive = false;
-    this.router.navigateByUrl('/app/user-dashboard');
   }
 
-  
 }
+
+
