@@ -52,9 +52,9 @@ export class TeamFormComponent {
   }
   
   callSave() {
-    const teacherLeaderId = this.teamForm.controls['teacherLeader'].value;
-    console.log('Valor de teacherLeaderId:', teacherLeaderId);
-    console.log('Lista de usuarios disponibles:', this.users());
+    const teacherLeaderId = Number(this.teamForm.controls['teacherLeader'].value);
+    console.log('Tipo de teacherLeaderId:', typeof teacherLeaderId);
+    console.log('Tipo de user.id:', typeof this.users()[0]?.id);
   
     const selectedTeacher = this.users().find((user) => user.id === teacherLeaderId);
   
