@@ -43,6 +43,7 @@ export class GamesSaveScoreComponent implements AfterViewInit {
 
   closeModal() {
  this.router.navigateByUrl('/app/user-dashboard');
+ this.modalService.closeAll();
   }
 
   ngAfterViewInit() {
