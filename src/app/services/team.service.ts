@@ -11,8 +11,6 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 
 export class TeamService extends BaseService<ITeam>{
-  
-
   protected override source: string = 'teams';
   private teamListSignal = signal<ITeam[]>([]);
   get teams$() {
@@ -26,20 +24,25 @@ export class TeamService extends BaseService<ITeam>{
   private authService: AuthService = inject(AuthService);
   private alertService: AlertService = inject(AlertService);
 
+
   getAll(): Observable<ITeam[]> {
     return this.findAllWithParams({ page: this.search.page, size: this.search.size }).pipe(
-        tap((response: any) => {
-            if (Array.isArray(response)) {
-                this.teamListSignal.set(response);
-            } else if (response.data) {
-                this.teamListSignal.set(response.data);
-            } else {
-                console.error('Formato inesperado en la respuesta del backend', response);
-                this.teamListSignal.set([]);
-            }
-        })
+      tap((response: any) => {
+        console.log('Paso 6: Respuesta del backend en getAll():', response);
+        if (Array.isArray(response)) {
+          console.log('Paso 7: Respuesta procesada como array:', response);
+          this.teamListSignal.set(response);
+        } else if (response.data) {
+          console.log('Paso 8: Respuesta procesada como data (paginación):', response.data);
+          this.teamListSignal.set(response.data);
+        } else {
+          console.error('Paso 9: Formato inesperado de la respuesta:', response);
+          this.teamListSignal.set([]);
+        }
+      })
     );
   }
+  
   
     getAllByUser(): Observable<ITeam[]> {
       const userId = this.authService.getUser()?.id;
@@ -50,9 +53,6 @@ export class TeamService extends BaseService<ITeam>{
         })
       );
     }
-    
-       
-  
   
   getCountByTeacher() {
     this.findAllWithParamsAndCustomSource(`countByTeacher/${this.authService.getUser()?.id}`, { page: this.search.page, size: this.search.size }).subscribe({
@@ -72,7 +72,7 @@ export class TeamService extends BaseService<ITeam>{
     });
   }
 
-  save(team: ITeam) {
+  /*save(team: ITeam) {
     this.add(team).subscribe({
       next: (response: any) => {
         this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
@@ -86,18 +86,18 @@ export class TeamService extends BaseService<ITeam>{
   }
   
 
-  update(team: ITeam) {
-    this.editCustomSource(`${team.id}`, team).subscribe({
-      next: (response: any) => {
-        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
-        this.getAll();
-      },
-      error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred updating the user','center', 'top', ['error-snackbar']);
-        console.error('error', err);
-      }
-    });
+  update(team: ITeam): Observable<any> {
+    return this.editCustomSource(`${team.id}`, team); // Devuelve el observable aquí
+  } */
+
+    save(team: ITeam): Observable<any> {
+      return this.add(team); // Método existente para POST
   }
+  
+  update(team: ITeam): Observable<any> {
+      return this.editCustomSource(`${team.id}`, team); // Método existente para PUT
+  }
+  
 
   public updateTeamField(field: string, newValue: string): Observable<IResponse<ITeam>> {
     const data = { [field]: newValue };
@@ -105,19 +105,11 @@ export class TeamService extends BaseService<ITeam>{
     
   }
 
-  delete(team: ITeam) {
-    this.delCustomSource(`${team.id}`).subscribe({
-      next: (response: any) => {
-        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
-        this.getAll();
-      },
-      error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred deleting the user','center', 'top', ['error-snackbar']);
-        console.error('error', err);
-      }
-    });
+  deleteTeam(teamId: number): Observable<void> {
+    return this.http.delete<void>(`${this.source}/${teamId}`);
   }
-
+   
+    
   addStudentToTeam(teamId: number, Id: number) {
     const payload = { id: Id };
     this.http.patch<IResponse<ITeam>>(`${this.source}/${teamId}/addStudent`, payload).subscribe({
