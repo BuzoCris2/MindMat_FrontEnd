@@ -1,4 +1,5 @@
-
-<div class="game-background" *ngIf="isVisible">
-    <ng-content></ng-content> <!-- Inserta contenido dinámico dentro del fondo -->
+<div class="game-background" *ngIf="isVisible" >
+  <div class="background-image" [ngClass]="backgroundState">
+    <ng-content></ng-content>
   </div>
+</div>

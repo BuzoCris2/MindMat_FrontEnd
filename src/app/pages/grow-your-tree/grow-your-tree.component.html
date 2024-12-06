@@ -1,36 +1,108 @@
-<app-background [isVisible]="isGameActive">
-    <div class="game-content">
-      <h1>¡Bienvenido al juego!</h1>
-      <p>Resuelve operaciones matemáticas para hacer crecer tu árbol.</p>
+<div class="row p-4 displayExample">
+    <div *ngIf="currentTextIndex === 0">
+      <div class="introPages pag1">
+        <h1>¡Nogalito necesita ayuda!</h1>
+        <div class="intro-content">
+          <img src="../../../assets/img/tree-game/arbolin.gif" alt="Árbol feliz" class="tree-image" />
+          <p>
+          Nuestro pequeño árbol Nogalito ha notado que hay arboles en el bosque que necesitan de tu ayuda para crecer y alcanzar el sol. Y para lograrlo tienes que ayudarlos a invocando la magia de la fotosíntesis.
+          </p>
+        </div>
+      </div>
     </div>
-  </app-background>
-@defer {
-    <div class="row p-4">
+  
+    <div *ngIf="currentTextIndex === 2">
+      <div class="introPages pag2">
+        <div class="row pag2Mision justify-content-center">
+          <div class="col-4">
+            <h1>¿Como ayudamos  a los arboles a crecer?</h1>
+            <p>Ayuda al árbol a completar las tres fases del proceso de fotosíntesis resolviendo operaciones matemáticas correctamente.</p>
+          </div>
+          <div class="col-4">
+            <img src="../../../assets/img/tree-game/arbol-animacion.gif" alt="Crecimiento del árbol" class="growth-image" />
+          </div>
+        </div>
+        <div class="pag2Footer">
+          <p>Cuantas más respuestas correctas obtengas, más crecerá el árbol y más cerca estará de alcanzar el sol. ¡Cuidado! Las respuestas incorrectas harán que el crecimiento se detenga.</p>
+        </div>
+      </div>        
     </div>
-    <div class="row p-4 displayExample">
-        <div *ngIf="currentTextIndex === 0">
-            <h1>Primera Pagina</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
+
+    <div *ngIf="currentTextIndex === 1">
+      <div class="introPages pag3">
+        <h1>Aprendamos sobre la Fotosíntesis</h1>
+        <p>El proceso de fotosíntesis es lo podemos dividir en 3 fases y la combinación de las 3 hace crecer el árbol:</p>
+        <div class="row pag3Powers justify-content-center">
+          <div class="col-3">
+            <img src="../../../assets/img/tree-game/absorcion.gif" alt="Absorción de luz solar" />
+            <h2>1. Absorción de luz solar y de nutrientes</h2>
+            <p>El árbol capta la energía del sol, dioxido de carbono y agua!</p>
+          </div>
+          <div class="col-3">
+            <img src="../../../assets/img/tree-game/energia.gif" alt="Creación de energía" />
+            <h2>2. Creación de energía</h2>
+            <p>Con todo lo que absorbe, el árbol produce energía. Cada respuesta correcta es un impulso de energía para el árbol.</p>
+          </div>
+          <div class="col-3">
+            
+            <img src="../../../assets/img/tree-game/ciclo.gif" alt="Creación de alimentos" />
+            <h2>3. Producción de alimentos</h2>
+            <p>Finalmente, el árbol usa toda esa energía guardada para crear su propio alimento y oxígeno.</p>
+          </div>
         </div>
-        <div *ngIf="currentTextIndex === 1">
-            <h2>Segunda Pagina</h2>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
+      </div>
+    </div>
+  
+    <div *ngIf="currentTextIndex === 3">
+      <div class="introPages pag4">
+        <div class="intro-content">
+        <h1>¡Completa el ciclo y haz crecer el árbol!</h1>
+        <img src="../../../assets/img/tree-game/Untitled design (2).png" alt="Meta del árbol" class="ciclo" />
+        <p>Resuelve todas las operaciones matemáticas que puedas para ayudar al árbol a crecer lo más alto posible. ¡Tu esfuerzo hará que la naturaleza florezca!</p>
+      </div>
+      </div>
+    </div>
+  
+
+    <!-- Componente del juego -->
+    <div class="col-12 game-container" *ngIf="currentTextIndex === 4">
+
+      <app-background [isVisible]="isGameActive" [backgroundState]="backgroundState">
+        <div class="game-content">
+          <app-growing-tree [growthStage]="growthStage" class="growing-tree"></app-growing-tree>
         </div>
-        <div *ngIf="currentTextIndex === 2">
-            <h3>Tercera</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
-        </div>
-        <div *ngIf="currentTextIndex === 3">
-            <h3>Tercera</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
-        </div>
-        <div *ngIf="currentTextIndex === 3">
-            <h3>Tercera</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, repellat pariatur ut, illum voluptatum doloribus consequatur nihil suscipit soluta, quae et reiciendis vero dolorum! Natus fugit aut velit aliquam nisi!</p>
-        </div>
-        <app-games-knoledge-base 
-        [numberOfPages]="4"
-        (textIndexChange)="updateTextIndex($event)">
-        </app-games-knoledge-base>
-</div>
-}
+      </app-background>
+      <app-timer
+        *ngIf="isGameActive"
+        [initialTime]="10"
+        (timeRemaining)="updateRemainingTime($event)"
+        (timerEnded)="endGame()"
+        class="timer-position">
+      </app-timer>
+      <app-math-operations 
+        *ngIf="isGameActive"
+        [mathVisible]="isGameActive"
+        (answerCorrect)="handleAnswerCorrect()"
+        (answerWrong)="handleAnswerWrong()"
+        class="operations-position">
+      </app-math-operations>
+    </div>
+  
+    <app-games-save-score
+      *ngIf="showScoreModal"
+      [selectedGameId]="4"
+      [correctAnswers]="correctAnswers"
+      [wrongAnswers]="wrongAnswers"
+      [startTime]="gameStartTime"
+      (continueClicked)="onContinue()"
+      class="save-score-modal">
+    </app-games-save-score>
+  
+  
+    <app-games-knoledge-base 
+      [numberOfPages]="5"
+      (textIndexChange)="updateTextIndex($event)"
+      (gameStart)="startGame()">
+    </app-games-knoledge-base>
+  </div>
+  
