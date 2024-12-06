@@ -1,8 +1,9 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { TeamService } from '../../services/team.service';
+import { UserService } from '../../services/user.service';
 import { ModalService } from '../../services/modal.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IMember, ITeam } from '../../interfaces';
+import { IMember, ITeam, IUser } from '../../interfaces';
 import { LoaderComponent } from "../../components/loader/loader.component";
 import { PaginationComponent } from "../../components/pagination/pagination.component";
 import { TeamFormComponent } from "../../components/team/team-form/team-form.component";
@@ -28,9 +29,21 @@ export class TeamsComponent {
   public teamService: TeamService = inject(TeamService);
   public authService: AuthService = inject(AuthService);
   public modalService: ModalService = inject(ModalService);
+  public usersService: UserService = inject(UserService);
+
+  public users: IUser[] = [];
+
   @ViewChild('addTeamsModal') public addTeamsModal: any;
   @ViewChild('addTeamMemberModal') public addTeamMemberModal: any;
   public fb: FormBuilder = inject(FormBuilder);
+  teamForm = this.fb.group({
+    avatarId: [''],
+    id: [''],
+    name: ['', Validators.required],
+    description: ['', Validators.required],
+    teacherLeader: ['', Validators.required]
+  });
+  
 
   selectedTeamId: number | null = null;
   team: ITeam | null = null;
@@ -46,23 +59,16 @@ export class TeamsComponent {
   @ViewChild('avatarSelectorModal') public avatarSelectorModal: any;
 
   selectTeam(team: ITeam) {
-    this.selectedTeamId = team.id ?? null; // Si `team.id` es `undefined`, asigna `null`.
+    this.selectedTeamId = team.id ?? null; // Si team.id es undefined, asigna null.
   }
 
   selectedMemberId: number | null = null;
 
   selectMember(member: IMember) {
-    this.selectedMemberId = member.id ?? null; // Si `team.id` es `undefined`, asigna `null`.
+    this.selectedMemberId = member.id ?? null; // Si team.id es undefined, asigna null.
   }
 
-  teamForm = this.fb.group({
-    avatarId: [''],
-    id: [''],
-    name: ['', Validators.required],
-    description: ['', Validators.required],
-    teacherLeader: ['', Validators.required],
-    members: [[]] // Inicializa como un arreglo vacío si aplica
-  });
+  
   
   memberForm = this.fb.group({
     id: ['']
@@ -116,7 +122,7 @@ export class TeamsComponent {
   }
 
   getAvatarUrl(): string {
-    return this.team?. avatarId? `assets/img/avatars/avatar${this.team.avatarId}.png` : 'assets/img/avatars/default.png';
+    return this.team?. avatarId? 'assets/img/avatars/avatar${this.team.avatarId}.png' : 'assets/img/avatars/default.png';
   }
 
   editAvatar() {
@@ -136,7 +142,7 @@ export class TeamsComponent {
           this.closeAvatarSelector();
         },
         error: (error: any) => {
-          this.triggerAlert('error', 'Error', `Hubo un problema al actualizar el avatar: ${error.message}`);
+          this.triggerAlert('error', 'Error', 'Hubo un problema al actualizar el avatar: ${error.message}');
         }
       });
     }

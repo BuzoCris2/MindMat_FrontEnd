@@ -9,6 +9,7 @@ import { ModalService } from '../../services/modal.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { IUser } from '../../interfaces';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -22,11 +23,12 @@ import { CommonModule } from '@angular/common';
 export class UsersComponent {
   public userService: UserService = inject(UserService);
   public modalService: ModalService = inject(ModalService);
+  public authService: AuthService = inject(AuthService);
   @ViewChild('addUsersModal') public addUsersModal: any;
   public fb: FormBuilder = inject(FormBuilder);
   userForm = this.fb.group({
     id: [''],
-    email: ['', [Validators.required, Validators.email]],  // Cambiar a un array
+    email: ['', [Validators.required, Validators.email]],
     name: ['', Validators.required],
     lastname: ['', Validators.required],
     password: ['', Validators.required],

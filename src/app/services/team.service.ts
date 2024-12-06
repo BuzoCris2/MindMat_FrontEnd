@@ -11,8 +11,6 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 
 export class TeamService extends BaseService<ITeam>{
-  
-
   protected override source: string = 'teams';
   private teamListSignal = signal<ITeam[]>([]);
   get teams$() {
@@ -25,6 +23,7 @@ export class TeamService extends BaseService<ITeam>{
   public totalItems: any = [];
   private authService: AuthService = inject(AuthService);
   private alertService: AlertService = inject(AlertService);
+
 
   getAll(): Observable<ITeam[]> {
     return this.findAllWithParams({ page: this.search.page, size: this.search.size }).pipe(
@@ -67,9 +66,6 @@ export class TeamService extends BaseService<ITeam>{
         })
       );
     }
-    
-       
-  
   
   getCountByTeacher() {
     this.findAllWithParamsAndCustomSource(`countByTeacher/${this.authService.getUser()?.id}`, { page: this.search.page, size: this.search.size }).subscribe({

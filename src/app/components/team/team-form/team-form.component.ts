@@ -1,9 +1,9 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, computed, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ITeam , IUser } from '../../../interfaces';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../services/user.service';
-
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-team-form',
@@ -19,49 +19,49 @@ export class TeamFormComponent {
   
   public fb: FormBuilder = inject(FormBuilder);
   @Input() teamForm!: FormGroup;
+  @Input() teams: ITeam[] = [];
   @Output() callSaveMethod: EventEmitter<ITeam> = new EventEmitter<ITeam>();
   @Output() callUpdateMethod: EventEmitter<ITeam> = new EventEmitter<ITeam>();
 
   public loggedInUserId: number = 0;
   public role: string = ''; // 'admin', 'docente', 'estudiante'
-  public users: IUser[] = []; // Lista de usuarios para selección (solo admin)
+  public users = computed(() => this.userService.users$());
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,
+    private authService: AuthService 
+  ) {}
 
   ngOnInit(): void {
-    this.userService.getLoggedInUser().subscribe({
-      next: (user: IUser) => {
-        this.loggedInUserId = user?.id || 0;
-  
-        if (user.role && user.role.name) {
-          this.role = user.role.name.toUpperCase(); // Convierte a mayúsculas
-        } else {
-          this.role = 'GUEST'; // Valor por defecto
-        }
-  
-        // Si el usuario es SUPER_ADMIN, carga lista de docentes
-        if (this.role === 'SUPER_ADMIN') {
-          this.userService.getAll(); // Llama a getAll() para llenar el signal users$
-          const allUsers = this.userService.users$(); // Accede directamente al valor del signal
-          this.users = allUsers.filter((u: IUser) => u.role?.name.toUpperCase() === 'ADMIN'); // Filtra los docentes
-        }
-  
-        // Si el usuario es ADMIN (docente), asigna automáticamente como Teacher Leader
-        if (this.role === 'ADMIN') {
-          this.teamForm.patchValue({
-            teacherLeader: this.loggedInUserId,
-          });
-        }
-      },
-      error: (err: any) => {
-        console.error('Error al obtener el usuario logueado:', err);
-      },
-    });
-  }  
+    const user = this.authService.getUser();
+    if (user) {
+      this.loggedInUserId = user.id || 0;
+      this.role = user.role?.name?.toUpperCase() || 'GUEST';
+
+      if (this.role === 'SUPER_ADMIN') {
+        this.userService.getAllTeachers(); // Obtén los docentes
+      }
+
+      if (this.role === 'ADMIN') {
+        this.teamForm.patchValue({
+          teacherLeader: this.loggedInUserId,
+        });
+      }
+    } else {
+      console.error('Error: No se pudo obtener el usuario logueado desde AuthService');
+    }
+  }
   
   callSave() {
     const teacherLeaderId = this.teamForm.controls['teacherLeader'].value;
-    const selectedTeacher = this.users.find(user => user.id === teacherLeaderId);
+    console.log('Valor de teacherLeaderId:', teacherLeaderId);
+    console.log('Lista de usuarios disponibles:', this.users());
+  
+    const selectedTeacher = this.users().find((user) => user.id === teacherLeaderId);
+  
+    if (!selectedTeacher) {
+      console.error('Profesor no encontrado');
+      return;
+    }
   
     const team: ITeam = {
       id: this.teamForm.controls['id'].value,
@@ -73,7 +73,6 @@ export class TeamFormComponent {
         lastname: selectedTeacher?.lastname || '',
         email: selectedTeacher?.email || ''
       },
-      members: this.teamForm.controls['members'].value || [],
       avatarId: 1, // Avatar por defecto
     };
   
@@ -85,4 +84,5 @@ export class TeamFormComponent {
       this.callSaveMethod.emit(team);
     }
   }
+  
 }
