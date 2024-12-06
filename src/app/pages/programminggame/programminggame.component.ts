@@ -37,6 +37,8 @@ export class ProgrammingGameComponent implements OnInit {
   // Estados para popups
   showLifeMessage: boolean = false;
   showGameOverPopup: boolean = false;
+  showCongratulationsPopup: boolean = false;
+
 
   // Variables relacionadas con la puntuación y el estado del juego
   public gameStartTime: Date = new Date();
@@ -83,28 +85,25 @@ export class ProgrammingGameComponent implements OnInit {
   allowDrop(event: DragEvent): void {
     event.preventDefault();
     const dropzone = event.target as HTMLElement;
-    dropzone.classList.add('dragover'); // Añade la clase para el efecto
+    dropzone.classList.add('dragover'); 
   }
 
   dragLeave(event: DragEvent): void {
     const dropzone = event.target as HTMLElement;
-    dropzone.classList.remove('dragover'); // Elimina la clase cuando el comando se suelta
+    dropzone.classList.remove('dragover'); 
   }
 
   drop(event: DragEvent): void {
     event.preventDefault();
-    const dropzone = event.target as HTMLElement;
-    dropzone.classList.remove('dragover'); // Asegúrate de eliminar la clase
-    // Tu lógica para manejar el drop
-  }
-
-  /*drop(event: DragEvent): void {
-    event.preventDefault();
     const command = event.dataTransfer?.getData('command');
     if (command) {
-      this.commands.push(command);
+      this.commands.push(command); 
     }
-  }*/
+  }
+  
+  removeCommand(index: number): void {
+    this.commands.splice(index, 1); 
+  }
 
   //Método para avanzar al tablero de juego
   startGame(): void{
@@ -113,7 +112,7 @@ export class ProgrammingGameComponent implements OnInit {
 
   // Método para regresar a las instrucciones
   goBackToInstructions(): void {
-    this.currentTextIndex = 2; // Regresa a la última pantalla de introducción
+    this.currentTextIndex = 2; 
   }
   executeCommands(): void {
     this.commands.forEach((command) => {
@@ -125,21 +124,31 @@ export class ProgrammingGameComponent implements OnInit {
     this.commands = [];
   }
 
+  
   moveRover(): void {
     let newPosition = this.roverPosition;
     if (this.direction === 'right') newPosition++;
     if (this.direction === 'down') newPosition += 5;
     if (this.direction === 'left') newPosition--;
     if (this.direction === 'up') newPosition -= 5;
-
+  
+    // Validar si la nueva posición está dentro de los límites
     if (newPosition >= 0 && newPosition < this.grid.length) {
-      this.roverPosition = newPosition;
       if (this.obstacles.includes(newPosition)) {
-        this.triggerExplosion(newPosition);
-        this.loseLife();
+        this.triggerExplosion(newPosition); 
+        this.loseLife(); 
+      } else {
+        this.roverPosition = newPosition; 
       }
     }
+    this.updateGrid(); 
   }
+  
+  updateGrid(): void {
+    this.grid = Array(25).fill(0); 
+    this.grid[this.roverPosition] = 1; 
+  }
+  
 
   turnLeft(): void {
     const directions = ['up', 'left', 'down', 'right'];
@@ -154,14 +163,15 @@ export class ProgrammingGameComponent implements OnInit {
   }
 
   triggerExplosion(position: number): void {
-    this.explosionPosition = position;
-    this.isHitAnimating = true;
+    this.explosionPosition = position; 
+    this.isHitAnimating = true; 
     setTimeout(() => {
-      this.obstacles = this.obstacles.filter((obstacle) => obstacle !== position);
-      this.isHitAnimating = false;
-      this.explosionPosition = null;
-    }, 1000);
+      this.obstacles = this.obstacles.filter((obstacle) => obstacle !== position); 
+      this.isHitAnimating = false; 
+      this.explosionPosition = null; 
+    }, 1000); 
   }
+  
 
   loseLife(): void {
     this.lives.pop();
@@ -172,9 +182,16 @@ export class ProgrammingGameComponent implements OnInit {
 
   checkGameStatus(): void {
     if (this.roverPosition === this.flagPosition) {
-      this.currentTextIndex = 4; 
+      this.showCongratulationsPopup = true; 
     }
   }
+
+  restartGame(): void {
+    this.resetGame(); 
+    this.showCongratulationsPopup = false; 
+  }
+  
+  
 
   resetGame(): void {
     this.currentTextIndex = 0;

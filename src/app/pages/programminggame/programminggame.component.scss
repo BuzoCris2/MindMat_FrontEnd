@@ -2,21 +2,20 @@
 .programming-game-container {
   display: flex;
   flex-direction: column;
-  //justify-content: flex-start; /* Asegura que el contenido esté arriba */
   align-items: center;
   padding: 0; 
   margin: 0; 
 }
 
 .row.p-4.game-container {
-  display: flex; /* Habilita flexbox */
-  flex-direction: row; /* Distribuye las columnas en fila */
-  justify-content: space-around; /* Deja espacio entre tablero y comandos */
-  align-items: flex-start; /* Alinea todo arriba */
-  width: 100%; /* Ocupa todo el ancho disponible */
-  gap: 20px; /* Espaciado controlado entre columnas */
-  padding: 0; /* Sin espacio interno */
-  margin: 0 auto; /* Centra horizontalmente el contenedor */
+  display: flex; 
+  flex-direction: row; 
+  justify-content: space-around; 
+  align-items: flex-start; 
+  width: 100%; 
+  gap: 20px; 
+  padding: 0; 
+  margin: 0 auto; 
 }
 
 /* Diseño de las páginas introductorias */
@@ -56,49 +55,28 @@
 /* Tablero de juego */
 .grid {
   display: grid;
-  grid-template-columns: repeat(5, 80px); /* 5 columnas de 80px */
-  grid-auto-rows: 80px; /* Todas las filas de 80px */
-  gap: 10px; /* Espaciado entre celdas */
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  width: auto; /* Ajusta al contenido */
-  margin: 0 auto; /* Centra la grilla dentro de su contenedor */
+  grid-template-columns: repeat(5, 80px); 
+  grid-auto-rows: 80px; 
+  gap: 30px; 
+  justify-content: center; 
+  align-items: center; 
+  width: auto; 
+  margin: 0 auto; 
 }
 
 
-/* Celdas */
 .cell {
-  position: relative; /* Necesario para posicionar la explosión relativa a la celda */
-  aspect-ratio: 1 / 1; /* Mantiene proporciones cuadradas */
-  width: 100%; /* Ocupa todo el ancho disponible */
-  background-color: var(--color-gris); /* Fondo base */
+  position: relative;
+  width: 100px; 
+  height: 100px; 
+  background-color: var(--color-gris); 
   border: 2px solid var(--color-grisOscuro);
   display: flex;
-  justify-content: center;
+  justify-content: center; 
   align-items: center;
-  overflow: hidden; /* Evita desbordes de contenido */
+  overflow: hidden; 
+  box-sizing: border-box; 
 }
-
-/* Animación de explosión */
-.explosion-animation {
-  position: absolute; /* Posición absoluta dentro de la celda */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2; /* Coloca la animación por encima de otros elementos */
-}
-
-.explosion-animation img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Asegura que la animación ocupe el espacio completo */
-  pointer-events: none; /* La animación no interfiere con el clic del usuario */
-}
-
 
 
 
@@ -124,27 +102,27 @@
 
 .commands {
   display: flex;
-  flex-direction: column; /* Coloca los botones en una columna */
-  gap: 15px; /* Espacio entre los botones */
-  width: 100%; /* Asegura que ocupen todo el ancho disponible */
+  flex-direction: column; 
+  gap: 15px; 
+  width: 100%; 
   margin: 0;
   padding: 0;
 }
 
 /* Ajustar las columnas para que no haya espacio sobrante */
 .col-8 {
-  flex: 0 0 auto; /* Permite que la grilla ajuste su tamaño */
-  max-width: calc(80px * 5 + 10px * 4); /* Ancho máximo para 5 celdas con 10px de espacio entre ellas */
-  margin: 0; /* Elimina márgenes adicionales */
-  padding: 0; /* Elimina espacio interno */
+  flex: 0 0 auto; 
+  max-width: calc(80px * 5 + 10px * 4); 
+  margin: 0; 
+  padding: 0; 
   display: flex;
   justify-content: center;
 }
 
 
 .col-4 {
-  flex: 1; /* Ocupa el espacio restante */
-  max-width: 30%; /* No se expande más del 30% */
+  flex: 1; 
+  max-width: 30%; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -170,44 +148,35 @@
 }
 
 .dropzone {
-  margin: 20px auto; /* Espaciado superior e inferior */
-  padding: 10px; /* Espaciado interno */
-  border: 2px dashed var(--color-deshabilitado); /* Borde punteado */
-  background-color: transparent; /* Sin degradado */
-  height: auto; /* Altura automática según contenido */
-  width: 100%; /* Asegura que ocupe todo el ancho disponible */
-  border-radius: 8px; /* Bordes redondeados */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease; /* Animación para un efecto suave */
+  margin: 20px auto; 
+  padding: 10px; 
+  border: 2px dashed var(--color-deshabilitado);
+  height: auto; 
+  width: 100%; 
+  border-radius: 8px;
 }
 
-.dropzone.dragover {
-  border-color: var(--color-azul); /* Cambia el color del borde */
-  background-color: transparent; /* Mantiene el fondo transparente */
-}
-
-/* Contenido del dropzone */
-.dropzone p {
-  margin: 0;
-  color: var(--color-deshabilitado);
+.delete-command {
+  background: transparent;
+  border: none;
+  color: red;
   font-size: 1rem;
-  text-align: center;
-  pointer-events: none; /* Ignora clics en el texto */
-
+  cursor: pointer;
+  margin-left: 5px;
+}
 
 .explosion-animation {
-  position: absolute;
+  position: absolute; 
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100%; 
+  height: 100%; 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; 
+  align-items: center; 
   z-index: 2; 
+  pointer-events: none; 
+  background-color: rgba(255, 255, 255, 0); 
 }
 
 .explosion-animation img {
@@ -215,6 +184,7 @@
   max-height: 100%;
   object-fit: contain; 
 }
+
 
 
 .lives-container {
@@ -231,17 +201,17 @@
 
 /* Barra inferior */
 .footer-nav {
-  position: fixed; /* Fija la barra en la parte inferior */
-  bottom: 0; /* Colócala en la parte inferior */
-  left: 0; /* Asegúrate de que esté alineada a la izquierda */
-  width: 100%; /* Ocupa todo el ancho de la pantalla */
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  width: 100%; 
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
   background-color: white;
   border-top: 2px solid #e5e5e5;
-  z-index: 1000; /* Asegúrate de que quede encima de otros elementos */
+  z-index: 1000; 
 }
 
 .footer-button {
@@ -300,15 +270,15 @@
 }
 
 .confirmation-page img {
-  width: 300px; /* Reduce el tamaño de la imagen */
+  width: 300px; 
   height: auto;
-  margin-bottom: 20px; /* Separa la imagen del texto */
+  margin-bottom: 20px; 
 }
 
 .confirmation-buttons {
   display: flex;
-  gap: 20px; /* Separa los botones */
-  justify-content: center; /* Centra los botones */
+  gap: 20px; 
+  justify-content: center; 
 }
 
 .confirmation-page p {
@@ -322,8 +292,8 @@
 .confirmation-page img {
   width: 400px;
   height: auto;
-  margin: 20px 0; /* Similar al diseño de intro-image */
-  border-radius: 10px; /* Opcional: redondea las esquinas */
+  margin: 20px 0; 
+  border-radius: 10px; 
 }
 
 /* Animación de elementos */
@@ -334,10 +304,87 @@
 }
 
 .start-button {
-  margin-top: 20px; /* Añade espacio arriba del botón */
-  align-self: center; /* Centra el botón en la columna */
+  margin-top: 20px; 
+  align-self: center; 
 }
 
+.explosion-animation {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  z-index: 2; 
+  pointer-events: none; 
+}
+
+.explosion-animation img {
+  max-width: 100%; 
+  max-height: 100%; 
+  object-fit: contain; 
+}
+
+.congratulations-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+}
+
+.popup-content {
+  background-color: white;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  gap: 20px; 
+}
+
+.popup-content h1 {
+  font-size: 2rem;
+  color: #4caf50; 
+  margin-bottom: 20px;
+}
+
+.popup-content p {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.congratulations-image {
+  width: 150px;
+  height: auto;
+  margin: 0; 
+}
+
+.restart-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.restart-button:hover {
+  background-color: #45a049; 
+}
 
 @keyframes bounce {
   0%,
@@ -365,9 +412,9 @@
   }
 
   .grid {
-    grid-template-columns: repeat(5, 50px); /* Columnas de 50px en pantallas pequeñas */
-    grid-auto-rows: 50px; /* Filas de 50px */
-    gap: 5px; /* Reduce el espaciado */
+    grid-template-columns: repeat(5, 50px); 
+    grid-auto-rows: 50px; 
+    gap: 5px; 
   }
 
   .cell {
@@ -387,7 +434,7 @@
 
 @media (max-width: 768px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr); /* Menos columnas en pantallas pequeñas */
+    grid-template-columns: repeat(4, 1fr); 
   }
   .cell {
     width: 60px;

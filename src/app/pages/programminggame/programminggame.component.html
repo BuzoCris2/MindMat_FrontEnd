@@ -60,17 +60,15 @@
           [class.flag]="i === flagPosition"
           [class.obstacle]="obstacles.includes(i)"
         >
-          <!-- Animación de explosión -->
-          <div *ngIf="i === explosionPosition && isHitAnimating" class="explosion-animation">
-            <img src="assets/img/mathleship/hitAnim.gif" alt="Explosión" />
-          </div>
-  
+        
+        <!-- Animación de explosión -->
+        <div *ngIf="i === explosionPosition && isHitAnimating" class="explosion-animation">
+          <img src="assets/img/mathleship/hitAnim.gif" alt="Explosión" />
+        </div>
           <!-- Imagen de Rover -->
           <img *ngIf="i === roverPosition && !isHitAnimating" src="assets/img/Characters/monkeyCharacter.png" alt="Rover" />
-          
           <!-- Imagen de la meta -->
           <img *ngIf="i === flagPosition" src="assets/img/Characters/turtleCharacter2.png" alt="Meta" />
-          
           <!-- Imagen de obstáculos -->
           <img
             *ngIf="obstacles.includes(i) && !(i === explosionPosition && isHitAnimating)"
@@ -80,7 +78,7 @@
         </div>
       </div>
     </div>
-    
+  
     <!-- Comandos -->
     <div class="col-4">
       <h3>Comandos</h3>
@@ -89,13 +87,26 @@
         <div class="block" draggable="true" (dragstart)="drag($event, 'left')">Girar Izquierda</div>
         <div class="block" draggable="true" (dragstart)="drag($event, 'right')">Girar Derecha</div>
       </div>
-      <div class="dropzone" (dragover)="allowDrop($event)" (drop)="drop($event)">
+      <div class="dropzone" (dragover)="allowDrop($event)" (drop)="drop($event)" [class.dragging]="commands.length > 0">
         <p *ngIf="commands.length === 0">Arrastra los comandos aquí</p>
-      </div>
+        <div *ngFor="let command of commands; let index = index" class="command">
+          {{ command }}
+          <button (click)="removeCommand(index)" class="delete-command">x</button>
+        </div>
+      </div>      
       <button class="start-button" (click)="executeCommands()">Ejecutar Comandos</button>
     </div>
   </div>
 
+  <div class="congratulations-popup" *ngIf="showCongratulationsPopup">
+    <div class="popup-content">
+      <h1>🎉 ¡Felicidades! 🎉</h1>
+      <p>Haz ayudado a Rover a llegar a su destino.</p>
+      <img src="assets/img/avatars/avatar3.png" alt="Felicidades" class="congratulations-image" />
+      <button class="restart-button" (click)="restartGame()">Reiniciar</button>
+    </div>
+  </div>
+  
   
   <!-- Barra Inferior -->
   <div class="footer-nav">
