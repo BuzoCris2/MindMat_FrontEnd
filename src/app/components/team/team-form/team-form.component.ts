@@ -69,17 +69,19 @@ export class TeamFormComponent {
       description: this.teamForm.controls['description'].value,
       teacherLeader: {
         id: this.role === 'teacher' ? this.loggedInUserId : this.teamForm.controls['teacherLeader'].value,
-        name: '', // Valor predeterminado
-        lastname: '', // Valor predeterminado
-        email: '', // Valor predeterminado
-        teamCount: 0, // Valor predeterminado
+        name: '', 
+        lastname: '', 
+        email: '',
+        teamCount: 0, 
       },
       members: this.teamForm.controls['members'].value || [],
-      avatarId: 1, // Avatar por defecto
+      avatarId: 1, 
     };
   
-    console.log('Payload enviado al backend:', team); // Para depuración
-  
+
+    
+
+    
     if (team.id) {
       this.callUpdateMethod.emit(team);
     } else {

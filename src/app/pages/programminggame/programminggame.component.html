@@ -49,9 +49,8 @@
     </div>
   </div>
 
-  <!-- Tablero de juego -->
   <div class="row p-4 game-container" *ngIf="currentTextIndex === 4">
-    <!-- Columna izquierda: Tablero -->
+    <!-- Tablero -->
     <div class="col-8">
       <div class="grid">
         <div
@@ -61,17 +60,17 @@
           [class.flag]="i === flagPosition"
           [class.obstacle]="obstacles.includes(i)"
         >
-          <!-- Animación de explosión si hay colisión -->
+          <!-- Animación de explosión -->
           <div *ngIf="i === explosionPosition && isHitAnimating" class="explosion-animation">
             <img src="assets/img/mathleship/hitAnim.gif" alt="Explosión" />
           </div>
-
-          <!-- Imagen del mono (Rover) -->
+  
+          <!-- Imagen de Rover -->
           <img *ngIf="i === roverPosition && !isHitAnimating" src="assets/img/Characters/monkeyCharacter.png" alt="Rover" />
-
+          
           <!-- Imagen de la meta -->
           <img *ngIf="i === flagPosition" src="assets/img/Characters/turtleCharacter2.png" alt="Meta" />
-
+          
           <!-- Imagen de obstáculos -->
           <img
             *ngIf="obstacles.includes(i) && !(i === explosionPosition && isHitAnimating)"
@@ -81,8 +80,8 @@
         </div>
       </div>
     </div>
-
-    <!-- Columna derecha: Controles -->
+    
+    <!-- Comandos -->
     <div class="col-4">
       <h3>Comandos</h3>
       <div class="commands">
@@ -92,12 +91,12 @@
       </div>
       <div class="dropzone" (dragover)="allowDrop($event)" (drop)="drop($event)">
         <p *ngIf="commands.length === 0">Arrastra los comandos aquí</p>
-        <div *ngFor="let command of commands" class="command">{{ command }}</div>
       </div>
       <button class="start-button" (click)="executeCommands()">Ejecutar Comandos</button>
     </div>
   </div>
 
+  
   <!-- Barra Inferior -->
   <div class="footer-nav">
     <button class="footer-button prev" (click)="navigateToPrevious()">← Anterior</button>

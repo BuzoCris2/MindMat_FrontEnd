@@ -82,15 +82,29 @@ export class ProgrammingGameComponent implements OnInit {
 
   allowDrop(event: DragEvent): void {
     event.preventDefault();
+    const dropzone = event.target as HTMLElement;
+    dropzone.classList.add('dragover'); // Añade la clase para el efecto
+  }
+
+  dragLeave(event: DragEvent): void {
+    const dropzone = event.target as HTMLElement;
+    dropzone.classList.remove('dragover'); // Elimina la clase cuando el comando se suelta
   }
 
   drop(event: DragEvent): void {
+    event.preventDefault();
+    const dropzone = event.target as HTMLElement;
+    dropzone.classList.remove('dragover'); // Asegúrate de eliminar la clase
+    // Tu lógica para manejar el drop
+  }
+
+  /*drop(event: DragEvent): void {
     event.preventDefault();
     const command = event.dataTransfer?.getData('command');
     if (command) {
       this.commands.push(command);
     }
-  }
+  }*/
 
   //Método para avanzar al tablero de juego
   startGame(): void{
