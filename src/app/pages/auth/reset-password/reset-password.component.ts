@@ -33,7 +33,6 @@ export class ResetPasswordComponent {
     if (this.newPassword === this.confirmPassword && this.token) {
       this.authService.resetPassword(this.token, this.newPassword).subscribe({
         next: (response) => {
-          console.log('Response:', response);
           this.message = 'Contraseña actualizada correctamente. Espera mientras se carga la pantalla de inicio de sesión.';
           this.isError = false;
           setTimeout(() => {
@@ -42,7 +41,6 @@ export class ResetPasswordComponent {
           }, 500);
         },
         error: (err) => {
-          console.log('Error:', err);
           this.message = 'Hubo un error al actualizar la contraseña';
           this.isError = true;
         },

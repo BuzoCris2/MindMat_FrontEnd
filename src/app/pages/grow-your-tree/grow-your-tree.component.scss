@@ -14,9 +14,23 @@
     align-items: center;
   }
 
+  .Mision{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Mision p{
+    margin-top: 50px;
+  }
   .operation-position{
     position: fixed;
     z-index: 950; 
+  }
+
+  .pag2Footer{
+    margin-top: 50px;
   }
   .save-score-modal {
     position: fixed;
@@ -74,6 +88,14 @@
     line-height: 1.6;
     font-family: "Sarabun", sans-serif;
     margin-bottom: 30px; /* Incrementado para añadir más espacio entre el párrafo y otros elementos */
+    align-self: center;
+  }
+
+  .intro-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 
   .pag3 h1 {
