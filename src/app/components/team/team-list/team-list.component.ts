@@ -19,8 +19,8 @@ export class TeamListComponent {
   @Output() openAddMemberModal: EventEmitter<number> = new EventEmitter<number>(); // Aquí se espera un number
   @Output() removeMemberMethod: EventEmitter<number> = new EventEmitter<number>(); // Aquí también un number
 
-
   public trackById(index: number, item: ITeam): number {
     return item.id || 0;
   }
+  
 }

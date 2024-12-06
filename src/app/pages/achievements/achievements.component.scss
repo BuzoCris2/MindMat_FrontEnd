@@ -1,3 +1,95 @@
-.title {
+.achievements-container {
+    display: flex;
+  flex-direction: column; /* Asegura que los elementos estén en columna */
+  padding: 20px; /* Añade un poco de espacio interno */
+  box-sizing: border-box;
+  }
+.achievements-container h1{
     font-family: fredoka;
+    font-weight: 600;
+    font-size: 50px;
+    margin-top: 20px;
+    margin-left: 40px;
 }
+
+  .slider {
+    width: 80%; 
+    height: auto;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .slider .slide-track {
+    display: flex;
+    animation: scroll 30s linear infinite; /* Controla la velocidad del carrusel */
+    -webkit-animation: scroll 30s linear infinite;
+    width: calc(250px * 14); /* Ajusta según el número total de elementos */
+  }
+  
+  .slider .slide {
+    width: 300px; /* Ajusta el ancho de cada tarjeta */
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .slider .slide img {
+    width: 320px;
+    height: auto;
+  }
+
+  .slider .slide p {
+    font-size: 40px;
+    font-family: fredoka;
+    font-weight: 500;
+    margin-top: 20px;
+    margin-bottom: 30px;
+
+  }
+  
+  .star-icon {
+    width: 30px !important; /* Tamaño más grande para las estrellas */
+    height: auto;
+    &.inactive {
+      filter: grayscale(1); /* Filtro gris para estrellas no activas */
+    }
+  }
+  
+  .stars {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 5px;
+  }
+
+.slider::before,
+.slider::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 10%; /* Ancho del difuminado */
+  pointer-events: none; /* Permite que los clics pasen a través */
+  z-index: 10;
+}
+
+.slider::before {
+    left: 0;
+    background: linear-gradient(to right, var(--light-background), rgba(255, 255, 255, 0));
+  }
+  
+  .slider::after {
+    right: 0;
+    background: linear-gradient(to left, var(--light-background), rgba(255, 255, 255, 0));
+  }
+  
+  @keyframes scroll {
+    0% {
+      -webkit-transform: translateX(0);
+      transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(calc(-250px * 7)); /* Ajusta según la mitad de los elementos */
+      transform: translateX(calc(-250px * 7));
+    }
+  }

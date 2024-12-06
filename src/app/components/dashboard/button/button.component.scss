@@ -1,0 +1,50 @@
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px; /* Altura consistente */
+  width: 400px; /* Ancho consistente */
+  border-radius: 20px; /* Bordes redondeados */
+  border: 10px solid #fff; /* Borde blanco grueso */
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600; /* Texto más grueso */
+  font-size: 35px; /* Texto más grande */
+  margin: 15px 0; /* Espaciado vertical */
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, background-color 0.3s;
+  padding-left: 20px;
+
+  /* Colores dinámicos */
+  &.primary {
+    background-color: #4c75e5; /* Azul */
+    color: #fff;
+  }
+
+  &.secondary {
+    background-color: #ff6e6c; /* Rojo */
+    color: #fff;
+  }
+
+  &.tertiary {
+    background-color: #ffa64c; /* Naranja */
+    color: #fff;
+  }
+
+  &:hover {
+    transform: scale(1.05); /* Efecto hover */
+  }
+
+  /* Estilos del ícono */
+  .button-icon {
+    width: 50px; /* Tamaño del ícono */
+    height: 50px;
+    margin-right: 20px; /* Espacio entre ícono y texto */
+  }
+
+  /* Centrado del texto cuando no hay ícono */
+  span.no-icon {
+    margin: 0; /* Sin margen */
+    text-align: center;
+  }
+}

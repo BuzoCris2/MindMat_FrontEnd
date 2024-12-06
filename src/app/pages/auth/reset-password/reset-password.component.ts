@@ -39,7 +39,7 @@ export class ResetPasswordComponent {
           setTimeout(() => {
             this.message = '';
             this.router.navigate(['/login']);
-          }, 5000);
+          }, 500);
         },
         error: (err) => {
           console.log('Error:', err);

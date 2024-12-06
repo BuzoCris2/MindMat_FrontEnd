@@ -1,68 +1,397 @@
+/* Contenedor principal */
 .programming-game-container {
   display: flex;
   flex-direction: column;
+  //justify-content: flex-start; /* Asegura que el contenido esté arriba */
   align-items: center;
+  padding: 0; 
+  margin: 0; 
+}
+
+.row.p-4.game-container {
+  display: flex; /* Habilita flexbox */
+  flex-direction: row; /* Distribuye las columnas en fila */
+  justify-content: space-around; /* Deja espacio entre tablero y comandos */
+  align-items: flex-start; /* Alinea todo arriba */
+  width: 100%; /* Ocupa todo el ancho disponible */
+  gap: 20px; /* Espaciado controlado entre columnas */
+  padding: 0; /* Sin espacio interno */
+  margin: 0 auto; /* Centra horizontalmente el contenedor */
+}
+
+/* Diseño de las páginas introductorias */
+.introPages {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
   padding: 20px;
-  background-color: #f5f5f5;
-  min-height: 100vh;
+  color: var(--color-oscuro);
 }
 
-.story-panel, .game-panel {
-  text-align: center;
-  margin-top: 20px;
+.intro-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-family: "Fredoka", sans-serif;
+  color: var(--color-oscuro);
 }
 
+.intro-image {
+  width: 400px;
+  height: auto;
+  margin: 20px 0;
+}
+
+.intro-description {
+  font-size: 1.5rem;
+  max-width: 700px;
+  line-height: 1.8;
+  color: #4a5568;
+  font-family: "Sarabun", sans-serif;
+  margin: 0 auto;
+}
+
+/* Tablero de juego */
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 60px);
-  gap: 10px;
-  margin: 20px auto;
+  grid-template-columns: repeat(5, 80px); /* 5 columnas de 80px */
+  grid-auto-rows: 80px; /* Todas las filas de 80px */
+  gap: 10px; /* Espaciado entre celdas */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  width: auto; /* Ajusta al contenido */
+  margin: 0 auto; /* Centra la grilla dentro de su contenedor */
 }
 
+
+/* Celdas */
 .cell {
-  width: 60px;
-  height: 60px;
-  background-color: #d9d9d9;
-  border: 1px solid #bbb;
+  position: relative; /* Necesario para posicionar la explosión relativa a la celda */
+  aspect-ratio: 1 / 1; /* Mantiene proporciones cuadradas */
+  width: 100%; /* Ocupa todo el ancho disponible */
+  background-color: var(--color-gris); /* Fondo base */
+  border: 2px solid var(--color-grisOscuro);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Evita desbordes de contenido */
 }
+
+/* Animación de explosión */
+.explosion-animation {
+  position: absolute; /* Posición absoluta dentro de la celda */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2; /* Coloca la animación por encima de otros elementos */
+}
+
+.explosion-animation img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la animación ocupe el espacio completo */
+  pointer-events: none; /* La animación no interfiere con el clic del usuario */
+}
+
+
+
+
+.cell img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; 
+}
+
+
 
 .cell.rover {
-  background-color: #4caf50;
+  background-color: var(--color-verde);
 }
 
 .cell.flag {
-  background-color: #ffeb3b;
+  background-color: var(--color-amarillo);
 }
 
 .cell.obstacle {
-  background-color: #f44336;
+  background-color: var(--color-rojo);
 }
 
+.commands {
+  display: flex;
+  flex-direction: column; /* Coloca los botones en una columna */
+  gap: 15px; /* Espacio entre los botones */
+  width: 100%; /* Asegura que ocupen todo el ancho disponible */
+  margin: 0;
+  padding: 0;
+}
+
+/* Ajustar las columnas para que no haya espacio sobrante */
+.col-8 {
+  flex: 0 0 auto; /* Permite que la grilla ajuste su tamaño */
+  max-width: calc(80px * 5 + 10px * 4); /* Ancho máximo para 5 celdas con 10px de espacio entre ellas */
+  margin: 0; /* Elimina márgenes adicionales */
+  padding: 0; /* Elimina espacio interno */
+  display: flex;
+  justify-content: center;
+}
+
+
+.col-4 {
+  flex: 1; /* Ocupa el espacio restante */
+  max-width: 30%; /* No se expande más del 30% */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+
+
 .block {
-  margin: 10px;
-  padding: 10px 20px;
-  background-color: #6c8cff;
+  background-color: var(--color-azul);
+  padding: 15px;
+  border-radius: 5px;
+  font-weight: bold;
   color: white;
-  border-radius: 8px;
+  text-align: center;
   cursor: grab;
+  transition: transform 0.3s ease;
+}
+
+.block:hover {
+  transform: scale(1.1);
 }
 
 .dropzone {
-  margin-top: 20px;
-  padding: 20px;
-  border: 2px dashed #bbb;
-  background-color: #fff;
-  min-height: 100px;
-  border-radius: 8px;
+  margin: 20px auto; /* Espaciado superior e inferior */
+  padding: 10px; /* Espaciado interno */
+  border: 2px dashed var(--color-deshabilitado); /* Borde punteado */
+  background-color: transparent; /* Sin degradado */
+  height: auto; /* Altura automática según contenido */
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  border-radius: 8px; /* Bordes redondeados */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease; /* Animación para un efecto suave */
 }
 
-.command {
-  background-color: #40c7e5;
-  color: white;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 5px;
+.dropzone.dragover {
+  border-color: var(--color-azul); /* Cambia el color del borde */
+  background-color: transparent; /* Mantiene el fondo transparente */
 }
+
+/* Contenido del dropzone */
+.dropzone p {
+  margin: 0;
+  color: var(--color-deshabilitado);
+  font-size: 1rem;
+  text-align: center;
+  pointer-events: none; /* Ignora clics en el texto */
+
+
+.explosion-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2; 
+}
+
+.explosion-animation img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; 
+}
+
+
+.lives-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.life {
+  width: 50px;
+  height: auto;
+}
+
+/* Barra inferior */
+.footer-nav {
+  position: fixed; /* Fija la barra en la parte inferior */
+  bottom: 0; /* Colócala en la parte inferior */
+  left: 0; /* Asegúrate de que esté alineada a la izquierda */
+  width: 100%; /* Ocupa todo el ancho de la pantalla */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  border-top: 2px solid #e5e5e5;
+  z-index: 1000; /* Asegúrate de que quede encima de otros elementos */
+}
+
+.footer-button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-family: "Fredoka", sans-serif;
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.footer-button.prev {
+  background-color: #c4c4c4;
+  color: white;
+}
+
+.footer-button.next {
+  background-color: var(--color-azul);
+  color: white;
+}
+
+.footer-button:hover {
+  transform: scale(1.1);
+}
+
+.footer-page {
+  font-size: 1.5rem;
+  font-family: "Fredoka", sans-serif;
+  margin: 0 20px;
+  color: var(--color-oscuro);
+}
+
+.navigation-button {
+  background-color: var(--color-azul);
+  color: var(--color-claro);
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navigation-button:hover {
+  background-color: var(--color-celeste);
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navigation-button:active {
+  transform: scale(0.95);
+}
+
+.confirmation-page img {
+  width: 300px; /* Reduce el tamaño de la imagen */
+  height: auto;
+  margin-bottom: 20px; /* Separa la imagen del texto */
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 20px; /* Separa los botones */
+  justify-content: center; /* Centra los botones */
+}
+
+.confirmation-page p {
+  font-size: 1.5rem;
+  max-width: 700px;
+  line-height: 1.8;
+  color: #4a5568;
+  margin-bottom: 20px;
+}
+
+.confirmation-page img {
+  width: 400px;
+  height: auto;
+  margin: 20px 0; /* Similar al diseño de intro-image */
+  border-radius: 10px; /* Opcional: redondea las esquinas */
+}
+
+/* Animación de elementos */
+.meta-animation {
+  width: 200px;
+  height: auto;
+  animation: bounce 1.5s infinite;
+}
+
+.start-button {
+  margin-top: 20px; /* Añade espacio arriba del botón */
+  align-self: center; /* Centra el botón en la columna */
+}
+
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .intro-title {
+    font-size: 2rem;
+  }
+
+  .intro-description {
+    font-size: 1.2rem;
+    max-width: 90%;
+  }
+
+  .intro-image {
+    width: 250px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(5, 50px); /* Columnas de 50px en pantallas pequeñas */
+    grid-auto-rows: 50px; /* Filas de 50px */
+    gap: 5px; /* Reduce el espaciado */
+  }
+
+  .cell {
+    width: 50px;
+    height: 70px;
+  }
+
+  .footer-button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .footer-page {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr); /* Menos columnas en pantallas pequeñas */
+  }
+  .cell {
+    width: 60px;
+    height: 60px;
+  }
+}
+

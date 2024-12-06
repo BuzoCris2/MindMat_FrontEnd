@@ -1,46 +1,106 @@
 <div class="programming-game-container">
-  <!-- Introducción de la historia -->
-  <div *ngIf="currentTextIndex === 0" class="story-panel">
-    <img src="assets/img/Characters/robot1.png" alt="Rover el Robot" />
-    <h1>¡Ayuda a Rover a llegar a su nave!</h1>
-    <p>Rover está perdido en un laberinto. Usa bloques de comandos para guiarlo hacia su nave espacial.</p>
-    <button (click)="updateTextIndex(1)">Continuar</button>
+  <!-- Páginas Introductorias -->
+  <div class="row p-4 displayExample" *ngIf="currentTextIndex < 3">
+    <!-- Página 1 -->
+    <div *ngIf="currentTextIndex === 0">
+      <div class="introPages pag1">
+        <h1 class="intro-title">¡Ayuda a Rover a encontrar su camino!</h1>
+        <img src="assets/img/Characters/monkeyCharacter.png" alt="Rover el Mono" class="intro-image" />
+        <p class="intro-description">
+          ¡Guía a Rover usando bloques de comandos para completar el tablero! Evita los obstáculos y alcanza la meta.
+        </p>
+      </div>
+    </div>
+
+    <!-- Página 2 -->
+    <div *ngIf="currentTextIndex === 1">
+      <div class="introPages pag2">
+        <h1 class="intro-title">¿Cuál es nuestra misión?</h1>
+        <p class="intro-description">
+          Ayuda a Rover a llegar a la meta mientras evitas los obstáculos en el camino.
+        </p>
+        <img src="assets/img/avatars/avatar3.png" alt="Instrucciones" class="intro-image" />
+      </div>
+    </div>
+
+    <!-- Página 3 -->
+    <div *ngIf="currentTextIndex === 2">
+      <div class="introPages pag3">
+        <h1 class="intro-title">¡Completa la misión!</h1>
+        <p class="intro-description">
+          Arrastra los comandos al área indicada y luego ejecuta para mover a Rover.
+        </p>
+        <img src="assets/img/avatars/avatar7.png" alt="Ejemplo de Tablero" class="intro-image" />
+        <p class="intro-description">
+          ¡Piensa cuidadosamente antes de ejecutar los comandos!
+        </p>
+      </div>
+    </div>
   </div>
 
-  <!-- Juego principal -->
-  <div *ngIf="currentTextIndex === 1" class="game-panel">
-    <h2>Nivel 1: Laberinto Sencillo</h2>
-    <div class="grid">
-      <!-- Generar celdas dinámicamente -->
-      <div
-        *ngFor="let cell of grid; let i = index"
-        [class.rover]="i === roverPosition"
-        [class.flag]="i === flagPosition"
-        [class.obstacle]="obstacles.includes(i)"
-        class="cell"
-      ></div>
+  <!-- Pantalla de confirmación -->
+  <div class="confirmation-page" *ngIf="currentTextIndex === 3">
+    <img src="assets/img/Characters/birdCharacter2.png" alt="Confirmación" class="intro-image" />
+    <h1>¿Listo para comenzar?</h1>
+    <h1>Prepárate para guiar a Rover hacia su destino. ¡Buena suerte!</h1>
+    <div class="confirmation-buttons">
+      <button class="navigation-button" (click)="startGame()">¡Comenzar!</button>
+      <button class="navigation-button" (click)="goBackToInstructions()">Regresar</button>
     </div>
-
-    <div class="commands-section">
-      <h3>Bloques de comandos:</h3>
-      <div class="block" draggable="true" (dragstart)="drag($event, 'move')">Avanzar</div>
-      <div class="block" draggable="true" (dragstart)="drag($event, 'left')">Girar Izquierda</div>
-      <div class="block" draggable="true" (dragstart)="drag($event, 'right')">Girar Derecha</div>
-    </div>
-
-    <div class="dropzone" (dragover)="allowDrop($event)" (drop)="drop($event)">
-      <!-- Aquí se arrastran los bloques -->
-      <p *ngIf="commands.length === 0">Arrastra bloques aquí</p>
-      <div *ngFor="let command of commands" class="command">{{ command }}</div>
-    </div>
-
-    <button (click)="executeCommands()">Ejecutar Comandos</button>
   </div>
 
-  <!-- Fin del juego -->
-  <div *ngIf="currentTextIndex === 2" class="end-screen">
-    <h1>¡Felicidades!</h1>
-    <p>Has ayudado a Rover a llegar a su nave.</p>
-    <button (click)="resetGame()">Jugar de nuevo</button>
+  <div class="row p-4 game-container" *ngIf="currentTextIndex === 4">
+    <!-- Tablero -->
+    <div class="col-8">
+      <div class="grid">
+        <div
+          *ngFor="let cell of grid; let i = index"
+          class="cell"
+          [class.rover]="i === roverPosition"
+          [class.flag]="i === flagPosition"
+          [class.obstacle]="obstacles.includes(i)"
+        >
+          <!-- Animación de explosión -->
+          <div *ngIf="i === explosionPosition && isHitAnimating" class="explosion-animation">
+            <img src="assets/img/mathleship/hitAnim.gif" alt="Explosión" />
+          </div>
+  
+          <!-- Imagen de Rover -->
+          <img *ngIf="i === roverPosition && !isHitAnimating" src="assets/img/Characters/monkeyCharacter.png" alt="Rover" />
+          
+          <!-- Imagen de la meta -->
+          <img *ngIf="i === flagPosition" src="assets/img/Characters/turtleCharacter2.png" alt="Meta" />
+          
+          <!-- Imagen de obstáculos -->
+          <img
+            *ngIf="obstacles.includes(i) && !(i === explosionPosition && isHitAnimating)"
+            src="assets/img/Characters/crocodileCharacter.png"
+            alt="Obstáculo"
+          />
+        </div>
+      </div>
+    </div>
+    
+    <!-- Comandos -->
+    <div class="col-4">
+      <h3>Comandos</h3>
+      <div class="commands">
+        <div class="block" draggable="true" (dragstart)="drag($event, 'move')">Avanzar</div>
+        <div class="block" draggable="true" (dragstart)="drag($event, 'left')">Girar Izquierda</div>
+        <div class="block" draggable="true" (dragstart)="drag($event, 'right')">Girar Derecha</div>
+      </div>
+      <div class="dropzone" (dragover)="allowDrop($event)" (drop)="drop($event)">
+        <p *ngIf="commands.length === 0">Arrastra los comandos aquí</p>
+      </div>
+      <button class="start-button" (click)="executeCommands()">Ejecutar Comandos</button>
+    </div>
+  </div>
+
+  
+  <!-- Barra Inferior -->
+  <div class="footer-nav">
+    <button class="footer-button prev" (click)="navigateToPrevious()">← Anterior</button>
+    <span class="footer-page">~{{ currentTextIndex + 1 }}~</span>
+    <button class="footer-button next" (click)="navigateToNext()">Siguiente →</button>
   </div>
 </div>

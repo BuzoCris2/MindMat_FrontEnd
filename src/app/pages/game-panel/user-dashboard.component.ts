@@ -18,7 +18,9 @@ export class UserDashboardComponent {
     { id: 3, name: 'Tablero Musical', categories: ['Arte'], route: '/app/keyboard' },
     { id: 4, name: 'Color Game', categories: ['Arte'], route: '/app/colorgame' },
     { id: 5, name: 'Color Game', categories: ['Ciencia'], route: '/app/colorgame' },
-    { id: 4, name: 'Programador en Acción', categories: ['Tecnología'], route: '/app/programminggame' },
+    { id: 6, name: 'Programador en Acción', categories: ['Tecnología'], route: '/app/programminggame' },
+    { id: 7, name: 'Crece tu arbol', categories: ['Ciencia'], route: '/app/grow-your-tree' },
+    { id: 8, name: 'Crece tu arbol', categories: ['Matemática'], route: '/app/grow-your-tree' },
   ];
   selectedCategoryGames: Game[] = [];
   showGameList: boolean = false;

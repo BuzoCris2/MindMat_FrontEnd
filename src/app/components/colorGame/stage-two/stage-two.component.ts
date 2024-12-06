@@ -49,7 +49,7 @@ export class StageTwoComponent {
     },
     {
       question: '¿Qué fuente natural se usaba para obtener amarillo?',
-      options: ['Oro en polvo','Cúrcuma', 'Hojas de arce'],
+      options: ['Oro en polvo', 'Hojas de arce','Cúrcuma'],
       correctAnswer: 'Cúrcuma'
     },
     {
@@ -127,8 +127,6 @@ export class StageTwoComponent {
     // Guardar los resultados del puntaje
     this.correctAnswers = correct;
     this.wrongAnswers = wrong;
-    // Eliminar el uso de ModalService aquí
-    // Ya que estamos controlando la visibilidad con *ngIf
 }
 
   closeModal(){

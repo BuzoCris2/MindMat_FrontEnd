@@ -4,6 +4,12 @@
   padding: 20px;
 }
 
+.stage-one-container div {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 20px;
+}
+
 .color-palette {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 6 columnas por fila */
@@ -18,10 +24,10 @@
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: absolute; /* No interfiere con los clics en la paleta */
   top: 0;
-  left: 300px; /* Coloca el panel a la derecha de la paleta */
+  left: 300px; /* Coloca el panel a la izquierda de la paleta */
   z-index: 5;
+  margin-right: 20px;
 }
 
 .reset {
@@ -132,4 +138,36 @@ button:hover {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease;
+}
+
+.pag-info{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+  margin-bottom: 60px;
+}
+.pag-info h1{
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-family: "Fredoka", sans-serif;
+}
+
+.pag-info p{
+  margin-top: 20px;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-family: "Fredoka", sans-serif;
+}
+
+.pag-info img{
+  margin-top: 20px;
+  align-self: center;
+  margin-bottom: 60px;
+}
+
+.about-colors{
+  padding: 0vw 10vw;
+  color: var(--color-oscuro);
 }

@@ -21,6 +21,21 @@
                 </div>
             </div>
         </div>
+        <div class="display-none" #growTreeScore>
+            <h2>Respuestas</h2>
+
+            <div class="answers">
+                <div id="wright-answers">
+                    <h1 class="answer-title">{{correctAnswers}}</h1>
+                    <h3>Correctas</h3>
+                </div>
+                <div id="wrong-answers">
+                    <h1 class="answer-title">{{wrongAnswers}}</h1>
+                    <h3>Incorrectas</h3>
+                </div>
+            </div>
+        </div>
+        
         <div class="display-none" #colorScore>
             <h2>Respuestas</h2>
 
@@ -37,6 +52,13 @@
             <button (click)="onResetQuiz()">Reiniciar</button>
             <button (click)="onUnlockAllQuestions()">Continuar</button>
         </div>
+        <div class="display-none mathleshipModal" #mathleshipScore>
+            <h2>Tiempo conseguido</h2>
+            <h3>{{ elapsedTime }} segundos</h3>
+            <ng-container *ngIf="parseStarsEarned(starsEarned) < 5">
+                <p>Para conseguir todas las estrellas, completa el juego en menos de {{ maxTimeForFullStars }} segundos.</p>
+            </ng-container>            
+        </div>        
         <div class="modal-button-container" #standardContinueButton>
             <button #startGame (click)="closeModal()" class="continue">Continuar</button>
         </div>

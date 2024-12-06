@@ -159,7 +159,7 @@ interface ITeacherLeader {
   name: string;
   lastname: string;
   email: string;  // Si necesitas también el email
-  teamCount: number;
+  //teamCount: number;
 
 }
 

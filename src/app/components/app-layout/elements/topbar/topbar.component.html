@@ -4,11 +4,11 @@
     <img class="profile-avatar" [src]="'assets/img/avatars/avatar' + (user?.avatarId || 1) + '.png'" alt="Avatar" />
     <div class="profile-info">
       <p>Hola, {{ user?.name }}</p>
-      <span class="user-points">⭐ 00</span>
+      <span class="user-points">⭐</span>
     </div>
   </div>
 
-  <!-- Íconos de navegación -->
+
   <div class="menu-icons">
     <a *ngIf="shouldDisplayRoute('user-dashboard')" routerLink="/app/user-dashboard" routerLinkActive="active" class="menu-item">
       <img src="assets/img/topbar/Icono-juegos.png" alt="Panel de Juegos" class="icon" />
@@ -29,6 +29,10 @@
     <a *ngIf="shouldDisplayRoute('dashboard')" routerLink="/app/dashboard" routerLinkActive="active" class="menu-item">
       <!-- <img src="assets/icons/mathleship.png" alt="Mathleship" class="icon" />-->
       <span>Dashboard</span>
+    </a>
+    <a *ngIf="shouldDisplayRoute('grow-your-tree')" routerLink="/app/grow-your-tree" routerLinkActive="active" class="menu-item">
+      <!-- <img src="assets/icons/mathleship.png" alt="Mathleship" class="icon" />-->
+      <span>Crece mi arbol</span>
     </a>
   </div>
 

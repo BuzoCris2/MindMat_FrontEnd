@@ -4,8 +4,8 @@
     background-image: url('../../../../assets/img/keyboard/Jungle.png');
     background-size:contain;
     background-repeat: no-repeat;
-    min-height: 70vh;
     background-position: center;
+    min-height: 70vh;
     justify-content: center;
 }
 
@@ -49,3 +49,162 @@
 }
 
 
+.about-keyboard{
+    padding: 0vw 10vw;
+    color: var(--color-oscuro);
+}
+
+.pag-1{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.pag-1 h1{
+    font-size: 4rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-family: "Fredoka", sans-serif;
+}
+.pag-1 p {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    font-family: "Fredoka", sans-serif;
+}
+
+.pag-1 img{
+    width: 400px;
+    margin: 20px;
+    -webkit-animation: breathing 10s ease-out infinite normal;
+    animation: breathing 10s ease-out infinite normal;
+    font-family:'Lantinghei SC';
+    -webkit-font-smoothing: antialiased;
+    border-radius: 2px;
+    text-align: center;    
+    }
+
+
+@-webkit-keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+@keyframes breathing {
+  0% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  25% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  60% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+
+  100% {
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+.pag-2{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    margin-bottom: 60px;
+}
+.pag-2 h1{
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-family: "Fredoka", sans-serif;
+}
+
+.pag-2 p{
+    margin-top: 20px;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    font-family: "Fredoka", sans-serif;
+}
+
+.pag-2 img{
+    margin-top: 20px;
+    align-self: center;
+    margin-bottom: 60px;
+}
+
+.pag-3{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.pag-3 h1{
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-family: "Fredoka", sans-serif;
+}
+
+.pag-3 p{
+    margin-top: 20px;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    font-family: "Fredoka", sans-serif;
+}
+
+.pag-3 img{
+    margin-top: 20px;
+    margin-bottom: 40px;
+    align-self: center;
+}
+
+.tones-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tone-semitone{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 50px;
+    text-align: center;
+}
+
+.tone-semitone h2{
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-family: "Fredoka", sans-serif;
+}

@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-stage-three',
-  standalone: true, // Marcar como standalone
-  imports: [CommonModule, FormsModule], // Importar los módulos necesarios
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './stage-three.component.html',
   styleUrls: ['./stage-three.component.scss'],
 })

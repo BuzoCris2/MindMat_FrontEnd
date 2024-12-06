@@ -12,6 +12,7 @@ export class GamesKnoledgeBaseComponent {
   // EventEmitter para enviar el índice de texto al componente padre
   public modalService: ModalService = inject(ModalService);
   @Input() numberOfPages: number = 1;
+  @Output() gameStart = new EventEmitter<void>(); 
   @Output() textIndexChange = new EventEmitter<number>();
   @ViewChild('navigationPanel') panel!: ElementRef;
   @ViewChild('nextPage') next!: ElementRef; 
@@ -59,10 +60,15 @@ export class GamesKnoledgeBaseComponent {
   popUpGame(){
     this.modalService.displayModal('md', this.addTestModal);
   }
+  
+  startGame() {
+    this.gameStart.emit(); // Notificar al padre que el juego ha comenzado
+    this.modalService.closeAll();
+  }
 
   cancelGame(){
     this.modalService.closeAll();
   }
 
-  
+
 }

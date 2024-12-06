@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Injectable, OnInit } from '@angular/core';
 import { AchievementsService } from '../../services/achievements.service';
 import { PaginationComponent } from '../../components/pagination/pagination.component';
 import { LoaderComponent } from '../../components/loader/loader.component';
@@ -11,24 +11,33 @@ import { IUserAchievement } from '../../interfaces';
   selector: 'app-achievements',
   standalone: true,
   imports: [
-    AchievementsListComponent,
-    PaginationComponent,
-    LoaderComponent,
     CommonModule
   ],
   templateUrl: './achievements.component.html',
   styleUrls: ['./achievements.component.scss']
 })
-export class AchievementsComponent {
-  public achievementsService: AchievementsService = inject(AchievementsService);
+export class AchievementsComponent implements OnInit{
+  
+  achievements: any[] = [];
+  infiniteAchievements: any[] = [];
 
-  constructor() {
-    this.achievementsService.search.page = 1;
-    this.achievementsService.getAllByUser();  // Obtener todos los logros al cargar el componente
-  }
+  constructor(private achievementsService: AchievementsService) {}
 
-  // Asegúrate de que el tipo de datos que pasas a 'app-achievements-list' sea IUserAchievement[]
-  get achievements(): IUserAchievement[] {
-    return this.achievementsService.achievements$();
+  ngOnInit(): void {
+    this.achievementsService.getAchievements().subscribe({
+      next: (data) => {
+        this.achievements = data;
+
+        // Duplica los elementos para crear un carrusel infinito
+        this.infiniteAchievements = [
+          ...this.achievements,
+          ...this.achievements,
+          ...this.achievements,
+        ];
+      },
+      error: (err) => {
+        console.error('Error fetching achievements:', err);
+      },
+    });
   }
 }

@@ -79,9 +79,6 @@
             </ng-container>
             <ng-template #viewModeEmail>
             <span>{{ user?.email }}</span>
-            <span class="edit-icon" (click)="enableEdit('email')">
-              <img src="assets/img/Various/pencilEdit.png" alt="Edit">
-            </span>
           </ng-template>
           </div>
         </div>
@@ -109,9 +106,7 @@
           <div class="info-row">
             <div *ngFor="let item of teams; trackBy: trackById" class="info-column changingColumn">
               <label>Equipos</label>
-              <p *ngIf="item?.teacherLeader?.teamCount !== undefined; else noData">
-                Usted está a cargo de {{ item?.teacherLeader?.teamCount }} equipos
-              </p>
+              
               <ng-template #noData>
                 <p>No hay información disponible</p>
               </ng-template>

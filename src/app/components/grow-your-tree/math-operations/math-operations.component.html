@@ -1,0 +1,34 @@
+<div class="modal-container" *ngIf="mathVisible">
+    <div class="modal">
+        <!-- Sección de la operación matemática -->
+        <div class="math-section">
+            <div *ngIf="quickFeedbackVisible" class="quick-feedback-overlay" [ngClass]="quickFeedbackType">
+                {{ quickFeedbackMessage }}
+            </div>
+            <h2 *ngIf="!showAlert" class="title">Resuelve la Operación</h2>
+            <h2 *ngIf="showAlert" [ngClass]="{ 'success-message': alertType === 'success', 'error-message': alertType === 'error' }">
+                {{ alertMessage }}
+            </h2>
+            <div class="math-operation">
+                <div class="number">{{ number1 }}</div>
+                <div class="operator">{{ operator }}</div>
+                <div class="number">{{ number2 }}</div>
+                <div class="equals">=</div>
+                <input type="text" [(ngModel)]="userAnswer" class="answer-input" />
+            </div>
+            <button *ngIf="!showAlert" class="btn-ready" [disabled]="userAnswer === ''" (click)="submitAnswer()">
+                Enviar
+            </button>
+        </div>
+        
+        <!-- Sección de la barra de progreso -->
+        <div class="progress-section">
+            <h3 class="progress-title">Ciclo de la Fotosíntesis</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar" [ngStyle]="{ 'width': progressPercentage + '%' }"></div>
+            </div>
+            <div class="progress-phase">{{ currentPhase }}</div>
+        </div>
+    </div>
+  </div>
+  

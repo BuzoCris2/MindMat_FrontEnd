@@ -1,22 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, ViewChild } from '@angular/core';
 import { MathleshipService } from '../../services/mathleship.service';
 import { TimerComponent } from '../../components/timer/timer.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IShip, IGridCell } from '../../interfaces';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
+import { GamesKnoledgeBaseComponent } from '../../components/game/games-knoledge-base/games-knoledge-base.component';
 import { ChangeDetectorRef } from '@angular/core';
+import { ModalService } from '../../services/modal.service';
+import { ScoreService } from '../../services/score.service';
+import { GamesSaveScoreComponent } from '../../components/game/games-save-score/games-save-score.component';
+import { ModalComponent } from '../../components/modal/modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mathleship',
   standalone: true,
   templateUrl: './mathleship.component.html',
   styleUrls: ['./mathleship.component.scss'],
-  imports: [CommonModule, FormsModule, TimerComponent, AlertModalComponent]
+  imports: [CommonModule, FormsModule, TimerComponent, GamesSaveScoreComponent, AlertModalComponent, GamesKnoledgeBaseComponent, ]
 })
 export class MathleshipComponent implements OnInit {
   board: string[][] = [];
-  timerValue: string = '03:00'; 
+  columns: string[] = []; // Se llenará con datos del backend
+  rows: number[] = [];
+
+  public gameStartTime: Date = new Date();
+  timerValue: string = '03:00';
+  remainingTime: number = 0;
+  public isGameActive: boolean = true;
+  public starsEarned: number = 0;
+  selectedGame: number = 0;
+  public correctAnswers: number = 0;
+  public wrongAnswers: number = 0;
+
+  shipsStatus: { [key: string]: boolean } = {};
+  ships: IShip[] = [];
+
+  public modalService: ModalService = inject(ModalService);
+  public scoreService: ScoreService = inject(ScoreService);
 
   showAlert = false;
   alertType: 'time' | 'error' | 'success' = 'success';
@@ -35,6 +57,7 @@ export class MathleshipComponent implements OnInit {
   operator: string = '';
   userAnswer: string = '';
   resultMessage: string = '';
+  maxTimeForFullStars: number = 40;
 
   powerups = [
     { name: 'Row Shot', used: false },
@@ -49,9 +72,18 @@ export class MathleshipComponent implements OnInit {
   selectedRowHover: number | null = null;
   lastSelectedRow: number | null = null;
 
-  constructor(private mathleshipService: MathleshipService, private cdr: ChangeDetectorRef) {}
+  @ViewChild('scoreModal') public scoreModal: any;
+  @ViewChild(AlertModalComponent) alertModalComponent!: AlertModalComponent;
 
-  ngOnInit(): void {
+  constructor(
+    private mathleshipService: MathleshipService,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+) {
+    this.selectedGame = 3; // Inicialización dentro del constructor
+}
+
+  /*ngOnInit(): void {
     this.initializeGame();
 
     this.mathleshipService.getShips().subscribe({
@@ -59,6 +91,8 @@ export class MathleshipComponent implements OnInit {
     console.log('Datos recibidos de los barcos:', response);
     if (response) {  
       this.board = this.buildBoard(response);
+      this.initializeShipsStatus(response);
+      
     } else {
       console.error('No se recibieron datos de los barcos.');
     }
@@ -66,7 +100,41 @@ export class MathleshipComponent implements OnInit {
   error: (err) => console.error('Error al obtener los barcos', err)
 });
 
-  }
+  }*/
+
+ngOnInit(): void {
+  this.fetchGridData();
+
+  this.mathleshipService.initializeBoard().subscribe({
+    next: (ships: IShip[]) => {
+      console.log('Datos de barcos recibidos desde el backend:', ships);
+
+      this.ships = ships; // Guardar barcos localmente
+      this.board = this.buildBoard(ships); // Construir el tablero
+      this.initializeShipsStatus(ships); // Inicializar el estado de los barcos
+    },
+    error: (err) => {
+      console.error('Error al inicializar el tablero:', err);
+    },
+  });
+}
+
+fetchGridData(): void {
+  this.mathleshipService.getGridData().subscribe({
+    next: (data) => {
+      this.columns = data.columns;
+      this.rows = data.rows;
+    },
+    error: (err) => {
+    },
+  });
+}
+
+currentTextIndex: number = 0;
+updateTextIndex(newIndex: number) {
+  this.currentTextIndex = newIndex;
+}
+
 
   initializeGame() {
     this.mathleshipService.initializeBoard().subscribe({
@@ -77,20 +145,57 @@ export class MathleshipComponent implements OnInit {
     });
   }
 
+  initializeShipsStatus(ships: IShip[]): void {
+    this.ships = ships;
+    ships.forEach((ship, index) => {
+      this.shipsStatus[`ship${index + 1}`] = false; // Todos los barcos inician como no derribados
+      
+    });
+    console.log('Datos de barcos inicializados:', this.ships);
+  }
+
+  checkShipStatus(): void {
+    this.ships.forEach((ship, index) => {
+      const allHit = ship.cellsOccupied.every((cell) => {
+        const row = cell.row - 1;
+        const col = cell.column.charCodeAt(0) - 'A'.charCodeAt(0);
+        return this.board[row][col] === 'H'; // Todas las celdas deben estar marcadas como golpeadas
+      });
+  
+      // Si todas las celdas de un barco están golpeadas, marcar el barco como destruido
+      if (allHit) {
+        this.shipsStatus[`ship${index + 1}`] = true;
+      }
+    });
+
+    this.checkGameOver();
+    console.log('Estado actualizado de los barcos:', this.shipsStatus);
+  }
+  
+
   buildBoard(ships: IShip[]): string[][] {
     if (!ships) {
       console.error('Ships es null o undefined.');
       return [];
     }
   
-    const board = Array(6).fill(null).map(() => Array(6).fill(''));
+    //const board = Array(6).fill(null).map(() => Array(6).fill(''));
+    const board = Array.from({ length: 6 }, () => Array(6).fill(''));
     ships.forEach(ship => {
         ship.cellsOccupied.forEach(cell => {
             const columnIndex = cell.column.charCodeAt(0) - 'A'.charCodeAt(0);
             const rowIndex = cell.row - 1;
+
+            if (board[rowIndex][columnIndex] === 'S') {
+              console.warn(
+                `Posición duplicada detectada: (${rowIndex + 1}, ${cell.column})`
+              );
+            }
+
             board[rowIndex][columnIndex] = 'S';
         });
     });
+    console.log('Tablero construido:', board);
     return board;
   }
   
@@ -156,6 +261,7 @@ export class MathleshipComponent implements OnInit {
         setTimeout(() => {
           this.isHitAnimating = false;
           this.board[row][column] = 'H'; // Marcar hit
+          this.checkShipStatus();
         }, 2000); 
       }, 1000);
     } else {
@@ -197,7 +303,7 @@ export class MathleshipComponent implements OnInit {
 
   closeAlertModal() {
     this.showAlert = false;
-  }
+  }  
 
   closeMathModal() {
     this.mathVisible = false;
@@ -357,6 +463,8 @@ export class MathleshipComponent implements OnInit {
         }
       });
       console.log('Tablero después de aplicar PowerUp:', this.board);
+
+      this.checkShipStatus();
   
       // Feedback en el modal
       this.showFeedbackMessage(true); // Muestra el mensaje en el modal
@@ -446,6 +554,8 @@ export class MathleshipComponent implements OnInit {
         }
       });
       console.log('Tablero después de aplicar PowerUp:', this.board);
+
+      this.checkShipStatus();
   
       // Feedback en el modal
       this.showFeedbackMessage(true); // Muestra el mensaje en el modal
@@ -551,6 +661,8 @@ export class MathleshipComponent implements OnInit {
         }
       });
       console.log('Tablero después de aplicar PowerUp:', this.board);
+
+      this.checkShipStatus();
   
       // Feedback en el modal
       this.showFeedbackMessage(true); // Muestra el mensaje en el modal
@@ -597,6 +709,40 @@ export class MathleshipComponent implements OnInit {
     return correctAnswer;
   }
   
+  updateRemainingTime(time: number): void {
+    this.remainingTime = time;
+  }
+
+  saveScore() {
+    const timeTaken = this.calculateElapsedTime();
+    this.selectedGame = 3;
   
+    // Muestra el modal con la referencia del template del modal
+    this.modalService.displayModal('md', this.scoreModal);
+  }  
+
+checkGameOver(): void {
+  const allShipsDestroyed = Object.values(this.shipsStatus).every(status => status === true);
+  if (allShipsDestroyed && this.remainingTime > 0) {
+    console.log("¡Todos los barcos han sido derribados! El juego ha terminado.");
+    this.endGame(); // Llama al método para finalizar el juego y mostrar el modal
+  }
+}
+
+endGame(): void {
+  if (this.remainingTime <= 0) {
+    
+  } else {
+    // Guardar el puntaje y abrir el modal si todos los barcos han sido destruidos
+    this.saveScore();
+    this.maxTimeForFullStars = 120;
+  }
+}
+
+
+  calculateElapsedTime(): number {
+    const now = new Date();
+    return Math.floor((now.getTime() - this.gameStartTime.getTime()) / 1000);
+  }
 
 }
