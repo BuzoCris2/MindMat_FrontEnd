@@ -304,6 +304,7 @@
 .start-button {
   margin-top: 20px; 
   align-self: center; 
+
 }
 
 .explosion-animation {
@@ -382,6 +383,27 @@
 
 .restart-button:hover {
   background-color: #45a049; 
+}
+
+.continue{
+  color: var(--white);
+  background-color: white;
+  color: var(--color-azul);
+  font-family: "Fredoka", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-style: none;
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 2px var(--color-azul);
+  margin-right: 1.5rem;
+  margin-left: 1.5rem;
+  display: flex;
+}
+.continue:hover{
+  border-width: 0px;
+  background-color: var(--color-azul);
+  color: white;
 }
 
 .timer-container {

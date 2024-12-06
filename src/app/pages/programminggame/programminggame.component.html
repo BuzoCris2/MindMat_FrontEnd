@@ -38,17 +38,6 @@
     </div>
   </div>
 
-  <!-- Pantalla de confirmación 
-  <div class="confirmation-page" *ngIf="currentTextIndex === 3">
-    <img src="assets/img/Characters/birdCharacter2.png" alt="Confirmación" class="intro-image" />
-    <h1>¿Listo para comenzar?</h1>
-    <h1>Prepárate para guiar a Rover hacia su destino. ¡Buena suerte!</h1>
-    <div class="confirmation-buttons">
-      <button class="navigation-button" (click)="startGame()">¡Comenzar!</button>
-      <button class="navigation-button" (click)="goBackToInstructions()">Regresar</button>
-    </div>
-  </div> -->
-
   <div class="row p-4 game-container" *ngIf="currentTextIndex === 4">
     <!-- Tablero -->
     <div class="col-8">
@@ -94,7 +83,7 @@
           <button (click)="removeCommand(index)" class="delete-command">x</button>
         </div>
       </div>      
-      <button class="start-button" (click)="executeCommands()">Ejecutar Comandos</button>
+      <button class="continue" (click)="executeCommands()">Ejecutar Comandos</button>
 
       <div class="timer-container">
         <app-timer 

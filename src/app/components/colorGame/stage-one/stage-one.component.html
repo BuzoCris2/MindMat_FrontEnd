@@ -58,14 +58,14 @@
       </div>
     </div>
 
-    <button class="reset" (click)="resetGame()">Limpiar pintura</button>
+    <button class="fancyButton" (click)="resetGame()">Limpiar pintura</button>
   </div>
   <app-games-knoledge-base [numberOfPages]=4 (textIndexChange)="updateTextIndex($event)" />
   <div class="modal" *ngIf="allColorsUnlocked">
     <div class="modal-content">
       <h2>¡Felicidades!</h2>
       <p>Has desbloqueado todos los colores.</p>
-      <button (click)="unlockAllColors()">Siguiente</button>
+      <button class="fancyButton" (click)="unlockAllColors()">Siguiente</button>
     </div>
   </div>
 </div>
