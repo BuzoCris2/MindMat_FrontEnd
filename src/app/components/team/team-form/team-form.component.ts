@@ -41,7 +41,7 @@ export class TeamFormComponent {
   
         // Si el usuario es SUPER_ADMIN, carga lista de docentes
         if (this.role === 'SUPER_ADMIN') {
-          this.userService.getAll(); // Llama a `getAll()` para llenar el signal `users$`
+          this.userService.getAll(); // Llama a getAll() para llenar el signal users$
           const allUsers = this.userService.users$(); // Accede directamente al valor del signal
           this.users = allUsers.filter((u: IUser) => u.role?.name.toUpperCase() === 'ADMIN'); // Filtra los docentes
         }
@@ -62,28 +62,27 @@ export class TeamFormComponent {
   callSave() {
     const teacherLeaderId = this.teamForm.controls['teacherLeader'].value;
     const selectedTeacher = this.users.find(user => user.id === teacherLeaderId);
-
+  
     const team: ITeam = {
       id: this.teamForm.controls['id'].value,
       name: this.teamForm.controls['name'].value,
       description: this.teamForm.controls['description'].value,
       teacherLeader: {
         id: selectedTeacher?.id || this.loggedInUserId,
-        name: selectedTeacher?.name || '',
+        name: selectedTeacher?.name || '', 
         lastname: selectedTeacher?.lastname || '',
-        email: selectedTeacher?.email || '',
+        email: selectedTeacher?.email || ''
       },
       members: this.teamForm.controls['members'].value || [],
-      avatarId: 1, 
+      avatarId: 1, // Avatar por defecto
     };
-
+  
     console.log('Payload enviado al backend:', team);
-
+  
     if (team.id) {
       this.callUpdateMethod.emit(team);
     } else {
       this.callSaveMethod.emit(team);
     }
-}
-  
+  }
 }

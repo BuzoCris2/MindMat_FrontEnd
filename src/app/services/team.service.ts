@@ -39,7 +39,8 @@ export class TeamService extends BaseService<ITeam>{
             }
         })
     );
-  }
+}
+
   
   /*getAllByUser(): Observable<ITeam[]> {
     return this.findAllWithParamsAndCustomSource(
