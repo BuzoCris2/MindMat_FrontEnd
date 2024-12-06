@@ -7,6 +7,10 @@ import { AlertModalComponent } from '../../components/alert/alert-modal.componen
 import { TimerComponent } from '../../components/timer/timer.component';
 import { GamesKnoledgeBaseComponent } from './../../components/game/games-knoledge-base/games-knoledge-base.component';
 import { AfterViewInit, ViewChild } from '@angular/core';
+import { ScoreService } from '../../services/score.service';
+import { IScore } from '../../interfaces';
+
+
 
 
 
@@ -42,33 +46,43 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
   showGameOverPopup: boolean = false;
   showCongratulationsPopup: boolean = false;
 
+  
+  selectedGameId: number = 2; 
+  correctAnswers: number = 0; 
+  wrongAnswers: number = 0; 
+
   @ViewChild(TimerComponent) timerComponent!: TimerComponent;
+  @ViewChild('scoreModal') scoreModal!: any;
+
+   
+
 
   ngAfterViewInit(): void {
     console.log('Temporizador inicializado:', this.timerComponent);
-    this.timerComponent.startTimer(); // Inicia el temporizador al cargar el componente
-  }
+    this.timerComponent.startTimer();
+  } 
 
 
   // Variables relacionadas con la puntuación y el estado del juego
   public gameStartTime: Date = new Date();
   public starsEarned: number = 0;
+  remainingTime: number = 0;
 
   // Servicios inyectados
   public modalService: ModalService = inject(ModalService);
   public programmingGameService: ProgrammingGameService = inject(ProgrammingGameService);
+  public scoreService: ScoreService = inject(ScoreService);
+
 
   constructor() {}
 
   ngOnInit(): void {
-    console.log('Juego Inicializado');
-  
-    // Validar posiciones iniciales
     if (this.roverPosition === this.flagPosition || this.obstacles.includes(this.roverPosition)) {
       console.error('Posiciones conflictivas en el tablero');
     }
   }
-  
+
+
   // Función para actualizar el índice de pantallas introductorias
   updateTextIndex(newIndex: number): void {
     this.currentTextIndex = newIndex;
@@ -192,14 +206,68 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
 
   checkGameStatus(): void {
     if (this.roverPosition === this.flagPosition) {
-      this.showCongratulationsPopup = true; 
+      this.updateStarsBasedOnTime(); 
+      this.saveScore(); 
+    }
+  }
+  
+    
+  calculateElapsedTime(): number {
+    const now = new Date();
+    return Math.floor((now.getTime() - this.gameStartTime.getTime()) / 1000);
+  }
+  
+
+  saveScore(): void {
+    const timeTaken = this.calculateElapsedTime(); 
+    const formattedTime = new Date(timeTaken * 1000).toISOString().substr(11, 8); // Formato HH:mm:ss
+    
+    const scoreData: IScore = {
+      game: {
+        id: this.selectedGameId, 
+        name: "Programming Game",
+        description: "Usa comandos para que Rover alcance la meta",
+      },
+      rightAnswers: 0, 
+      wrongAnswers: 0, 
+      stars: this.starsEarned, 
+      timeTaken: formattedTime, 
+      obtainedAt: new Date().toISOString(), 
+    };
+  
+    this.scoreService.save(scoreData).subscribe({
+      next: (response) => {
+        console.log('Puntaje guardado exitosamente:', response);
+        this.showCongratulationsPopup = true; // Mostrar modal de felicitaciones
+      },
+      error: (err) => {
+        console.error('Error guardando el puntaje:', err);
+      },
+    });
+  }
+  
+   
+
+  updateStarsBasedOnTime(): void {
+    const elapsedTime = this.calculateElapsedTime();
+  
+    if (elapsedTime <= 30) {
+      this.starsEarned = 5;
+    } else if (elapsedTime <= 50) {
+      this.starsEarned = 4;
+    } else if (elapsedTime <= 80) {
+      this.starsEarned = 3;
+    } else if (elapsedTime <= 120) {
+      this.starsEarned = 2;
+    } else {
+      this.starsEarned = 0;
     }
   }
 
   restartGame(): void {
-    this.resetGame(); // Reinicia el juego
-    this.showCongratulationsPopup = false; // Cierra el popup de felicitaciones
-    this.timerComponent.startTimer(); // Reinicia el temporizador
+    this.resetGame(); 
+    this.showCongratulationsPopup = false; 
+    this.timerComponent.startTimer(); 
   }
 
   resetGame(): void {
@@ -210,10 +278,11 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
     this.obstacles = [6, 7, 12, 17];
     this.explosionPosition = null;
     this.isHitAnimating = false;
+    this.remainingTime = 180; 
+    this.starsEarned = 0;    
     this.validatePositions();
-
   }
-
+  
 
   validatePositions(): void {
     if (this.roverPosition === this.flagPosition || this.obstacles.includes(this.roverPosition)) {
@@ -221,16 +290,25 @@ export class ProgrammingGameComponent implements OnInit, AfterViewInit {
     }
   }
 
+  openSaveScoreModal(): void {  
+    this.modalService.displayModal('lg', this.scoreModal);
+  }  
+    
+  onTimeRemaining(time: number): void {
+    console.log(`Tiempo restante: ${time} segundos`);
+  }
+    
+  onTimerEnded(): void {
+    console.log('¡El tiempo se ha agotado!');
+    this.updateStarsBasedOnTime(); // Actualiza las estrellas basadas en el tiempo restante
+    this.saveScore(); // Guarda el puntaje y muestra el modal
+  }
 
-  onTimeRemaining(timeLeft: number): void {    
-    console.log(`Tiempo restante: ${timeLeft} segundos`);
+  onContinue(): void {
+    this.modalService.closeAll(); 
+    this.resetGame(); 
   }
-  
-  onTimerEnded(): void {    
-    console.log('¡El tiempo se ha acabado!');
-    this.triggerGameOverPopup();
-  }
-  
+
   
   triggerGameOverPopup(): void {
     this.showGameOverPopup = true;

@@ -110,12 +110,12 @@
     <div class="popup-content">
       <h1>🎉 ¡Felicidades! 🎉</h1>
       <p>Haz ayudado a Rover a llegar a su destino.</p>
+      <p>Estrellas ganadas: ⭐ x {{ starsEarned }}</p>
       <img src="assets/img/avatars/avatar3.png" alt="Felicidades" class="congratulations-image" />
       <button class="restart-button" (click)="restartGame()">Reiniciar</button>
     </div>
   </div>
-  
-  
+    
   <!-- Barra Inferior -->
   <div class="footer-nav">
     <button class="footer-button prev" (click)="navigateToPrevious()">← Anterior</button>
@@ -123,3 +123,16 @@
     <button class="footer-button next" (click)="navigateToNext()">Siguiente →</button>
   </div>
 </div>
+
+<ng-template #scoreModal>
+  <app-games-save-score
+    [selectedGameId]="selectedGameId"
+    [startTime]="gameStartTime"
+    [maxTimeForFullStars]="180"
+    (continueClicked)="onContinue()"
+    class="save-score-modal">
+  </app-games-save-score>
+</ng-template>
+
+
+

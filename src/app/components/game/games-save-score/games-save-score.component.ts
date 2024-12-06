@@ -69,6 +69,33 @@ export class GamesSaveScoreComponent implements AfterViewInit {
           console.error('Error saving score:', err);
         }
       });
+    
+    } else if (this.selectedGameId === 2) {
+      // Lógica para el juego 2
+      const timeTaken = this.calculateElapsedTime();
+      this.elapsedTime = timeTaken; 
+      this.mathleshipSection.nativeElement.classList.remove('display-none'); 
+  
+      const score: IScore = {
+        rightAnswers: this.correctAnswers,
+        wrongAnswers: this.wrongAnswers,
+        game: {
+          id: 2,
+          name: "Programming Game",
+          description: "Juego basado en lógica de programación",
+          createdAt: "2024-11-29T00:10:20.000+00:00",
+          updatedAt: "2024-11-29T00:11:01.000+00:00"
+        },
+        timeTaken: timeTaken
+      };        
+      this.scoreService.save(score).subscribe({
+        next: (response) => {
+          this.starsEarned = response.stars;
+        },
+        error: (err) => {
+          console.error("Error guardando el puntaje:", err);
+        }
+      });  
     } if (this.selectedGameId === 3) {
       const timeTaken = this.calculateElapsedTime();
       this.elapsedTime = this.calculateElapsedTime();
