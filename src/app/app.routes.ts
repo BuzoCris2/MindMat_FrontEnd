@@ -94,6 +94,7 @@ export const routes: Routes = [
           name: 'Usuarios',
           showInDashboard: true,
           icon:'assets/img/dashboard/usuario.png',
+          topbarIcon: 'assets/img/topbar/Usuarios.png',
         }
       },
       {
@@ -106,7 +107,8 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'Dashboard',
-          showInDashboard: false,
+          showInDashboard: true,
+          topbarIcon: 'assets/img/topbar/panel.png',
         }
       },
       {
@@ -121,6 +123,7 @@ export const routes: Routes = [
           name: 'Perfil',
           showInDashboard: true,
           icon:'assets/img/dashboard/perfil.png',
+          topbarIcon: 'assets/img/topbar/perfil.png',
         }
       },
       {
@@ -128,12 +131,12 @@ export const routes: Routes = [
         component: AchievementsComponent,
         data: {
           authorities: [
-            IRoleType.admin,
-            IRoleType.superAdmin,
+            IRoleType.user,
           ],
           name: 'Reportes',
           showInDashboard: true,
           icon:'assets/img/dashboard/reportes.png',
+          topbarIcon: 'assets/img/topbar/logros.png',
         }
       },
       {
@@ -156,6 +159,7 @@ export const routes: Routes = [
           ],
           name: 'mathleship',
           showInDashboard: false,
+          
         }
       },
       {
@@ -167,6 +171,7 @@ export const routes: Routes = [
           name: 'Panel de Juegos',
           showInDashboard: true,
           icon:'assets/img/dashboard/juegos.png',
+          topbarIcon: 'assets/img/topbar/Icono-juegos.png',
         }
       },
       {
@@ -191,6 +196,7 @@ export const routes: Routes = [
           name: 'Equipos',
           showInDashboard: true,
           icon:'assets/img/dashboard/team.png',
+          topbarIcon: 'assets/img/topbar/Equipo.png',
         }
       },
   {
