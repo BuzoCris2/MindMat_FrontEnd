@@ -100,12 +100,22 @@ export class ProfileComponent implements OnInit {
 
   saveField(field: keyof IUser, newValue: string) {
     if (this.user) {
-      (this.user as Partial<IUser>)[field as keyof IUser] = newValue as any;
+      // Validar que el nuevo valor no esté vacío
+      if (!newValue.trim()) {
+        this.triggerAlert('error', 'Error', 'El campo no puede estar vacío.');
+        (this.user as any)[field] = this.originalValue ?? ''; // Restaurar valor original
+        return;
+      }
   
+      // Asignar el nuevo valor al usuario
+      (this.user as any)[field] = newValue;
+  
+      // Llamar al servicio para guardar el cambio
       this.profileService.updateUserField(field, newValue).subscribe({
         next: () => {
-          this.triggerAlert('success', '¡Éxito!', `Tu información ha sido actualizada correctamente.`,'Continuar');
-
+          this.triggerAlert('success', '¡Éxito!', `Tu información ha sido actualizada correctamente.`, 'Continuar');
+          
+          // Si el campo es email, forzar cierre de sesión
           if (field === 'email') {
             setTimeout(() => {
               this.authService.logout();
@@ -115,8 +125,20 @@ export class ProfileComponent implements OnInit {
         },
         error: (error) => {
           this.triggerAlert('error', 'Error', `No se pudo actualizar el campo ${field}. ${error.message}`);
-        }
+          (this.user as any)[field] = this.originalValue ?? ''; // Restaurar valor original si falla
+        },
       });
+  
+      // Limpiar el estado temporal
+      this.editingField = null;
+      this.originalValue = undefined;
+    }
+  }
+  
+  cancelEdit() {
+    if (this.user && this.editingField) {
+      // Restaurar valor original
+      (this.user as any)[this.editingField] = this.originalValue ?? '';
       this.editingField = null;
       this.originalValue = undefined;
     }
@@ -125,21 +147,28 @@ export class ProfileComponent implements OnInit {
   
   confirmEdit(field: keyof IUser) {
     if (this.user) {
-      this.profileService.updateUserField(field, this.user[field] as string);
+      const newValue = this.user[field] as string;
+      if (!newValue.trim()) {
+        this.triggerAlert('error', 'Error', 'El campo no puede estar vacío.');
+        (this.user as any)[field] = this.originalValue ?? ''; // Restaurar valor original
+        this.editingField = null;
+        this.originalValue = undefined;
+        return;
+      }
+  
+      this.profileService.updateUserField(field, newValue).subscribe({
+        next: () => {
+          this.triggerAlert('success', '¡Éxito!', `Tu información ha sido actualizada correctamente.`);
+        },
+        error: (error) => {
+          this.triggerAlert('error', 'Error', `No se pudo actualizar el campo ${field}. ${error.message}`);
+        }
+      });
       this.editingField = null;
       this.originalValue = undefined;
     }
-  }
-
-  cancelEdit() {
-    if (this.user && this.editingField) {
-        (this.user as any)[this.editingField] = this.originalValue ?? '';
-
-        this.editingField = null;
-        this.originalValue = undefined;
-    }
-  }
-
+  }  
+  
   triggerAlert(type: 'time' | 'error' | 'success', title: string, message: string, buttonText: string = 'Cerrar') {
     this.alertType = type;
     this.alertTitle = title;
