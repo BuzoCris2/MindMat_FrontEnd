@@ -66,10 +66,31 @@ body[class="dark-only"] {
 @import "./assets/layout/layout.scss";
 //end template styles
 
-html, body { 
-  height: 100%; 
+html {
+  height: 100%;
 }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+  height: calc(100% - 105px);
+}
+
+.ltr {
+  height: 100%;
+}
+
+.page-wrapper {
+  height: 100%;
+}
+
+.page-body-wrapper {
+  height: calc(100% - 50px);  
+}
+
+.row {
+  width: 100%;
+}
 
 .error-snackbar .mdc-snackbar__surface{
   background-color: rgb(197, 49, 49) !important;
@@ -77,6 +98,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .success-snackbar .mdc-snackbar__surface{
   background-color: rgb(54, 197, 49) !important;
+}
+
+.page-body-wrapper {
+  margin-top: 100px;
+  min-height: calc(100% - 50px);
 }
 
 

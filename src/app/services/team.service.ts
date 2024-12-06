@@ -3,13 +3,14 @@ import { BaseService } from './base-service';
 import { IResponse, ISearch, ITeam } from '../interfaces';
 import { AlertService } from './alert.service';
 import { AuthService } from './auth.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeamService extends BaseService<ITeam>{
 
+
+export class TeamService extends BaseService<ITeam>{
   protected override source: string = 'teams';
   private teamListSignal = signal<ITeam[]>([]);
   get teams$() {
@@ -23,102 +24,80 @@ export class TeamService extends BaseService<ITeam>{
   private authService: AuthService = inject(AuthService);
   private alertService: AlertService = inject(AlertService);
 
-  getAll() {
-    this.findAllWithParams({ page: this.search.page, size: this.search.size }).subscribe({
-      next: (response: any) => {
-        console.log('Respuesta del servidor:', response);
-  
-        // Ajustar asignación según el formato
+
+  getAll(): Observable<ITeam[]> {
+    return this.findAllWithParams({ page: this.search.page, size: this.search.size }).pipe(
+      tap((response: any) => {
+        console.log('Paso 6: Respuesta del backend en getAll():', response);
         if (Array.isArray(response)) {
-          this.teamListSignal.set(response); // Si la respuesta es un arreglo directo
+          console.log('Paso 7: Respuesta procesada como array:', response);
+          this.teamListSignal.set(response);
         } else if (response.data) {
-          this.teamListSignal.set(response.data); // Si la respuesta tiene una propiedad `data`
+          console.log('Paso 8: Respuesta procesada como data (paginación):', response.data);
+          this.teamListSignal.set(response.data);
         } else {
-          console.warn('Formato inesperado de respuesta:', response);
+          console.error('Paso 9: Formato inesperado de la respuesta:', response);
           this.teamListSignal.set([]);
         }
-  
-        console.log('Datos actualizados en teamListSignal:', this.teamListSignal());
-      },
-      error: (err: any) => {
-        console.error('Error al obtener los datos:', err);
-      },
-    });
+      })
+    );
   }
   
-  getAllByUser() {
-    this.findAllWithParamsAndCustomSource(`byTeacher/${this.authService.getUser()?.id}`, { page: this.search.page, size: this.search.size }).subscribe({
-      next: (response: any) => {
-        console.log('Respuesta del servidor:', response);
-        
-        // Ajustar asignación según el formato
-        if (Array.isArray(response)) {
-          this.teamListSignal.set(response); // Si la respuesta es un arreglo directo
-        } else if (response.data) {
-          this.teamListSignal.set(response.data); // Si la respuesta tiene una propiedad `data`
-        } else {
-          console.warn('Formato inesperado de respuesta:', response);
-          this.teamListSignal.set([]); // Si la respuesta no es válida, se asegura de que el signal no quede con undefined
-        }
-        
-        console.log('Datos actualizados en teamListSignal:', this.teamListSignal());
-      },
-      error: (err: any) => {
-        console.error('Error al obtener los datos:', err);
-        this.teamListSignal.set([]); // Asegurarse de que no quede undefined si hay error
-      }
-    });
-  }
-
+  
+    getAllByUser(): Observable<ITeam[]> {
+      const userId = this.authService.getUser()?.id;
+      const url = `teams/byTeacher`; // URL relativa
+      return this.http.get<ITeam[]>(url).pipe(
+        tap((response) => {
+          this.teamListSignal.set(response); // Actualiza la señal con la respuesta
+        })
+      );
+    }
+  
   getCountByTeacher() {
     this.findAllWithParamsAndCustomSource(`countByTeacher/${this.authService.getUser()?.id}`, { page: this.search.page, size: this.search.size }).subscribe({
       next: (response: any) => {
-        console.log('Respuesta de conteo:', response);
-        
         // Ajustar asignación según el formato
         if (Array.isArray(response)) {
           this.teamListSignal.set(response); // Si la respuesta es un arreglo directo
         } else if (response.data) {
           this.teamListSignal.set(response.data); // Si la respuesta tiene una propiedad `data`
         } else {
-          console.warn('Formato inesperado de respuesta:', response);
           this.teamListSignal.set([]); // Si la respuesta no es válida, se asegura de que el signal no quede con undefined
         }
-        
-        console.log('Datos actualizados en conteo de teamListSignal:', this.teamListSignal());
-      },
+        },
       error: (err: any) => {
-        console.error('Error al obtener los datos:', err);
-        this.teamListSignal.set([]); // Asegurarse de que no quede undefined si hay error
+         this.teamListSignal.set([]); // Asegurarse de que no quede undefined si hay error
       }
     });
   }
 
-  save(team: ITeam) {
+  /*save(team: ITeam) {
     this.add(team).subscribe({
       next: (response: any) => {
         this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
         this.getAllByUser();
       },
       error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred adding the user','center', 'top', ['error-snackbar']);
-        console.error('error', err);
-      }
-    });
-  }
-
-  update(team: ITeam) {
-    this.editCustomSource(`${team.id}`, team).subscribe({
-      next: (response: any) => {
-        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
-        this.getAll();
+        this.alertService.displayAlert('error', 'An error occurred adding the team', 'center', 'top', ['error-snackbar']);
+        console.error('Error:', err);
       },
-      error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred updating the user','center', 'top', ['error-snackbar']);
-        console.error('error', err);
-      }
     });
   }
+  
+
+  update(team: ITeam): Observable<any> {
+    return this.editCustomSource(`${team.id}`, team); // Devuelve el observable aquí
+  } */
+
+    save(team: ITeam): Observable<any> {
+      return this.add(team); // Método existente para POST
+  }
+  
+  update(team: ITeam): Observable<any> {
+      return this.editCustomSource(`${team.id}`, team); // Método existente para PUT
+  }
+  
 
   public updateTeamField(field: string, newValue: string): Observable<IResponse<ITeam>> {
     const data = { [field]: newValue };
@@ -126,19 +105,11 @@ export class TeamService extends BaseService<ITeam>{
     
   }
 
-  delete(team: ITeam) {
-    this.delCustomSource(`${team.id}`).subscribe({
-      next: (response: any) => {
-        this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
-        this.getAll();
-      },
-      error: (err: any) => {
-        this.alertService.displayAlert('error', 'An error occurred deleting the user','center', 'top', ['error-snackbar']);
-        console.error('error', err);
-      }
-    });
+  deleteTeam(teamId: number): Observable<void> {
+    return this.http.delete<void>(`${this.source}/${teamId}`);
   }
-
+   
+    
   addStudentToTeam(teamId: number, Id: number) {
     const payload = { id: Id };
     this.http.patch<IResponse<ITeam>>(`${this.source}/${teamId}/addStudent`, payload).subscribe({

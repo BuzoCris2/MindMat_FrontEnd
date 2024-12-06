@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, Output, OnDestroy, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
 
@@ -11,9 +11,13 @@ import { AlertModalComponent } from '../../components/alert/alert-modal.componen
 })
 export class TimerComponent implements OnInit, OnDestroy {
   @Input() initialTime: number = 180;
+  @Output() timeRemaining = new EventEmitter<number>();
+  @Output() timerEnded = new EventEmitter<void>();
+  @Input() showAlertOnEnd: boolean = true;
   currentTime: number = 0;
   minutes: string = '00';
   seconds: string = '00';
+  timeEnded: boolean = false;
 
   private timerInterval: any;
 
@@ -30,15 +34,22 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   startTimer() {
+    if (this.timeEnded == false){
     this.timerInterval = setInterval(() => {
       if (this.currentTime > 0) {
         this.currentTime--;
         this.updateDisplayTime();
+        this.timeRemaining.emit(this.currentTime);
       } else {
+        this.timeEnded = true;
         clearInterval(this.timerInterval);
-        this.triggerAlert('time', '¡Oh, no!', 'El tiempo del juego se ha acabado', 'Reintentar');
+        if (this.showAlertOnEnd) {  
+          this.triggerAlert('time', '¡Oh, no!', 'El tiempo del juego se ha acabado', 'Reintentar');
+        }
+        this.timerEnded.emit();
       }
     }, 1000);
+  }
   }
 
   updateDisplayTime() {
@@ -46,6 +57,8 @@ export class TimerComponent implements OnInit, OnDestroy {
     const seconds = this.currentTime % 60;
     this.minutes = String(minutes).padStart(2, '0');
     this.seconds = String(seconds).padStart(2, '0');
+
+    this.timeRemaining.emit(this.currentTime);
   }
 
   ngOnDestroy(): void {
@@ -61,6 +74,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   closeAlertModal() {
+    window.location.reload();
     this.showAlert = false;
   }
 }

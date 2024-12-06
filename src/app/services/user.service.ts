@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { BaseService } from './base-service';
 import { ISearch, IUser } from '../interfaces';
 import { Observable, catchError, tap, throwError } from 'rxjs';
@@ -10,9 +10,7 @@ import { AlertService } from './alert.service';
 export class UserService extends BaseService<IUser> {
   protected override source: string = 'users';
   private userListSignal = signal<IUser[]>([]);
-  get users$() {
-    return this.userListSignal;
-  }
+  
   public search: ISearch = { 
     page: 1,
     size: 5
@@ -33,6 +31,22 @@ export class UserService extends BaseService<IUser> {
     });
   }
 
+  getAllTeachers(): void {
+    this.http.get<IUser[]>('users/teachers').subscribe({
+      next: (users) => {
+        console.log('Usuarios obtenidos desde el backend:', users);
+        this.userListSignal.set(users); // Actualiza el signal con los usuarios obtenidos
+      },
+      error: (error) => {
+        console.error('Error al obtener docentes:', error);
+      },
+    });
+  }
+  
+  users$(): IUser[] {
+    return this.userListSignal(); // Retorna directamente los datos del Signal
+  }
+  
 
   save(user: IUser) {
     this.add(user).subscribe({
@@ -72,4 +86,33 @@ export class UserService extends BaseService<IUser> {
       }
     });
   }
+
+  updateActiveStatus(userId: number, active: number) {
+    this.editCustomSource(`${userId}/active`, { active }).subscribe({
+      next: (response: any) => {
+        this.alertService.displayAlert(
+          'success',
+          response.message || 'User active status updated successfully',
+          'center',
+          'top',
+          ['success-snackbar']
+        );
+        this.getAll(); // Actualiza la lista después de cambiar el estado
+      },
+      error: (err: any) => {
+        this.alertService.displayAlert(
+          'error',
+          'An error occurred updating the user active status',
+          'center',
+          'top',
+          ['error-snackbar']
+        );
+        console.error('error', err);
+      }
+    });
+  }
+
+  getLoggedInUser(): Observable<IUser> {
+    return this.http.get<IUser>('api/users/current');
+}
 }

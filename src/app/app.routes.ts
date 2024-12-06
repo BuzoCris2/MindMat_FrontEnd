@@ -15,7 +15,7 @@ import { IRoleType } from './interfaces';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
-
+import { GrowYourTreeComponent } from './pages/grow-your-tree/grow-your-tree.component';
 import { KeyboardComponent } from './pages/keyboard/keyboard/keyboard.component';
 
 import { ReportsComponent } from './pages/reports/reports.component';
@@ -26,6 +26,7 @@ import { ProgrammingGameComponent } from './pages/programminggame/programminggam
 import { TeamsComponent } from './pages/teams/teams.component';
 import { StageTwoComponent } from './components/colorGame/stage-two/stage-two.component';
 import { StageThreeComponent } from './components/colorGame/stage-three/stage-three.component';
+import { AchievementsComponent } from './pages/achievements/achievements.component';
 
 //export const routes: Routes = [
 
@@ -90,7 +91,10 @@ export const routes: Routes = [
             IRoleType.admin,
             IRoleType.superAdmin
           ],
-          name: 'Users',
+          name: 'Usuarios',
+          showInDashboard: true,
+          icon:'assets/img/dashboard/usuario.png',
+          topbarIcon: 'assets/img/topbar/Usuarios.png',
         }
       },
       {
@@ -103,6 +107,8 @@ export const routes: Routes = [
             IRoleType.user
           ],
           name: 'Dashboard',
+          showInDashboard: true,
+          topbarIcon: 'assets/img/topbar/panel.png',
         }
       },
       {
@@ -114,19 +120,23 @@ export const routes: Routes = [
             IRoleType.superAdmin,
             IRoleType.user
           ],
-          name: 'profile',
+          name: 'Perfil',
+          showInDashboard: true,
+          icon:'assets/img/dashboard/perfil.png',
+          topbarIcon: 'assets/img/topbar/perfil.png',
         }
       },
       {
         path: 'reports',
-        component: ReportsComponent,
+        component: AchievementsComponent,
         data: {
           authorities: [
-            IRoleType.admin,
-            IRoleType.superAdmin,
-            IRoleType.user
+            IRoleType.user,
           ],
-          name: 'reports',
+          name: 'Reportes',
+          showInDashboard: true,
+          icon:'assets/img/dashboard/reportes.png',
+          topbarIcon: 'assets/img/topbar/logros.png',
         }
       },
       {
@@ -134,11 +144,10 @@ export const routes: Routes = [
         component: KeyboardComponent,
         data: {
           authorities: [
-            IRoleType.admin,
-            IRoleType.superAdmin,
             IRoleType.user,
           ],
           name: 'keyboard',
+          showInDashboard: false,
         }
       },
       {
@@ -146,11 +155,11 @@ export const routes: Routes = [
         component: MathleshipComponent,
         data: {
           authorities: [
-            IRoleType.admin,
-            IRoleType.superAdmin,
             IRoleType.user,
           ],
           name: 'mathleship',
+          showInDashboard: false,
+          
         }
       },
       {
@@ -159,7 +168,21 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
           authorities: [IRoleType.user],
-          name: 'Panel Juegos',
+          name: 'Panel de Juegos',
+          showInDashboard: true,
+          icon:'assets/img/dashboard/juegos.png',
+          topbarIcon: 'assets/img/topbar/Icono-juegos.png',
+        }
+      },
+      {
+        path: 'grow-your-tree',
+        component: GrowYourTreeComponent,
+        data: { 
+          authorities: [
+            IRoleType.user
+          ],
+          name: 'Arbol',
+          showInDashboard: false,
         }
       },
       {
@@ -168,10 +191,12 @@ export const routes: Routes = [
         data: {
           authorities: [
             IRoleType.admin,
-            IRoleType.superAdmin,
-            IRoleType.user,
+            IRoleType.superAdmin
           ],
-          name: 'Teams',
+          name: 'Equipos',
+          showInDashboard: true,
+          icon:'assets/img/dashboard/team.png',
+          topbarIcon: 'assets/img/topbar/Equipo.png',
         }
       },
   {
@@ -191,11 +216,9 @@ export const routes: Routes = [
         component: ColorGamePageComponent,
         data: {
           authorities: [
-            IRoleType.admin,
-            IRoleType.superAdmin,
             IRoleType.user,
           ],
-          name: 'color game',
+          name: 'Ciencia y colores',
         },
         children: [
           // Otras rutas aquí...
@@ -208,7 +231,7 @@ export const routes: Routes = [
                 IRoleType.superAdmin,
                 IRoleType.user,
               ],
-              name: 'color game',
+              name: 'Ciencia y colores',
             },
             children: [
               {

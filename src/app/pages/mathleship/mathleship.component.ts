@@ -1,22 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, ViewChild } from '@angular/core';
 import { MathleshipService } from '../../services/mathleship.service';
 import { TimerComponent } from '../../components/timer/timer.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IShip, IGridCell } from '../../interfaces';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
+import { GamesKnoledgeBaseComponent } from '../../components/game/games-knoledge-base/games-knoledge-base.component';
 import { ChangeDetectorRef } from '@angular/core';
+import { ModalService } from '../../services/modal.service';
+import { ScoreService } from '../../services/score.service';
+import { GamesSaveScoreComponent } from '../../components/game/games-save-score/games-save-score.component';
+import { ModalComponent } from '../../components/modal/modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mathleship',
   standalone: true,
   templateUrl: './mathleship.component.html',
   styleUrls: ['./mathleship.component.scss'],
-  imports: [CommonModule, FormsModule, TimerComponent, AlertModalComponent]
+  imports: [CommonModule, FormsModule, TimerComponent, GamesSaveScoreComponent, AlertModalComponent, GamesKnoledgeBaseComponent, ]
 })
 export class MathleshipComponent implements OnInit {
   board: string[][] = [];
-  timerValue: string = '03:00'; 
+  columns: string[] = []; // Se llenará con datos del backend
+  rows: number[] = [];
+
+  public gameStartTime: Date = new Date();
+  timerValue: string = '03:00';
+  remainingTime: number = 0;
+  public isGameActive: boolean = true;
+  public starsEarned: number = 0;
+  selectedGame: number = 0;
+  public correctAnswers: number = 0;
+  public wrongAnswers: number = 0;
+
+  shipsStatus: { [key: string]: boolean } = {};
+  ships: IShip[] = [];
+
+  public modalService: ModalService = inject(ModalService);
+  public scoreService: ScoreService = inject(ScoreService);
 
   showAlert = false;
   alertType: 'time' | 'error' | 'success' = 'success';
@@ -35,6 +57,7 @@ export class MathleshipComponent implements OnInit {
   operator: string = '';
   userAnswer: string = '';
   resultMessage: string = '';
+  maxTimeForFullStars: number = 40;
 
   powerups = [
     { name: 'Row Shot', used: false },
@@ -49,24 +72,52 @@ export class MathleshipComponent implements OnInit {
   selectedRowHover: number | null = null;
   lastSelectedRow: number | null = null;
 
-  constructor(private mathleshipService: MathleshipService, private cdr: ChangeDetectorRef) {}
+  @ViewChild('scoreModal') public scoreModal: any;
+  @ViewChild(AlertModalComponent) alertModalComponent!: AlertModalComponent;
 
-  ngOnInit(): void {
-    this.initializeGame();
+  constructor(
+    private mathleshipService: MathleshipService,
+    private cdr: ChangeDetectorRef,
+    private router: Router
+) {
+    this.selectedGame = 3; // Inicialización dentro del constructor
+}
 
-    this.mathleshipService.getShips().subscribe({
-  next: (response) => {
-    console.log('Datos recibidos de los barcos:', response);
-    if (response) {  
-      this.board = this.buildBoard(response);
-    } else {
-      console.error('No se recibieron datos de los barcos.');
-    }
-  },
-  error: (err) => console.error('Error al obtener los barcos', err)
-});
+ 
 
-  }
+ngOnInit(): void {
+  this.fetchGridData();
+
+  this.mathleshipService.initializeBoard().subscribe({
+    next: (ships: IShip[]) => {
+     
+
+      this.ships = ships; // Guardar barcos localmente
+      this.board = this.buildBoard(ships); // Construir el tablero
+      this.initializeShipsStatus(ships); // Inicializar el estado de los barcos
+    },
+    error: (err) => {
+     
+    },
+  });
+}
+
+fetchGridData(): void {
+  this.mathleshipService.getGridData().subscribe({
+    next: (data) => {
+      this.columns = data.columns;
+      this.rows = data.rows;
+    },
+    error: (err) => {
+    },
+  });
+}
+
+currentTextIndex: number = 0;
+updateTextIndex(newIndex: number) {
+  this.currentTextIndex = newIndex;
+}
+
 
   initializeGame() {
     this.mathleshipService.initializeBoard().subscribe({
@@ -77,17 +128,51 @@ export class MathleshipComponent implements OnInit {
     });
   }
 
+  initializeShipsStatus(ships: IShip[]): void {
+    this.ships = ships;
+    ships.forEach((ship, index) => {
+      this.shipsStatus[`ship${index + 1}`] = false; // Todos los barcos inician como no derribados
+      
+    });
+  }
+
+  checkShipStatus(): void {
+    this.ships.forEach((ship, index) => {
+      const allHit = ship.cellsOccupied.every((cell) => {
+        const row = cell.row - 1;
+        const col = cell.column.charCodeAt(0) - 'A'.charCodeAt(0);
+        return this.board[row][col] === 'H'; // Todas las celdas deben estar marcadas como golpeadas
+      });
+  
+      // Si todas las celdas de un barco están golpeadas, marcar el barco como destruido
+      if (allHit) {
+        this.shipsStatus[`ship${index + 1}`] = true;
+      }
+    });
+
+    this.checkGameOver();
+  }
+  
+
   buildBoard(ships: IShip[]): string[][] {
     if (!ships) {
       console.error('Ships es null o undefined.');
       return [];
     }
   
-    const board = Array(6).fill(null).map(() => Array(6).fill(''));
+    //const board = Array(6).fill(null).map(() => Array(6).fill(''));
+    const board = Array.from({ length: 6 }, () => Array(6).fill(''));
     ships.forEach(ship => {
         ship.cellsOccupied.forEach(cell => {
             const columnIndex = cell.column.charCodeAt(0) - 'A'.charCodeAt(0);
             const rowIndex = cell.row - 1;
+
+            if (board[rowIndex][columnIndex] === 'S') {
+              console.warn(
+                `Posición duplicada detectada: (${rowIndex + 1}, ${cell.column})`
+              );
+            }
+
             board[rowIndex][columnIndex] = 'S';
         });
     });
@@ -112,10 +197,8 @@ export class MathleshipComponent implements OnInit {
               //this.board[row][column] = 'H';
                 this.generateMathOperation();
                 this.mathVisible = true;
-                console.log('Modal abierto, mathVisible:', this.mathVisible);
-            } else {
+              } else {
               this.board[row][column] = 'M';
-                console.log('No hay barco en esta casilla');
             }
         },
         error: (err) => console.error('Error selecting cell', err)
@@ -128,7 +211,6 @@ export class MathleshipComponent implements OnInit {
     this.number2 = Math.floor(Math.random() * 10) + 1;
     const operators = ['+', '-', '*', '/'];
     this.operator = operators[Math.floor(Math.random() * operators.length)];
-    console.log('Operación generada:', this.number1, this.operator, this.number2);
 
     if (this.operator === '/') {
       // Generar divisiones válidas
@@ -156,6 +238,7 @@ export class MathleshipComponent implements OnInit {
         setTimeout(() => {
           this.isHitAnimating = false;
           this.board[row][column] = 'H'; // Marcar hit
+          this.checkShipStatus();
         }, 2000); 
       }, 1000);
     } else {
@@ -197,7 +280,7 @@ export class MathleshipComponent implements OnInit {
 
   closeAlertModal() {
     this.showAlert = false;
-  }
+  }  
 
   closeMathModal() {
     this.mathVisible = false;
@@ -214,9 +297,9 @@ export class MathleshipComponent implements OnInit {
     }
     if (!this.powerups[index].used) {
       this.selectedPowerup = index; // Guardamos el índice del PowerUp seleccionado
-      console.log('PowerUp seleccionado:', this.powerups[index].name);
+     
     } else {
-      console.log('Intentaste seleccionar un PowerUp ya usado:', this.powerups[index]);
+     
       this.triggerAlert('error', 'Nada es para siempre', 'Ya utilizaste este PowerUp', 'Continuar');
     }
   }
@@ -232,7 +315,6 @@ export class MathleshipComponent implements OnInit {
 
   usePowerup(index: number): void {
     this.powerups[index].used = true;
-    console.log(`PowerUp ${index} marcado como usado.`);
   }
   
   hoverColumn(column: number) {
@@ -300,63 +382,34 @@ export class MathleshipComponent implements OnInit {
   
   
   activateColumnPowerup(column: number) {
-    console.log('Intentando activar PowerUp para la columna:', column);
-  
     if (this.selectedPowerup !== 0 || this.powerups[0].used) {
-      console.log('PowerUp no activado. No es el seleccionado o ya fue usado.');
-      return; // Verifica que el PowerUp no se ha usado y es el correcto
+       return; // Verifica que el PowerUp no se ha usado y es el correcto
     }
-  
-    /*const hasShip = this.board.some(row => row[column] === 'S'); // Verifica si hay barcos
-    console.log('¿Hay barcos en la columna seleccionada?', hasShip);
-  
-    if (hasShip) {
-      console.log('Barcos encontrados en la columna. Generando operación matemática...');
-      this.generateMathOperation(); // Genera operación matemática
-      this.mathVisible = true; // Muestra el modal
-      this.selectedColumnHover = column; // Guarda la columna seleccionada
-      this.lastSelectedColumn = column;
-      console.log('Columna seleccionada guardada:', this.selectedColumnHover);
-    } else {
-      console.log('No se encontraron barcos en la columna seleccionada.');
-      this.alertType = 'error';
-      this.alertMessage = 'No hay barcos en esta columna.';
-      setTimeout(() => (this.alertMessage = ''), 2000);
-    }*/
-
-    console.log('Generando operación matemática para la columna seleccionada...');
     this.generateMathOperation(); // Genera operación matemática
     this.mathVisible = true; // Muestra el modal
     this.selectedColumnHover = column; // Guarda la columna seleccionada
     this.lastSelectedColumn = column;
-    console.log('Columna seleccionada guardada:', this.selectedColumnHover);
+   
   }  
   
   submitAnswerForColumn(column: number | null) {
-    console.log('Intentando resolver la operación para la columna:', column);
     const correctAnswer = this.calculateCorrectAnswer(); // Calcula la respuesta correcta
-    console.log('Respuesta correcta calculada:', correctAnswer);
     const userAnswerNumber = parseFloat(this.userAnswer); // Convierte la respuesta del usuario a número
-    console.log('Respuesta del usuario:', userAnswerNumber);
-    
     if (column === null || column === undefined) {
       column = this.lastSelectedColumn; // Usamos la última columna seleccionada
     }
   
     if (userAnswerNumber === correctAnswer) {
-      console.log('Respuesta correcta. Aplicando PowerUp...');
       // Aplica los efectos del PowerUp
-      console.log('Tablero antes de aplicar PowerUp:', this.board);
       this.board.forEach((row, rowIndex) => {
         if (row[column!] === 'S') {
           row[column!] = 'H'; // Marca como hit si hay barco
-          console.log(`Celda [${rowIndex}, ${column}] marcada como "Hit".`);
+
         } else if (row[column!] === '') {
           row[column!] = 'M'; // Marca como miss si no hay barco
-          console.log(`Celda [${rowIndex}, ${column}] marcada como "Miss".`);
-        }
+           }
       });
-      console.log('Tablero después de aplicar PowerUp:', this.board);
+      this.checkShipStatus();
   
       // Feedback en el modal
       this.showFeedbackMessage(true); // Muestra el mensaje en el modal
@@ -366,86 +419,54 @@ export class MathleshipComponent implements OnInit {
   
       // Cierra el modal después de 2 segundos
       setTimeout(() => {
-        console.log('Cerrando modal después de usar el PowerUp...');
         this.closeMathModal(); // Cierra el modal
       }, 800);
     } else {
-      console.log('Respuesta incorrecta. Mostrando feedback de error.');
       // Feedback en el modal en caso de error
       this.showFeedbackMessage(false);
       this.powerups[0].used = true; // Marca el PowerUp como usado
       this.selectedPowerup = null; // Resetea el PowerUp seleccionado
       this.selectedColumnHover = null;
       setTimeout(() => {
-        console.log('Cerrando modal por respuesta incorrecta...');
         this.closeMathModal();
       }, 900);
     }
   }
 
   activateRowPowerup(row: number) {
-    console.log('Intentando activar PowerUp para la fila:', row);
-  
+
     if (this.selectedPowerup !== 1 || this.powerups[1].used) {
-      console.log('PowerUp no activado. No es el seleccionado o ya fue usado.');
       return; // Verifica que el PowerUp no se ha usado y es el correcto
     }
-  
-    /*const hasShip = this.board[row].some((cell) => cell === 'S'); // CORRECTO
-    console.log('¿Hay barcos en la fila seleccionada?', hasShip);
-  
-    if (hasShip) {
-      console.log('Barcos encontrados en la fila. Generando operación matemática...');
       this.generateMathOperation(); // Genera operación matemática
       this.mathVisible = true; // Muestra el modal
       this.selectedRowHover = row; // Guarda la fila seleccionada
       this.lastSelectedRow = row;
-      console.log('Fila seleccionada guardada:', this.selectedRowHover);
-    } else {
-      console.log('No se encontraron barcos en la fila seleccionada.');
-      this.alertType = 'error';
-      this.alertMessage = 'No hay barcos en esta fila.';
-      setTimeout(() => (this.alertMessage = ''), 2000);
-    }*/
-
-      console.log('Generando operación matemática para la fila seleccionada...');
-      this.generateMathOperation(); // Genera operación matemática
-      this.mathVisible = true; // Muestra el modal
-      this.selectedRowHover = row; // Guarda la fila seleccionada
-      this.lastSelectedRow = row;
-      console.log('Fila seleccionada guardada:', this.selectedRowHover);
-  }
+    }
   
   submitAnswerForRow(row: number | null) {
-    console.log('Intentando resolver la operación para la fila:', row);
     const correctAnswer = this.calculateCorrectAnswer(); // Calcula la respuesta correcta
-    console.log('Respuesta correcta calculada:', correctAnswer);
     const userAnswerNumber = parseFloat(this.userAnswer); // Convierte la respuesta del usuario a número
-    console.log('Respuesta del usuario:', userAnswerNumber);
-  
+
     if (row === null || row === undefined) {
       row = this.lastSelectedRow; // Usamos la última fila seleccionada
     }
 
     if (row === null || row < 0 || row >= this.board.length) {
-      console.error('Índice de fila no válido o fuera de rango:', row);
       return;
     }
   
     if (userAnswerNumber === correctAnswer) {
-      console.log('Respuesta correcta. Aplicando PowerUp...');
       // Aplica los efectos del PowerUp
-      console.log('Tablero antes de aplicar PowerUp:', this.board);
       this.board[row!].forEach((cell, columnIndex) => {
         if (cell === 'S') {
           this.board[row!][columnIndex] = 'H'; // Marca como hit si hay barco
-          console.log(`Celda [${row}, ${columnIndex}] marcada como "Hit".`);
-        } else if (cell === '') {
+          } else if (cell === '') {
           this.board[row!][columnIndex] = 'M'; // Marca como miss si no hay barco
-          console.log(`Celda [${row}, ${columnIndex}] marcada como "Miss".`);
-        }
+          }
       });
-      console.log('Tablero después de aplicar PowerUp:', this.board);
+
+      this.checkShipStatus();
   
       // Feedback en el modal
       this.showFeedbackMessage(true); // Muestra el mensaje en el modal
@@ -455,63 +476,32 @@ export class MathleshipComponent implements OnInit {
   
       // Cierra el modal después de 2 segundos
       setTimeout(() => {
-        console.log('Cerrando modal después de usar el PowerUp...');
         this.closeMathModal(); // Cierra el modal
       }, 800);
     } else {
-      console.log('Respuesta incorrecta. Mostrando feedback de error.');
       // Feedback en el modal en caso de error
       this.showFeedbackMessage(false);
       this.powerups[1].used = true; // Marca el PowerUp como usado
       this.selectedPowerup = null; // Resetea el PowerUp seleccionado
       this.selectedRowHover = null;
       setTimeout(() => {
-        console.log('Cerrando modal por respuesta incorrecta...');
         this.closeMathModal();
       }, 900);
     }
   }  
 
   activateCrossPowerup(row: number, column: number) {
-    console.log('Intentando activar PowerUp de cruz en la casilla:', row, column);
-  
-    if (this.selectedPowerup !== 2 || this.powerups[2].used) {
-      console.log('PowerUp no activado. No es el seleccionado o ya fue usado.');
-      return; // Verifica que el PowerUp no se ha usado y es el correcto
-    }
-  
-    // Validar si hay barcos en alguna de las casillas afectadas
-    /*const affectedPositions = this.getAffectedPositions(row, column);
-    const hasShip = affectedPositions.some(
-      ([r, c]) => this.board[r] && this.board[r][c] === 'S'
-    );
-  
-    console.log('¿Hay barcos en las casillas afectadas?', hasShip);
-  
-    if (hasShip) {
-      console.log('Barcos encontrados en las casillas. Generando operación matemática...');
-      this.generateMathOperation(); // Genera operación matemática
-      this.mathVisible = true; // Muestra el modal
-      this.selectedRow = row;
-      this.selectedColumn = column; // Guarda la posición seleccionada
-      console.log('Casilla seleccionada guardada:', row, column);
-    } else {
-      console.log('No se encontraron barcos en las casillas afectadas.');
-      this.triggerAlert(
-        'error',
-        'No hay barcos',
-        'No hay barcos en las casillas afectadas por este PowerUp.',
-        'Cerrar'
-      );
-    }*/
 
-      console.log('Generando operación matemática para el PowerUp de cruz...');
+    if (this.selectedPowerup !== 2 || this.powerups[2].used) {
+    return; // Verifica que el PowerUp no se ha usado y es el correcto
+    }
+
+
       this.generateMathOperation(); // Genera operación matemática
       this.mathVisible = true; // Muestra el modal
       this.selectedRow = row;
       this.selectedColumn = column; // Guarda la posición seleccionada
-      console.log('Casilla seleccionada guardada:', row, column);
-  }
+}
   
   getAffectedPositions(row: number, column: number): [number, number][] {
     const positions: [number, number][] = [
@@ -529,28 +519,22 @@ export class MathleshipComponent implements OnInit {
   }
 
   submitAnswerForCross(row: number, column: number) {
-    console.log('Intentando resolver la operación para la cruz en:', row, column);
     const correctAnswer = this.calculateCorrectAnswer();
-    console.log('Respuesta correcta calculada:', correctAnswer);
     const userAnswerNumber = parseFloat(this.userAnswer);
-    console.log('Respuesta del usuario:', userAnswerNumber);
-  
+
     if (userAnswerNumber === correctAnswer) {
-      console.log('Respuesta correcta. Aplicando PowerUp de cruz...');
-      const affectedPositions = this.getAffectedPositions(row, column);
+    const affectedPositions = this.getAffectedPositions(row, column);
   
       // Aplica los efectos del PowerUp
-      console.log('Tablero antes de aplicar PowerUp:', this.board);
-      affectedPositions.forEach(([r, c]) => {
+    affectedPositions.forEach(([r, c]) => {
         if (this.board[r][c] === 'S') {
           this.board[r][c] = 'H'; // Marca como hit si hay barco
-          console.log(`Celda [${r}, ${c}] marcada como "Hit".`);
         } else if (this.board[r][c] === '') {
           this.board[r][c] = 'M'; // Marca como miss si no hay barco
-          console.log(`Celda [${r}, ${c}] marcada como "Miss".`);
         }
       });
-      console.log('Tablero después de aplicar PowerUp:', this.board);
+
+      this.checkShipStatus();
   
       // Feedback en el modal
       this.showFeedbackMessage(true); // Muestra el mensaje en el modal
@@ -559,16 +543,13 @@ export class MathleshipComponent implements OnInit {
   
       // Cierra el modal después de 2 segundos
       setTimeout(() => {
-        console.log('Cerrando modal después de usar el PowerUp...');
         this.closeMathModal(); // Cierra el modal
       }, 800);
     } else {
-      console.log('Respuesta incorrecta. Mostrando feedback de error.');
       // Feedback en el modal en caso de error
       this.showFeedbackMessage(false);
       setTimeout(() => {
-        console.log('Cerrando modal por respuesta incorrecta...');
-        this.closeMathModal();
+      this.closeMathModal();
       }, 900);
     }
   }
@@ -593,10 +574,42 @@ export class MathleshipComponent implements OnInit {
       default:
         correctAnswer = 0; // Fallback por si ocurre un error
     }
-    console.log('Operación matemática:', `${this.number1} ${this.operator} ${this.number2} = ${correctAnswer}`);
     return correctAnswer;
   }
   
+  updateRemainingTime(time: number): void {
+    this.remainingTime = time;
+  }
+
+  saveScore() {
+    const timeTaken = this.calculateElapsedTime();
+    this.selectedGame = 3;
   
+    // Muestra el modal con la referencia del template del modal
+    this.modalService.displayModal('md', this.scoreModal);
+  }  
+
+checkGameOver(): void {
+  const allShipsDestroyed = Object.values(this.shipsStatus).every(status => status === true);
+  if (allShipsDestroyed && this.remainingTime > 0) {
+  this.endGame(); // Llama al método para finalizar el juego y mostrar el modal
+  }
+}
+
+endGame(): void {
+  if (this.remainingTime <= 0) {
+    
+  } else {
+    // Guardar el puntaje y abrir el modal si todos los barcos han sido destruidos
+    this.saveScore();
+    this.maxTimeForFullStars = 120;
+  }
+}
+
+
+  calculateElapsedTime(): number {
+    const now = new Date();
+    return Math.floor((now.getTime() - this.gameStartTime.getTime()) / 1000);
+  }
 
 }

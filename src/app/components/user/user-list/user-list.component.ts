@@ -22,8 +22,14 @@ export class UserListComponent {
   @Input() users: IUser[] = [];
   @Output() callModalAction: EventEmitter<IUser> = new EventEmitter<IUser>();
   @Output() callDeleteAction: EventEmitter<IUser> = new EventEmitter<IUser>();
+  @Output() callStatusChange: EventEmitter<IUser> = new EventEmitter<IUser>();
 
   public trackById(index: number, item: IUser): number {
     return item.id || 0;
   }
+
+  onStatusChange(user: IUser) {
+    this.callStatusChange.emit(user);  // Emitimos el usuario al padre
+  }
+  
 }

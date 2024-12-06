@@ -1,0 +1,145 @@
+.timer-position {
+    position: fixed;
+    top: 10%; 
+    right: 1%; 
+    z-index: 1000; 
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 15px; 
+    border-radius: 12px; 
+    border: 2px solid #D3D3D3; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); 
+    width: fit-content; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Mision{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Mision p{
+    margin-top: 50px;
+  }
+  .operation-position{
+    position: fixed;
+    z-index: 950; 
+  }
+
+  .pag2Footer{
+    margin-top: 50px;
+  }
+  .save-score-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; 
+  }
+
+  .save-score-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; 
+  }
+
+  .introPages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-verde-oscuro);
+    padding-top: 40px; /* Añadido para desplazar el contenido hacia abajo */
+    padding-bottom: 40px; /* Añadido para crear más espacio abajo */
+  }
+  
+  .tree-image {
+    width: 400px;
+    height: auto;
+    margin-bottom: 20px;
+    margin-bottom: 40px; /* Incrementado para crear más espacio entre la imagen y otros elementos */
+  }
+  
+  .growth-image {
+    width: 300px;
+    height: auto;
+    margin-top: 20px;
+    margin-top: 40px; /* Incrementado para crear más espacio encima de la imagen */
+  }
+  
+  .pag1 h1, .pag2 h1, .pag3 h1, .pag4 h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    font-family: "Fredoka", sans-serif;
+    margin-bottom: 20px;
+  }
+  
+  .pag1 p, .pag2 p, .pag3 p, .pag4 p {
+    font-size: 1.25rem;
+    max-width: 800px; /* Incrementado para darle más espacio al texto */
+    line-height: 1.8; /* Incrementado para mayor legibilidad */
+    max-width: 600px;
+    line-height: 1.6;
+    font-family: "Sarabun", sans-serif;
+    margin-bottom: 30px; /* Incrementado para añadir más espacio entre el párrafo y otros elementos */
+    align-self: center;
+  }
+
+  .intro-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pag3 h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    font-family: "Fredoka", sans-serif;
+    margin-bottom: 40px; /* Incrementado para crear más espacio debajo del título */
+  }
+  
+  .pag3 p {
+    font-size: 1.25rem;
+    max-width: 800px; /* Ajustado para darle más espacio al texto */
+    line-height: 1.8; /* Incrementado para mayor legibilidad */
+    font-family: "Sarabun", sans-serif;
+    margin-top: 20px; /* Añadido para crear más espacio entre el título y la explicación */
+    margin-bottom: 30px; /* Espacio adicional debajo del párrafo */
+  }
+  
+  .pag3Powers img {
+    width: 150px;
+    height: auto;
+  }
+  
+  .pag3Powers h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    margin-bottom: 20px; /* Incrementado para mayor espacio debajo del título de cada fase */
+    font-family: "Fredoka", sans-serif;
+  }
+  
+  .pag3Powers p {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    font-family: "Sarabun", sans-serif;
+    max-width: 350px; /* Incrementado para darle más espacio al texto */
+    line-height: 1.6; /* Incrementado para mejorar la legibilidad */
+  }
+
+  .ciclo{
+    width: 400px;
+    height: auto;
+    margin-bottom: 20px;
+    margin-bottom: 40px; /* Incrementado para crear más espacio debajo de la imagen del ciclo */
+  
+  }

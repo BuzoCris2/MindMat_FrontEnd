@@ -4,42 +4,24 @@
     <img class="profile-avatar" [src]="'assets/img/avatars/avatar' + (user?.avatarId || 1) + '.png'" alt="Avatar" />
     <div class="profile-info">
       <p>Hola, {{ user?.name }}</p>
-      <span class="user-points">⭐ 00</span>
     </div>
   </div>
 
-  <!-- Íconos de navegación -->
+  <!-- Botones dinámicos -->
+ 
+
+<!-- Sección de perfil y botón de cerrar sesión juntos en el lado derecho -->
+<div class="profile-logout-section">
   <div class="menu-icons">
-    <a *ngIf="shouldDisplayRoute('user-dashboard')" routerLink="/app/user-dashboard" routerLinkActive="active" class="menu-item">
-      <img src="assets/img/topbar/Icono-juegos.png" alt="Panel de Juegos" class="icon" />
-
-    </a>
-    <a *ngIf="shouldDisplayRoute('colorgame')" routerLink="/app/colorgame" routerLinkActive="active" class="menu-item">
-      <!-- <img src="assets/icons/color-game.png" alt="Color Game" class="icon" />-->
-      <span>Color Game</span>
-    </a>
-    <a *ngIf="shouldDisplayRoute('keyboard')" routerLink="/app/keyboard" routerLinkActive="active" class="menu-item">
-     <!--  <img src="assets/icons/keyboard.png" alt="Keyboard" class="icon" />-->
-      <span>Keyboard</span>
-    </a>
-    <a *ngIf="shouldDisplayRoute('mathleship')" routerLink="/app/mathleship" routerLinkActive="active" class="menu-item">
-      <!-- <img src="assets/icons/mathleship.png" alt="Mathleship" class="icon" />-->
-      <span>Mathleship</span>
-    </a>
-    <a *ngIf="shouldDisplayRoute('dashboard')" routerLink="/app/dashboard" routerLinkActive="active" class="menu-item">
-      <!-- <img src="assets/icons/mathleship.png" alt="Mathleship" class="icon" />-->
-      <span>Dashboard</span>
-    </a>
+    <app-topbar-button
+      *ngFor="let button of buttons"
+      [icon]="button.icon"
+      (onClick)="navigateTo(button.route)"
+    ></app-topbar-button>
   </div>
-
-  <!-- Sección de perfil y botón de cerrar sesión juntos en el lado derecho -->
-  <div class="profile-logout-section">
-    <a routerLink="/app/profile" routerLinkActive="active" class="menu-item profile-icon">
-      <img src="assets/img/topbar/perfil.png" alt="Perfil" class="icon-small" />
-    </a>
-    <button (click)="logout()" class="logout-button">
-      <i class="fa-solid fa-arrow-right-from-bracket"></i>
-      <span>Cerrar Sesión</span>
-    </button>
-  </div>
+  <button (click)="logout()" class="logout-button">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    <span>Cerrar Sesión</span>
+  </button>
+</div>
 </div>

@@ -52,7 +52,7 @@ export interface IRole {
   updatedAt: string;
 }
 
-//Este es el Game que habría que borrar
+
 export interface IGame {
   id?: number;
   name?: string;
@@ -63,7 +63,7 @@ export interface IGame {
   updatedAt?: string;
 }
 
-//Este es el Game que estamos usando
+
 export interface Game {
   id: number;
   name: string;
@@ -83,25 +83,6 @@ export interface IOrder {
   id?: number;
   description?: string;
   total?: number;
-}
-
-export interface ICategory {
-  id?: number;
-  name?: string;
-  description?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface IProduct {
-  id?: number;
-  name?: string;
-  description?: string;
-  price?: number;
-  stockQuantity?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  category?: ICategory;
 }
 
 export interface ISearch {
@@ -143,22 +124,43 @@ export interface ITeam {
   id?: number;
   name?: string;
   description?: string;
-  teacherLeader: ITeacherLeader; // Solo el ID aquí
+  teacherLeader: ITeacherLeader;
   members?: IMember[];
 }
 
 export interface IMember {
-  id: number; // ID del miembro
-  name: string; // Nombre del miembro
-  lastname?: string; // Apellido del miembro
-  email?: string; // Correo electrónico del miembro
+  id: number; 
+  name: string; 
+  lastname?: string; 
+  email?: string; 
 }
 
 interface ITeacherLeader {
   id: number;
   name: string;
   lastname: string;
-  email: string;  // Si necesitas también el email
-  teamCount: number;
+  email: string;  
 
+}
+
+export interface IUserAchievement {
+  id: number;
+  user: {
+    id: number;
+    name: string;
+    lastname: string;
+  };
+  achievement: {
+    id: number;
+    name: string;
+    description: string;
+  };
+  achievedAt: string; 
+}
+
+
+export interface IAchievement {
+  id: any;
+  name: string;
+  description: string;
 }

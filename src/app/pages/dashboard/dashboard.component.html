@@ -1,27 +1,19 @@
 <div class="dashboard-container">
-    <!-- Sección de avatar e información -->
-    <div class="user-info">
-        <!-- Información del usuario -->
-        <div class="user-details">
-          <h2>Hola, {{ user?.name || 'Usuario' }}!</h2>
-          <p>¿Qué vamos a hacer hoy?</p>
-        </div>
-        <!-- Avatar del usuario -->
-        <img [src]="'assets/img/avatars/avatar' + (user?.avatarId || 1) + '.png'" alt="Avatar" class="user-avatar" />
-      </div>
-      
-  
-    <!-- Botones dinámicos -->
-    <div class="actions">
-      <button
-        *ngFor="let button of buttons"
-        (click)="navigateTo(button.route)"
-        [ngClass]="button.color"
-        class="action-button"
-      >
-        <img *ngIf="button.icon" [src]="button.icon" alt="{{ button.label }}" class="button-icon" />
-        <span>{{ button.label }}</span>
-      </button>
+  <div class="user-info">
+    <div class="user-details">
+      <h2>Hola, {{ user?.name || 'Usuario' }}!</h2>
+      <p>¿Qué vamos a hacer hoy?</p>
     </div>
+    <img [src]="'assets/img/avatars/avatar' + (user?.avatarId || 1) + '.png'" alt="Avatar" class="user-avatar" />
+
   </div>
-  
+  <div class="actions">
+    <app-button
+      *ngFor="let button of buttons"
+      [label]="button.label"
+      [icon]="button.icon"
+      [color]="button.color"
+      (onClick)="navigateTo(button.route)"
+    ></app-button>
+  </div>
+</div>

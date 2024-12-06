@@ -1,0 +1,19 @@
+.tree-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Para que el árbol crezca desde la parte inferior */
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    bottom: 150px;
+    left: 0;
+  }
+  
+  .tree {
+    width: 250px; /* Ajusta el tamaño inicial del árbol */
+    height: 600px; /* Ajusta el tamaño inicial del árbol */
+    background-size: cover;
+    background-position: center;
+    transform-origin: bottom; /* Para que crezca desde la base del árbol */
+  }
+  

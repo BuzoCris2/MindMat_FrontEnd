@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, ElementRef, Input, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-key',
@@ -14,6 +14,8 @@ export class KeyComponent {
   @Input() status: string = '';
   @Input() backgroundColor: string = '';
   @Input() color: string = '';
+  @Input() tone: string = '';
+  @Input() customClass: string = '';
   
   playNote(note: string){
     let sound = new Audio("../assets/audio/keyboard/"+note+".mp3");

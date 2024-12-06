@@ -1,0 +1,24 @@
+<div class="achievements-container">
+  <h1>Álbum de Estampillas</h1>
+  <div class="slider">
+    <div class="slide-track">
+      <div class="slide" *ngFor="let achievement of infiniteAchievements">
+        <img
+          [src]="achievement.stars ? 'assets/img/achievement-icons/' + achievement.gameId + '.png' : 'assets/img/achievement-icons/noStamp.png'"
+          alt="Achievement"
+        />
+        <p>{{ achievement.stars > 0 ? achievement.gameName : '???' }}</p>
+        <div class="stars">
+          <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+            <img
+              [src]="'/assets/img/Various/Star.png'"
+              [class.inactive]="i + 1 > achievement.stars"
+              alt="Star"
+              class="star-icon"
+            />
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>  
+</div>
