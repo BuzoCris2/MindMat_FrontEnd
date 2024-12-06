@@ -35,6 +35,7 @@ export class TeamsComponent {
   selectedTeamId: number | null = null;
   team: ITeam | null = null;
   showAvatarSelector = false;
+  teams: ITeam[] = [];
 
   showAlert = false;
   alertType: 'time' | 'error' | 'success' = 'success';
@@ -68,18 +69,27 @@ export class TeamsComponent {
   })
   
   constructor() {
-    this.teamService.search.page = 1;
-    const isAdmin = this.authService.getUser()?.role?.name === 'ADMIN' || this.authService.getUser()?.role?.name === 'SUPER_ADMIN';
-
-  // Llama al método correspondiente según el rol.
-  if (isAdmin) {
-    this.teamService.getAll();
-  } else {
-    this.teamService.getAllByUser();
-  }
-  }
-
-  teams = computed(() => this.teamService.teams$());
+    const isAdmin = this.authService.getUser()?.role?.name === 'ADMIN';
+    if (isAdmin) {
+      this.teamService.getAllByUser().subscribe({
+        next: (teams) => {
+          console.log('Equipos cargados para docente:', teams); // Debug
+        },
+        error: (err) => {
+          console.error('Error cargando equipos:', err);
+        }
+      });
+    } else {
+      this.teamService.getAll().subscribe({
+        next: (teams) => {
+          console.log('Todos los equipos cargados:', teams); // Debug
+        },
+        error: (err) => {
+          console.error('Error cargando todos los equipos:', err);
+        }
+      });
+    }
+  }  
   
   saveTeam(team: ITeam) {
     this.teamService.save(team);

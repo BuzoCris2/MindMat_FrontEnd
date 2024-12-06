@@ -12,40 +12,29 @@
     </thead>
     <tbody>
       <tr *ngFor="let item of teams; trackBy: trackById">
-        <th scope="row">{{ item.id }}</th>
+        <td>{{ item.id }}</td>
         <td>
-          <img
-            [src]="item.avatarId ? 'assets/img/avatars/avatar' + item.avatarId + '.png' : 'assets/img/avatars/default.png'"
-            alt="Avatar"
-            class="avatar-img"
-          />
+            <img
+                [src]="item.avatarId ? 'assets/img/avatars/avatar' + item.avatarId + '.png' : 'assets/img/avatars/default.png'"
+                alt="Avatar"
+                class="avatar-img"
+            />
         </td>
         <td>{{ item.name }}</td>
         <td>{{ item.description }}</td>
         <td>
-          <ng-container *ngIf="item.teacherLeader">
-            {{ item.teacherLeader.name || 'N/A' }} {{ item.teacherLeader.lastname || '' }}
-          </ng-container>
-          <ng-container *ngIf="!item.teacherLeader">
-            N/A
-          </ng-container>
+            <ng-container *ngIf="item.teacherLeader">
+                {{ item.teacherLeader.name || 'N/A' }} {{ item.teacherLeader.lastname || '' }}
+            </ng-container>
+            <ng-container *ngIf="!item.teacherLeader">
+                N/A
+            </ng-container>
         </td>
         <td>
-          <button (click)="callModalAction.emit(item)" class="btn btn-warning me-2">
-            <i class="fas fa-pen"></i>
-          </button>
-          <button (click)="callDeleteAction.emit(item)" class="btn btn-danger">
-            <i class="fas fa-trash"></i>
-          </button>
+            <button (click)="callModalAction.emit(item)" class="btn btn-warning me-2"><i class="fas fa-pen"></i></button>
+            <button (click)="callDeleteAction.emit(item)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
         </td>
-      </tr>      
-      <tr *ngIf="!teams || teams.length === 0">
-        <td colspan="6">
-          <div class="d-flex justify-content-center align-items-center w-100">
-            <p class="mb-0">There are no teams</p>
-          </div>
-        </td>
-      </tr>
-    </tbody>
+    </tr>    
+    </tbody>      
   </table>
 </div>

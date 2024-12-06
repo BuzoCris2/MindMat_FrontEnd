@@ -6,13 +6,12 @@
         <button (click)="modalService.displayModal('md', addTeamsModal)" type="button" class="btn btn-primary"><i class="fas fa-plus"></i></button>
       </div>
     </div>
-    <app-team-list class="col-12">
-      <app-team-list
-      [teams]="teams()"    
-      (callModalAction)="callEdition($event)"
-      (callDeleteAction)="teamService.delete($event)"
-      [teams]="teamService.teams$()"
-      /></app-team-list>
+    <app-team-list
+    [teams]="teamService.teams$()"
+    (callModalAction)="callEdition($event)"
+    (callDeleteAction)="teamService.delete($event)"
+></app-team-list>
+
       
     </div>
     @if(teamService.teams$().length) {

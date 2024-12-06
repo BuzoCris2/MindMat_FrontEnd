@@ -20,7 +20,7 @@ export class UserService extends BaseService<IUser> {
   public totalItems: any = [];
   private alertService: AlertService = inject(AlertService);
 
-  /*getAll() {
+  getAll() {
     this.findAllWithParams({ page: this.search.page, size: this.search.size}).subscribe({
       next: (response: any) => {
         this.search = {...this.search, ...response.meta};
@@ -31,25 +31,7 @@ export class UserService extends BaseService<IUser> {
         console.error('error', err);
       }
     });
-  }*/
-
-    getAll(): Observable<IUser[]> {
-      return this.findAllWithParams({ page: this.search.page, size: this.search.size }).pipe(
-        tap((response: any) => {
-          this.search = { ...this.search, ...response.meta };
-          this.totalItems = Array.from(
-            { length: this.search.totalPages ? this.search.totalPages : 0 },
-            (_, i) => i + 1
-          );
-          this.userListSignal.set(response.data);
-        }),
-        catchError((err) => {
-          console.error('Error fetching users:', err);
-          return throwError(() => err); // Propaga el error para ser manejado en el componente
-        })
-      );
-    }
-    
+  }
 
 
   save(user: IUser) {
@@ -114,10 +96,9 @@ export class UserService extends BaseService<IUser> {
         console.error('error', err);
       }
     });
-  }  
+  }
 
   getLoggedInUser(): Observable<IUser> {
-    return this.http.get<IUser>('/api/users/current');
+    return this.http.get<IUser>('api/users/current');
 }
-  
 }

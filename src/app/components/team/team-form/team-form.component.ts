@@ -29,63 +29,61 @@ export class TeamFormComponent {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-
-    this.userService.getLoggedInUser().subscribe((user: IUser) => {
-      this.loggedInUserId = user?.id || 0;
-    
-      // Verificar si el rol está definido
-      if (user.role && user.role.name) {
-        this.role = user.role.name.toLowerCase(); // Convertir a minúsculas
-      } else {
-        this.role = 'guest'; // Valor por defecto
-      }
-    
-      // Si el usuario es admin, cargar lista de usuarios (docentes)
-      if (this.role === 'admin') {
-        this.userService.getAll().subscribe({
-          next: (users: IUser[]) => {
-            this.users = users.filter((u) => {
-              return u.role && u.role.name.toLowerCase() === 'teacher';
-            });
-          },
-          error: (err: any) => console.error('Error fetching users:', err),
-        });
-      }
-    
-      // Si el usuario es docente, asignar automáticamente como Teacher Leader
-      if (this.role === 'teacher') {
-        this.teamForm.patchValue({
-          teacherLeader: this.loggedInUserId,
-        });
-      }
+    this.userService.getLoggedInUser().subscribe({
+      next: (user: IUser) => {
+        this.loggedInUserId = user?.id || 0;
+  
+        if (user.role && user.role.name) {
+          this.role = user.role.name.toUpperCase(); // Convierte a mayúsculas
+        } else {
+          this.role = 'GUEST'; // Valor por defecto
+        }
+  
+        // Si el usuario es SUPER_ADMIN, carga lista de docentes
+        if (this.role === 'SUPER_ADMIN') {
+          this.userService.getAll(); // Llama a `getAll()` para llenar el signal `users$`
+          const allUsers = this.userService.users$(); // Accede directamente al valor del signal
+          this.users = allUsers.filter((u: IUser) => u.role?.name.toUpperCase() === 'ADMIN'); // Filtra los docentes
+        }
+  
+        // Si el usuario es ADMIN (docente), asigna automáticamente como Teacher Leader
+        if (this.role === 'ADMIN') {
+          this.teamForm.patchValue({
+            teacherLeader: this.loggedInUserId,
+          });
+        }
+      },
+      error: (err: any) => {
+        console.error('Error al obtener el usuario logueado:', err);
+      },
     });
-           
-  }
+  }  
   
   callSave() {
+    const teacherLeaderId = this.teamForm.controls['teacherLeader'].value;
+    const selectedTeacher = this.users.find(user => user.id === teacherLeaderId);
+
     const team: ITeam = {
       id: this.teamForm.controls['id'].value,
       name: this.teamForm.controls['name'].value,
       description: this.teamForm.controls['description'].value,
       teacherLeader: {
-        id: this.role === 'teacher' ? this.loggedInUserId : this.teamForm.controls['teacherLeader'].value,
-        name: '', // Valor predeterminado
-        lastname: '', // Valor predeterminado
-        email: '', // Valor predeterminado
-        teamCount: 0, // Valor predeterminado
+        id: selectedTeacher?.id || this.loggedInUserId,
+        name: selectedTeacher?.name || '',
+        lastname: selectedTeacher?.lastname || '',
+        email: selectedTeacher?.email || '',
       },
       members: this.teamForm.controls['members'].value || [],
       avatarId: 1, // Avatar por defecto
     };
-  
-    console.log('Payload enviado al backend:', team); // Para depuración
-  
+
+    console.log('Payload enviado al backend:', team);
+
     if (team.id) {
       this.callUpdateMethod.emit(team);
     } else {
       this.callSaveMethod.emit(team);
     }
-  }
-
+}
   
 }
