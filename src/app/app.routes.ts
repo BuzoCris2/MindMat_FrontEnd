@@ -212,7 +212,7 @@ export const routes: Routes = [
           authorities: [
             IRoleType.user,
           ],
-          name: 'color game',
+          name: 'Ciencia y colores',
         },
         children: [
           // Otras rutas aquí...
@@ -225,7 +225,7 @@ export const routes: Routes = [
                 IRoleType.superAdmin,
                 IRoleType.user,
               ],
-              name: 'color game',
+              name: 'Ciencia y colores',
             },
             children: [
               {

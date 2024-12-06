@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stage-three',
@@ -11,6 +12,9 @@ import { FormsModule } from '@angular/forms';
 })
 export class StageThreeComponent {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
+
+  constructor(private router: Router) {}
+
   ctx!: CanvasRenderingContext2D;
   isDrawing = false;
   selectedColor = '#000000';
@@ -89,4 +93,8 @@ export class StageThreeComponent {
   }
   
   
+
+  goToNextPage() {
+    this.router.navigate(['/app/dashboard']);
+  }
 }
