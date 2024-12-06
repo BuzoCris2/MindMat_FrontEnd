@@ -13,11 +13,11 @@
     <select id="brush-size" [(ngModel)]="brushSize" (change)="updateBrushSize()">
       <option *ngFor="let size of brushSizes" [value]="size">{{ size }}px</option>
     </select>
-    <button (click)="clearCanvas()">Reiniciar</button>
-    <button (click)="enableEraser()">Borrador</button>
-    <button (click)="saveCanvas()">Guardar</button>
+    <button class="fancyButton"  (click)="clearCanvas()">Reiniciar</button>
+    <button class="fancyButton"  (click)="enableEraser()">Borrador</button>
+    <button class="fancyButton"  (click)="saveCanvas()">Guardar</button>
   </div>
   <canvas #canvas width="800" height="600" (mousedown)="startDrawing($event)" (mouseup)="stopDrawing()" (mousemove)="draw($event)">
   </canvas>
-  <button class="navigate-button" (click)="goToNextPage()">Finalizar</button>
+  <button class="fancyButton" (click)="goToNextPage()">Finalizar</button>
 </div>
