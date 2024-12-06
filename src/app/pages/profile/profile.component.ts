@@ -57,7 +57,6 @@ export class ProfileComponent implements OnInit {
     this.teamService.getCountByTeacher();
     this.profileService.user$.subscribe(userData => {
       this.user = userData;
-      console.log("Usuario en el componente actualizado:", this.user);
     });
   }
 
