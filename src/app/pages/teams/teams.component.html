@@ -7,12 +7,11 @@
       </div>
     </div>
     <app-team-list
-    [teams]="teamService.teams$()"
-    (callModalAction)="callEdition($event)"
-    (callDeleteAction)="teamService.delete($event)"
-></app-team-list>
+  [teams]="teams"
+  (callModalAction)="callEdition($event)"
+  (confirmDelete)="deleteTeam($event)">
+</app-team-list>
 
-      
     </div>
     @if(teamService.teams$().length) {
         <app-pagination
@@ -31,6 +30,7 @@
     <div>
       <app-team-form 
       [teamForm]="teamForm"
+      [isEditing]="isEditing"
       (callSaveMethod)="saveTeam($event)"
       (callUpdateMethod)="updateTeam($event)">
       </app-team-form>

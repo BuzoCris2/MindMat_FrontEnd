@@ -20,6 +20,7 @@ export class TeamFormComponent {
   public fb: FormBuilder = inject(FormBuilder);
   @Input() teamForm!: FormGroup;
   @Input() teams: ITeam[] = [];
+  @Input() isEditing: boolean = false;
   @Output() callSaveMethod: EventEmitter<ITeam> = new EventEmitter<ITeam>();
   @Output() callUpdateMethod: EventEmitter<ITeam> = new EventEmitter<ITeam>();
 
@@ -73,15 +74,15 @@ export class TeamFormComponent {
         lastname: selectedTeacher?.lastname || '',
         email: selectedTeacher?.email || ''
       },
-      avatarId: 1, // Avatar por defecto
+      avatarId: this.teamForm.controls['avatarId'].value ? Number(this.teamForm.controls['avatarId'].value) : 1,
     };
   
     console.log('Payload enviado al backend:', team);
   
-    if (team.id) {
-      this.callUpdateMethod.emit(team);
+    if (this.isEditing) {
+      this.callUpdateMethod.emit(team); // Emitir evento para actualizar
     } else {
-      this.callSaveMethod.emit(team);
+      this.callSaveMethod.emit(team); // Emitir evento para guardar
     }
   }
   
