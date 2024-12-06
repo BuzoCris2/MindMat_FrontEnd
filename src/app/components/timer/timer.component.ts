@@ -13,9 +13,11 @@ export class TimerComponent implements OnInit, OnDestroy {
   @Input() initialTime: number = 180;
   @Output() timeRemaining = new EventEmitter<number>();
   @Output() timerEnded = new EventEmitter<void>();
+  @Input() showAlertOnEnd: boolean = true;
   currentTime: number = 0;
   minutes: string = '00';
   seconds: string = '00';
+  timeEnded: boolean = false;
 
   private timerInterval: any;
 
@@ -32,17 +34,22 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   startTimer() {
+    if (this.timeEnded == false){
     this.timerInterval = setInterval(() => {
       if (this.currentTime > 0) {
         this.currentTime--;
         this.updateDisplayTime();
         this.timeRemaining.emit(this.currentTime);
       } else {
+        this.timeEnded = true;
         clearInterval(this.timerInterval);
-        this.triggerAlert('time', '¡Oh, no!', 'El tiempo del juego se ha acabado', 'Reintentar');
+        if (this.showAlertOnEnd) {  
+          this.triggerAlert('time', '¡Oh, no!', 'El tiempo del juego se ha acabado', 'Reintentar');
+        }
         this.timerEnded.emit();
       }
     }, 1000);
+  }
   }
 
   updateDisplayTime() {

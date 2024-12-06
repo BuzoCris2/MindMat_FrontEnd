@@ -75,6 +75,7 @@
       <app-timer
         *ngIf="isGameActive"
         [initialTime]="10"
+        [showAlertOnEnd]="false"
         (timeRemaining)="updateRemainingTime($event)"
         (timerEnded)="endGame()"
         class="timer-position">
@@ -88,16 +89,16 @@
       </app-math-operations>
     </div>
   
+    <ng-template #scoreModal>
     <app-games-save-score
-      *ngIf="showScoreModal"
-      [selectedGameId]="4"
+      [selectedGameId]="selectedGame"
       [correctAnswers]="correctAnswers"
       [wrongAnswers]="wrongAnswers"
       [startTime]="gameStartTime"
       (continueClicked)="onContinue()"
       class="save-score-modal">
     </app-games-save-score>
-  
+  </ng-template>
   
     <app-games-knoledge-base 
       [numberOfPages]="5"
