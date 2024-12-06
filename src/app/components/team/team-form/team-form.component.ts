@@ -74,7 +74,7 @@ export class TeamFormComponent {
         email: selectedTeacher?.email || '',
       },
       members: this.teamForm.controls['members'].value || [],
-      avatarId: 1, // Avatar por defecto
+      avatarId: 1, 
     };
 
     console.log('Payload enviado al backend:', team);
