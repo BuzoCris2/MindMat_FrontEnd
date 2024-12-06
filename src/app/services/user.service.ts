@@ -96,5 +96,9 @@ export class UserService extends BaseService<IUser> {
         console.error('error', err);
       }
     });
-  }  
+  }
+
+  getLoggedInUser(): Observable<IUser> {
+    return this.http.get<IUser>('api/users/current');
+}
 }

@@ -1,3 +1,4 @@
+import { TeamService } from './../../services/team.service';
 import { Component, inject, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { ProfileService } from '../../services/profile.service';
 import { ITeam, IUser } from '../../interfaces';
@@ -9,7 +10,6 @@ import { AuthService } from '../../services/auth.service';
 import { ModalComponent } from '../../components/modal/modal.component';
 import { Router, RouterLink } from '@angular/router';
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
-import { TeamService } from '../../services/team.service';
 
 
 @Component({

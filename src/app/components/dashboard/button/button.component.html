@@ -1,0 +1,10 @@
+<button
+  class="action-button"
+  [ngClass]="color"
+  (click)="onClick.emit()"
+>
+<div class="button-content">
+  <img *ngIf="icon" [src]="icon" alt="{{ label }}" class="button-icon" />
+  <span>{{ label }}</span>
+</div>
+</button>

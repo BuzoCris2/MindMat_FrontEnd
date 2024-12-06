@@ -67,6 +67,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   closeAlertModal() {
+    window.location.reload();
     this.showAlert = false;
   }
 }

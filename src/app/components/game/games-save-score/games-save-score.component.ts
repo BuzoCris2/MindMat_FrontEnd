@@ -18,6 +18,7 @@ import { IScore } from '../../../interfaces';
 export class GamesSaveScoreComponent implements AfterViewInit {
   //public selectedGameId: number | null = null;
   public starsEarned: string = '';
+  public elapsedTime: string = '';
   public scoreService: ScoreService = inject(ScoreService);
   public modalService: ModalService = inject(ModalService);
   scoreResponse: string = '';
@@ -31,6 +32,7 @@ export class GamesSaveScoreComponent implements AfterViewInit {
   @Input() wrongAnswers!: number;
   @Input() correctAnswers!: number;
   @Input() startTime!: Date;
+  @Input() maxTimeForFullStars!: number;
   closeModal() {
     this.modalService.closeAll();
   }
@@ -62,6 +64,7 @@ export class GamesSaveScoreComponent implements AfterViewInit {
     } if (this.selectedGameId === 3) {
       console.log("Cargando puntaje para Mathleship...");
       const timeTaken = this.calculateElapsedTime();
+      this.elapsedTime = this.calculateElapsedTime();
       this.mathleshipSection.nativeElement.classList.remove('display-none');
       const score: IScore = {
         rightAnswers: 0,
@@ -136,4 +139,9 @@ export class GamesSaveScoreComponent implements AfterViewInit {
     const elapsedTime = Math.floor((endTime.getTime() - this.startTime.getTime()) / 1000);
     return new Date(elapsedTime * 1000).toISOString().substr(11, 8);
   }
+
+  parseStarsEarned(stars: string): number {
+    return parseInt(stars, 10) || 0; // Convierte el string a número solo en esta función
+}
+
 }

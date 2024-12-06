@@ -79,6 +79,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: rgb(54, 197, 49) !important;
 }
 
+.page-body-wrapper {
+  margin-top: 100px;
+  min-height: 100vh;
+}
+
 
 .page-wrapper.compact-wrapper .page-body-wrapper div.sidebar-wrapper .sidebar-main .sidebar-links .simplebar-wrapper .simplebar-mask .simplebar-content-wrapper .simplebar-content > li .sidebar-link {
   text-decoration: none;

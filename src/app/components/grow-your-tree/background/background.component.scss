@@ -1,0 +1,14 @@
+.game-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90%;
+  height: 100%;
+  background-image: url('../../../../assets/img/tree-game/fondo-arbol1.jpg');
+  background-size: 100%;
+  background-position: center;
+  z-index: 500; /* Por encima del contenido base */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

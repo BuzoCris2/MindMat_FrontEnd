@@ -37,9 +37,13 @@
             <button (click)="onResetQuiz()">Reiniciar</button>
             <button (click)="onUnlockAllQuestions()">Continuar</button>
         </div>
-        <div class="display-none" #mathleshipScore>
-            <h2>Prueba</h2>
-            </div>
+        <div class="display-none mathleshipModal" #mathleshipScore>
+            <h2>Tiempo conseguido</h2>
+            <h3>{{ elapsedTime }} segundos</h3>
+            <ng-container *ngIf="parseStarsEarned(starsEarned) < 5">
+                <p>Para conseguir todas las estrellas, completa el juego en menos de {{ maxTimeForFullStars }} segundos.</p>
+            </ng-container>            
+        </div>        
         <div class="modal-button-container" #standardContinueButton>
             <button #startGame (click)="closeModal()" class="continue">Continuar</button>
         </div>
