@@ -127,8 +127,6 @@ export class StageTwoComponent {
     // Guardar los resultados del puntaje
     this.correctAnswers = correct;
     this.wrongAnswers = wrong;
-    // Eliminar el uso de ModalService aquí
-    // Ya que estamos controlando la visibilidad con *ngIf
 }
 
   closeModal(){
