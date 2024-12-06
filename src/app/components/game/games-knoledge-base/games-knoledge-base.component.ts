@@ -23,7 +23,6 @@ export class GamesKnoledgeBaseComponent {
   
   // Método para cambiar el índice y emitirlo al padre
   checkButton(){
-    console.log(this.currentIndex);
     if(this.currentIndex == 0){
       this.previous.nativeElement.disabled = true;
     }

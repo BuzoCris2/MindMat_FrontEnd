@@ -48,7 +48,6 @@ export class GamesSaveScoreComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     if (this.selectedGameId == 1) {
-      console.log("enchó");
       this.keyboarSection.nativeElement.classList.remove('display-none');
       let score: IScore = {
         rightAnswers: this.correctAnswers,
@@ -71,7 +70,6 @@ export class GamesSaveScoreComponent implements AfterViewInit {
         }
       });
     } if (this.selectedGameId === 3) {
-      console.log("Cargando puntaje para Mathleship...");
       const timeTaken = this.calculateElapsedTime();
       this.elapsedTime = this.calculateElapsedTime();
       this.mathleshipSection.nativeElement.classList.remove('display-none');
@@ -91,15 +89,13 @@ export class GamesSaveScoreComponent implements AfterViewInit {
       this.scoreService.save(score).subscribe({
         next: (response) => {
           this.starsEarned = response.stars;
-          console.log("Estrellas obtenidas:", this.starsEarned);
-        },
+         },
         error: (err) => {
           console.error("Error guardando el puntaje:", err);
         }
       });
     }
     if (this.selectedGameId === 4) {
-      console.log("Cargando puntaje para Grow Your Tree...");
       const timeTaken = this.calculateElapsedTime();
       this.growTreeSection.nativeElement.classList.remove('display-none');
       const score: IScore = {
@@ -120,7 +116,6 @@ export class GamesSaveScoreComponent implements AfterViewInit {
           this.starsEarned = response.stars;
           this.correctAnswers = response.rightAnswers;
           this.wrongAnswers = response.wrongAnswers;
-          console.log("Estrellas obtenidas:", this.starsEarned);
         },
         error: (err) => {
           console.error("Error guardando el puntaje:", err);
