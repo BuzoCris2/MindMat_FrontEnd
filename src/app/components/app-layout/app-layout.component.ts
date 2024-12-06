@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TopbarComponent } from './elements/topbar/topbar.component';
 import { CommonModule } from '@angular/common';
+import { BackgroundComponent } from "../auth/background/background.component";
 
 
 
@@ -11,12 +12,13 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     RouterOutlet,
-    TopbarComponent
-  ],
+    TopbarComponent,
+    BackgroundComponent
+],
   templateUrl: './app-layout.component.html',
   styleUrls: ['./app-layout.component.scss'],
 })
 export class AppLayoutComponent {
+isGameActive: any;
   
-
 }

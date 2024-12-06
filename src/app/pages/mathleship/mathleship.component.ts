@@ -83,38 +83,21 @@ export class MathleshipComponent implements OnInit {
     this.selectedGame = 3; // Inicialización dentro del constructor
 }
 
-  /*ngOnInit(): void {
-    this.initializeGame();
-
-    this.mathleshipService.getShips().subscribe({
-  next: (response) => {
-    console.log('Datos recibidos de los barcos:', response);
-    if (response) {  
-      this.board = this.buildBoard(response);
-      this.initializeShipsStatus(response);
-      
-    } else {
-      console.error('No se recibieron datos de los barcos.');
-    }
-  },
-  error: (err) => console.error('Error al obtener los barcos', err)
-});
-
-  }*/
+ 
 
 ngOnInit(): void {
   this.fetchGridData();
 
   this.mathleshipService.initializeBoard().subscribe({
     next: (ships: IShip[]) => {
-      console.log('Datos de barcos recibidos desde el backend:', ships);
+     
 
       this.ships = ships; // Guardar barcos localmente
       this.board = this.buildBoard(ships); // Construir el tablero
       this.initializeShipsStatus(ships); // Inicializar el estado de los barcos
     },
     error: (err) => {
-      console.error('Error al inicializar el tablero:', err);
+     
     },
   });
 }
@@ -151,7 +134,6 @@ updateTextIndex(newIndex: number) {
       this.shipsStatus[`ship${index + 1}`] = false; // Todos los barcos inician como no derribados
       
     });
-    console.log('Datos de barcos inicializados:', this.ships);
   }
 
   checkShipStatus(): void {
@@ -169,7 +151,6 @@ updateTextIndex(newIndex: number) {
     });
 
     this.checkGameOver();
-    console.log('Estado actualizado de los barcos:', this.shipsStatus);
   }
   
 
@@ -195,7 +176,6 @@ updateTextIndex(newIndex: number) {
             board[rowIndex][columnIndex] = 'S';
         });
     });
-    console.log('Tablero construido:', board);
     return board;
   }
   
@@ -217,10 +197,8 @@ updateTextIndex(newIndex: number) {
               //this.board[row][column] = 'H';
                 this.generateMathOperation();
                 this.mathVisible = true;
-                console.log('Modal abierto, mathVisible:', this.mathVisible);
-            } else {
+              } else {
               this.board[row][column] = 'M';
-                console.log('No hay barco en esta casilla');
             }
         },
         error: (err) => console.error('Error selecting cell', err)
@@ -233,7 +211,6 @@ updateTextIndex(newIndex: number) {
     this.number2 = Math.floor(Math.random() * 10) + 1;
     const operators = ['+', '-', '*', '/'];
     this.operator = operators[Math.floor(Math.random() * operators.length)];
-    console.log('Operación generada:', this.number1, this.operator, this.number2);
 
     if (this.operator === '/') {
       // Generar divisiones válidas
@@ -320,9 +297,9 @@ updateTextIndex(newIndex: number) {
     }
     if (!this.powerups[index].used) {
       this.selectedPowerup = index; // Guardamos el índice del PowerUp seleccionado
-      console.log('PowerUp seleccionado:', this.powerups[index].name);
+     
     } else {
-      console.log('Intentaste seleccionar un PowerUp ya usado:', this.powerups[index]);
+     
       this.triggerAlert('error', 'Nada es para siempre', 'Ya utilizaste este PowerUp', 'Continuar');
     }
   }
@@ -338,7 +315,6 @@ updateTextIndex(newIndex: number) {
 
   usePowerup(index: number): void {
     this.powerups[index].used = true;
-    console.log(`PowerUp ${index} marcado como usado.`);
   }
   
   hoverColumn(column: number) {
@@ -406,64 +382,33 @@ updateTextIndex(newIndex: number) {
   
   
   activateColumnPowerup(column: number) {
-    console.log('Intentando activar PowerUp para la columna:', column);
-  
     if (this.selectedPowerup !== 0 || this.powerups[0].used) {
-      console.log('PowerUp no activado. No es el seleccionado o ya fue usado.');
-      return; // Verifica que el PowerUp no se ha usado y es el correcto
+       return; // Verifica que el PowerUp no se ha usado y es el correcto
     }
-  
-    /*const hasShip = this.board.some(row => row[column] === 'S'); // Verifica si hay barcos
-    console.log('¿Hay barcos en la columna seleccionada?', hasShip);
-  
-    if (hasShip) {
-      console.log('Barcos encontrados en la columna. Generando operación matemática...');
-      this.generateMathOperation(); // Genera operación matemática
-      this.mathVisible = true; // Muestra el modal
-      this.selectedColumnHover = column; // Guarda la columna seleccionada
-      this.lastSelectedColumn = column;
-      console.log('Columna seleccionada guardada:', this.selectedColumnHover);
-    } else {
-      console.log('No se encontraron barcos en la columna seleccionada.');
-      this.alertType = 'error';
-      this.alertMessage = 'No hay barcos en esta columna.';
-      setTimeout(() => (this.alertMessage = ''), 2000);
-    }*/
-
-    console.log('Generando operación matemática para la columna seleccionada...');
     this.generateMathOperation(); // Genera operación matemática
     this.mathVisible = true; // Muestra el modal
     this.selectedColumnHover = column; // Guarda la columna seleccionada
     this.lastSelectedColumn = column;
-    console.log('Columna seleccionada guardada:', this.selectedColumnHover);
+   
   }  
   
   submitAnswerForColumn(column: number | null) {
-    console.log('Intentando resolver la operación para la columna:', column);
     const correctAnswer = this.calculateCorrectAnswer(); // Calcula la respuesta correcta
-    console.log('Respuesta correcta calculada:', correctAnswer);
     const userAnswerNumber = parseFloat(this.userAnswer); // Convierte la respuesta del usuario a número
-    console.log('Respuesta del usuario:', userAnswerNumber);
-    
     if (column === null || column === undefined) {
       column = this.lastSelectedColumn; // Usamos la última columna seleccionada
     }
   
     if (userAnswerNumber === correctAnswer) {
-      console.log('Respuesta correcta. Aplicando PowerUp...');
       // Aplica los efectos del PowerUp
-      console.log('Tablero antes de aplicar PowerUp:', this.board);
       this.board.forEach((row, rowIndex) => {
         if (row[column!] === 'S') {
           row[column!] = 'H'; // Marca como hit si hay barco
-          console.log(`Celda [${rowIndex}, ${column}] marcada como "Hit".`);
+
         } else if (row[column!] === '') {
           row[column!] = 'M'; // Marca como miss si no hay barco
-          console.log(`Celda [${rowIndex}, ${column}] marcada como "Miss".`);
-        }
+           }
       });
-      console.log('Tablero después de aplicar PowerUp:', this.board);
-
       this.checkShipStatus();
   
       // Feedback en el modal
@@ -474,86 +419,52 @@ updateTextIndex(newIndex: number) {
   
       // Cierra el modal después de 2 segundos
       setTimeout(() => {
-        console.log('Cerrando modal después de usar el PowerUp...');
         this.closeMathModal(); // Cierra el modal
       }, 800);
     } else {
-      console.log('Respuesta incorrecta. Mostrando feedback de error.');
       // Feedback en el modal en caso de error
       this.showFeedbackMessage(false);
       this.powerups[0].used = true; // Marca el PowerUp como usado
       this.selectedPowerup = null; // Resetea el PowerUp seleccionado
       this.selectedColumnHover = null;
       setTimeout(() => {
-        console.log('Cerrando modal por respuesta incorrecta...');
         this.closeMathModal();
       }, 900);
     }
   }
 
   activateRowPowerup(row: number) {
-    console.log('Intentando activar PowerUp para la fila:', row);
-  
+
     if (this.selectedPowerup !== 1 || this.powerups[1].used) {
-      console.log('PowerUp no activado. No es el seleccionado o ya fue usado.');
       return; // Verifica que el PowerUp no se ha usado y es el correcto
     }
-  
-    /*const hasShip = this.board[row].some((cell) => cell === 'S'); // CORRECTO
-    console.log('¿Hay barcos en la fila seleccionada?', hasShip);
-  
-    if (hasShip) {
-      console.log('Barcos encontrados en la fila. Generando operación matemática...');
       this.generateMathOperation(); // Genera operación matemática
       this.mathVisible = true; // Muestra el modal
       this.selectedRowHover = row; // Guarda la fila seleccionada
       this.lastSelectedRow = row;
-      console.log('Fila seleccionada guardada:', this.selectedRowHover);
-    } else {
-      console.log('No se encontraron barcos en la fila seleccionada.');
-      this.alertType = 'error';
-      this.alertMessage = 'No hay barcos en esta fila.';
-      setTimeout(() => (this.alertMessage = ''), 2000);
-    }*/
-
-      console.log('Generando operación matemática para la fila seleccionada...');
-      this.generateMathOperation(); // Genera operación matemática
-      this.mathVisible = true; // Muestra el modal
-      this.selectedRowHover = row; // Guarda la fila seleccionada
-      this.lastSelectedRow = row;
-      console.log('Fila seleccionada guardada:', this.selectedRowHover);
-  }
+    }
   
   submitAnswerForRow(row: number | null) {
-    console.log('Intentando resolver la operación para la fila:', row);
     const correctAnswer = this.calculateCorrectAnswer(); // Calcula la respuesta correcta
-    console.log('Respuesta correcta calculada:', correctAnswer);
     const userAnswerNumber = parseFloat(this.userAnswer); // Convierte la respuesta del usuario a número
-    console.log('Respuesta del usuario:', userAnswerNumber);
-  
+
     if (row === null || row === undefined) {
       row = this.lastSelectedRow; // Usamos la última fila seleccionada
     }
 
     if (row === null || row < 0 || row >= this.board.length) {
-      console.error('Índice de fila no válido o fuera de rango:', row);
       return;
     }
   
     if (userAnswerNumber === correctAnswer) {
-      console.log('Respuesta correcta. Aplicando PowerUp...');
       // Aplica los efectos del PowerUp
-      console.log('Tablero antes de aplicar PowerUp:', this.board);
       this.board[row!].forEach((cell, columnIndex) => {
         if (cell === 'S') {
           this.board[row!][columnIndex] = 'H'; // Marca como hit si hay barco
-          console.log(`Celda [${row}, ${columnIndex}] marcada como "Hit".`);
-        } else if (cell === '') {
+          } else if (cell === '') {
           this.board[row!][columnIndex] = 'M'; // Marca como miss si no hay barco
-          console.log(`Celda [${row}, ${columnIndex}] marcada como "Miss".`);
-        }
+          }
       });
-      console.log('Tablero después de aplicar PowerUp:', this.board);
 
       this.checkShipStatus();
   
@@ -565,63 +476,32 @@ updateTextIndex(newIndex: number) {
   
       // Cierra el modal después de 2 segundos
       setTimeout(() => {
-        console.log('Cerrando modal después de usar el PowerUp...');
         this.closeMathModal(); // Cierra el modal
       }, 800);
     } else {
-      console.log('Respuesta incorrecta. Mostrando feedback de error.');
       // Feedback en el modal en caso de error
       this.showFeedbackMessage(false);
       this.powerups[1].used = true; // Marca el PowerUp como usado
       this.selectedPowerup = null; // Resetea el PowerUp seleccionado
       this.selectedRowHover = null;
       setTimeout(() => {
-        console.log('Cerrando modal por respuesta incorrecta...');
         this.closeMathModal();
       }, 900);
     }
   }  
 
   activateCrossPowerup(row: number, column: number) {
-    console.log('Intentando activar PowerUp de cruz en la casilla:', row, column);
-  
-    if (this.selectedPowerup !== 2 || this.powerups[2].used) {
-      console.log('PowerUp no activado. No es el seleccionado o ya fue usado.');
-      return; // Verifica que el PowerUp no se ha usado y es el correcto
-    }
-  
-    // Validar si hay barcos en alguna de las casillas afectadas
-    /*const affectedPositions = this.getAffectedPositions(row, column);
-    const hasShip = affectedPositions.some(
-      ([r, c]) => this.board[r] && this.board[r][c] === 'S'
-    );
-  
-    console.log('¿Hay barcos en las casillas afectadas?', hasShip);
-  
-    if (hasShip) {
-      console.log('Barcos encontrados en las casillas. Generando operación matemática...');
-      this.generateMathOperation(); // Genera operación matemática
-      this.mathVisible = true; // Muestra el modal
-      this.selectedRow = row;
-      this.selectedColumn = column; // Guarda la posición seleccionada
-      console.log('Casilla seleccionada guardada:', row, column);
-    } else {
-      console.log('No se encontraron barcos en las casillas afectadas.');
-      this.triggerAlert(
-        'error',
-        'No hay barcos',
-        'No hay barcos en las casillas afectadas por este PowerUp.',
-        'Cerrar'
-      );
-    }*/
 
-      console.log('Generando operación matemática para el PowerUp de cruz...');
+    if (this.selectedPowerup !== 2 || this.powerups[2].used) {
+    return; // Verifica que el PowerUp no se ha usado y es el correcto
+    }
+
+
       this.generateMathOperation(); // Genera operación matemática
       this.mathVisible = true; // Muestra el modal
       this.selectedRow = row;
       this.selectedColumn = column; // Guarda la posición seleccionada
-      console.log('Casilla seleccionada guardada:', row, column);
-  }
+}
   
   getAffectedPositions(row: number, column: number): [number, number][] {
     const positions: [number, number][] = [
@@ -639,28 +519,20 @@ updateTextIndex(newIndex: number) {
   }
 
   submitAnswerForCross(row: number, column: number) {
-    console.log('Intentando resolver la operación para la cruz en:', row, column);
     const correctAnswer = this.calculateCorrectAnswer();
-    console.log('Respuesta correcta calculada:', correctAnswer);
     const userAnswerNumber = parseFloat(this.userAnswer);
-    console.log('Respuesta del usuario:', userAnswerNumber);
-  
+
     if (userAnswerNumber === correctAnswer) {
-      console.log('Respuesta correcta. Aplicando PowerUp de cruz...');
-      const affectedPositions = this.getAffectedPositions(row, column);
+    const affectedPositions = this.getAffectedPositions(row, column);
   
       // Aplica los efectos del PowerUp
-      console.log('Tablero antes de aplicar PowerUp:', this.board);
-      affectedPositions.forEach(([r, c]) => {
+    affectedPositions.forEach(([r, c]) => {
         if (this.board[r][c] === 'S') {
           this.board[r][c] = 'H'; // Marca como hit si hay barco
-          console.log(`Celda [${r}, ${c}] marcada como "Hit".`);
         } else if (this.board[r][c] === '') {
           this.board[r][c] = 'M'; // Marca como miss si no hay barco
-          console.log(`Celda [${r}, ${c}] marcada como "Miss".`);
         }
       });
-      console.log('Tablero después de aplicar PowerUp:', this.board);
 
       this.checkShipStatus();
   
@@ -671,16 +543,13 @@ updateTextIndex(newIndex: number) {
   
       // Cierra el modal después de 2 segundos
       setTimeout(() => {
-        console.log('Cerrando modal después de usar el PowerUp...');
         this.closeMathModal(); // Cierra el modal
       }, 800);
     } else {
-      console.log('Respuesta incorrecta. Mostrando feedback de error.');
       // Feedback en el modal en caso de error
       this.showFeedbackMessage(false);
       setTimeout(() => {
-        console.log('Cerrando modal por respuesta incorrecta...');
-        this.closeMathModal();
+      this.closeMathModal();
       }, 900);
     }
   }
@@ -705,7 +574,6 @@ updateTextIndex(newIndex: number) {
       default:
         correctAnswer = 0; // Fallback por si ocurre un error
     }
-    console.log('Operación matemática:', `${this.number1} ${this.operator} ${this.number2} = ${correctAnswer}`);
     return correctAnswer;
   }
   
@@ -724,8 +592,7 @@ updateTextIndex(newIndex: number) {
 checkGameOver(): void {
   const allShipsDestroyed = Object.values(this.shipsStatus).every(status => status === true);
   if (allShipsDestroyed && this.remainingTime > 0) {
-    console.log("¡Todos los barcos han sido derribados! El juego ha terminado.");
-    this.endGame(); // Llama al método para finalizar el juego y mostrar el modal
+  this.endGame(); // Llama al método para finalizar el juego y mostrar el modal
   }
 }
 

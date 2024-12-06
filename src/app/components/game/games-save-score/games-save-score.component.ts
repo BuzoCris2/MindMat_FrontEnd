@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router'; 
 import { Component, inject, Output, EventEmitter, Input, ElementRef, Renderer2, ViewChild, viewChild, OnInit, AfterViewInit } from '@angular/core';
 import { ModalComponent } from '../../modal/modal.component';
 import { ModalService } from '../../../services/modal.service';
@@ -21,11 +22,13 @@ export class GamesSaveScoreComponent implements AfterViewInit {
   public elapsedTime: string = '';
   public scoreService: ScoreService = inject(ScoreService);
   public modalService: ModalService = inject(ModalService);
+  
   scoreResponse: string = '';
   @ViewChild('scoreModal') public scoreModal: any;
   @ViewChild('keyboardScore') keyboarSection!: ElementRef<HTMLDivElement>;
   @ViewChild('colorScore') colorSection!: ElementRef<HTMLDivElement>;
   @ViewChild('mathleshipScore') mathleshipSection!:  ElementRef <HTMLDivElement>;
+  @ViewChild('growTreeScore') growTreeSection!: ElementRef<HTMLDivElement>;
   @ViewChild('standardContinueButton') standardContinueButton!: ElementRef<HTMLDivElement>;
   @Output() calculationInit = new EventEmitter<number>();
   @Input() selectedGameId!: number;
@@ -33,13 +36,18 @@ export class GamesSaveScoreComponent implements AfterViewInit {
   @Input() correctAnswers!: number;
   @Input() startTime!: Date;
   @Input() maxTimeForFullStars!: number;
+ 
+  constructor(
+    private router: Router
+  ) {}
+
   closeModal() {
-    this.modalService.closeAll();
+ this.router.navigateByUrl('/app/user-dashboard');
+ this.modalService.closeAll();
   }
 
   ngAfterViewInit() {
     if (this.selectedGameId == 1) {
-      console.log("enchó");
       this.keyboarSection.nativeElement.classList.remove('display-none');
       let score: IScore = {
         rightAnswers: this.correctAnswers,
@@ -62,7 +70,6 @@ export class GamesSaveScoreComponent implements AfterViewInit {
         }
       });
     } if (this.selectedGameId === 3) {
-      console.log("Cargando puntaje para Mathleship...");
       const timeTaken = this.calculateElapsedTime();
       this.elapsedTime = this.calculateElapsedTime();
       this.mathleshipSection.nativeElement.classList.remove('display-none');
@@ -82,7 +89,33 @@ export class GamesSaveScoreComponent implements AfterViewInit {
       this.scoreService.save(score).subscribe({
         next: (response) => {
           this.starsEarned = response.stars;
-          console.log("Estrellas obtenidas:", this.starsEarned);
+         },
+        error: (err) => {
+          console.error("Error guardando el puntaje:", err);
+        }
+      });
+    }
+    if (this.selectedGameId === 4) {
+      const timeTaken = this.calculateElapsedTime();
+      this.growTreeSection.nativeElement.classList.remove('display-none');
+      const score: IScore = {
+        rightAnswers: this.correctAnswers,
+        wrongAnswers: this.wrongAnswers,
+        game: {
+          id: 4,
+          name: "Grow Your Tree",
+          description: "Juego basado en operaciones matemáticas.",
+          createdAt: "2024-11-29T00:10:20.000+00:00",
+          updatedAt: "2024-11-29T00:11:01.000+00:00"
+        },
+        timeTaken: timeTaken
+      };
+    
+      this.scoreService.save(score).subscribe({
+        next: (response) => {
+          this.starsEarned = response.stars;
+          this.correctAnswers = response.rightAnswers;
+          this.wrongAnswers = response.wrongAnswers;
         },
         error: (err) => {
           console.error("Error guardando el puntaje:", err);
@@ -118,7 +151,6 @@ export class GamesSaveScoreComponent implements AfterViewInit {
   @Output() resetQuizEvent = new EventEmitter<void>();  // Evento para reiniciar el quiz
   @Output() unlockAllQuestionsEvent = new EventEmitter<void>();  // Evento para continuar
 
-  constructor() {}
 
   // Método para emitir el evento de reinicio
   onResetQuiz() {

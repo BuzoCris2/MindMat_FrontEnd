@@ -77,8 +77,6 @@ export class TeamFormComponent {
       avatarId: 1, 
     };
 
-    console.log('Payload enviado al backend:', team);
-
     if (team.id) {
       this.callUpdateMethod.emit(team);
     } else {

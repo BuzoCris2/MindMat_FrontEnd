@@ -1,16 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stage-three',
-  standalone: true, // Marcar como standalone
-  imports: [CommonModule, FormsModule], // Importar los módulos necesarios
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './stage-three.component.html',
   styleUrls: ['./stage-three.component.scss'],
 })
 export class StageThreeComponent {
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
+
+  constructor(private router: Router) {}
+
   ctx!: CanvasRenderingContext2D;
   isDrawing = false;
   selectedColor = '#000000';
@@ -89,4 +93,8 @@ export class StageThreeComponent {
   }
   
   
+
+  goToNextPage() {
+    this.router.navigate(['/app/dashboard']);
+  }
 }

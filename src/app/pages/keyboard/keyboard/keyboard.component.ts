@@ -77,7 +77,7 @@ export class KeyboardComponent implements OnInit{
     this.wrongAnwsers = wrong;
     this.selectedGame = 1;
     this.modalService.displayModal('md', this.scoreModal);
-    this.router.navigateByUrl('/app/user-dashboard');
+
   }
 
   currentNote(key: string){
@@ -102,7 +102,6 @@ export class KeyboardComponent implements OnInit{
       this.keys[numberKey].tone='st';
     }else if(this.keys[numberKey-1].status == 'toPlay' && numberKey == this.keys.length){
       this.scalePlayed.splice(0, 1)
-      console.log(this.scalePlayed);
       this.verifyAnswers();
     }
   }
@@ -113,10 +112,8 @@ export class KeyboardComponent implements OnInit{
     for(let i = 0; i<this.scalePlayed.length; i++){
       if(this.scalePlayed[i] == this.scaleSelected.responseExpected[i]){
         correctCounter ++;
-        console.log("+1");
       }else {
         wrongCounter ++;
-        console.log("-1");
       }
     }
     let diferenceResponse = 0;
@@ -124,9 +121,6 @@ export class KeyboardComponent implements OnInit{
       diferenceResponse = this.scaleSelected.responseExpected.length - this.scalePlayed.length;
     }
     wrongCounter = wrongCounter + diferenceResponse;
-    console.log(this.scalePlayed);
-    console.log(this.scaleSelected.responseExpected);
-    console.log("Correctas: "+ this.scoreModal.correctAnswers + ', Erroneas: '+this.scoreModal.wrongAnswers);
     this.saveScore(correctCounter, wrongCounter);
   }
 }

@@ -25,8 +25,7 @@ export class ProfileService extends BaseService<IUser> {
     this.findAll().subscribe({
       next: (response: any) => {
         this.userSubject.next(response); 
-        console.log("Datos del usuario logueado:", response);
-      },
+       },
       error: (error: any) => {
         this.alertSubject.next({
           type: 'error',

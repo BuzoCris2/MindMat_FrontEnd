@@ -23,7 +23,6 @@ export class GamesKnoledgeBaseComponent {
   
   // Método para cambiar el índice y emitirlo al padre
   checkButton(){
-    console.log(this.currentIndex);
     if(this.currentIndex == 0){
       this.previous.nativeElement.disabled = true;
     }
@@ -60,7 +59,11 @@ export class GamesKnoledgeBaseComponent {
   popUpGame(){
     this.modalService.displayModal('md', this.addTestModal);
   }
-
+  
+  startGame() {
+    this.gameStart.emit(); // Notificar al padre que el juego ha comenzado
+    this.modalService.closeAll();
+  }
 
   cancelGame(){
     this.modalService.closeAll();

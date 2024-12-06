@@ -27,8 +27,6 @@ export class AchievementsComponent implements OnInit{
     this.achievementsService.getAchievements().subscribe({
       next: (data) => {
         this.achievements = data;
-
-        // Duplica los elementos para crear un carrusel infinito
         this.infiniteAchievements = [
           ...this.achievements,
           ...this.achievements,
@@ -36,7 +34,7 @@ export class AchievementsComponent implements OnInit{
         ];
       },
       error: (err) => {
-        console.error('Error fetching achievements:', err);
+        
       },
     });
   }
