@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <!-- Pantalla de confirmación -->
+  <!-- Pantalla de confirmación 
   <div class="confirmation-page" *ngIf="currentTextIndex === 3">
     <img src="assets/img/Characters/birdCharacter2.png" alt="Confirmación" class="intro-image" />
     <h1>¿Listo para comenzar?</h1>
@@ -47,7 +47,7 @@
       <button class="navigation-button" (click)="startGame()">¡Comenzar!</button>
       <button class="navigation-button" (click)="goBackToInstructions()">Regresar</button>
     </div>
-  </div>
+  </div> -->
 
   <div class="row p-4 game-container" *ngIf="currentTextIndex === 4">
     <!-- Tablero -->
@@ -112,23 +112,18 @@
       <p>Haz ayudado a Rover a llegar a su destino.</p>
       <p>Estrellas ganadas: ⭐ x {{ starsEarned }}</p>
       <img src="assets/img/avatars/avatar3.png" alt="Felicidades" class="congratulations-image" />
-      <button class="restart-button" (click)="restartGame()">Reiniciar</button>
+      <button class="restart-button" (click)="restartGame()">Continuar</button>
     </div>
   </div>
-    
-  <!-- Barra Inferior -->
-  <div class="footer-nav">
-    <button class="footer-button prev" (click)="navigateToPrevious()">← Anterior</button>
-    <span class="footer-page">~{{ currentTextIndex + 1 }}~</span>
-    <button class="footer-button next" (click)="navigateToNext()">Siguiente →</button>
-  </div>
-</div>
 
+  <app-games-knoledge-base [numberOfPages]=4 (textIndexChange)="updateTextIndex($event)" />
+    
 <ng-template #scoreModal>
   <app-games-save-score
     [selectedGameId]="selectedGameId"
     [startTime]="gameStartTime"
     [maxTimeForFullStars]="180"
+    [maxTimeForFullStars]="40"
     (continueClicked)="onContinue()"
     class="save-score-modal">
   </app-games-save-score>

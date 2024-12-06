@@ -11,30 +11,54 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of teams; trackBy: trackById">
+      <tr *ngFor="let item of _teams; trackBy: trackById">
+        <!-- Aquí usas `_teams` para recorrer la lista -->
         <td>{{ item.id }}</td>
         <td>
-            <img
-                [src]="item.avatarId ? 'assets/img/avatars/avatar' + item.avatarId + '.png' : 'assets/img/avatars/default.png'"
-                alt="Avatar"
-                class="avatar-img"
-            />
+          <img
+            [src]="item.avatarId ? 'assets/img/avatars/avatar' + item.avatarId + '.png' : 'assets/img/avatars/default.png'"
+            alt="Avatar"
+            class="avatar-img"
+          />
         </td>
         <td>{{ item.name }}</td>
         <td>{{ item.description }}</td>
         <td>
-            <ng-container *ngIf="item.teacherLeader">
-                {{ item.teacherLeader.name || 'N/A' }} {{ item.teacherLeader.lastname || '' }}
-            </ng-container>
-            <ng-container *ngIf="!item.teacherLeader">
-                N/A
-            </ng-container>
+          <ng-container *ngIf="item.teacherLeader">
+            {{ item.teacherLeader.name || 'N/A' }} {{ item.teacherLeader.lastname || '' }}
+          </ng-container>
+          <ng-container *ngIf="!item.teacherLeader">
+            N/A
+          </ng-container>
         </td>
         <td>
-            <button (click)="callModalAction.emit(item)" class="btn btn-warning me-2"><i class="fas fa-pen"></i></button>
-            <button (click)="callDeleteAction.emit(item)" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+          <button (click)="callModalAction.emit(item)" class="btn btn-warning me-2">
+            <i class="fas fa-pen"></i>
+          </button>
+          <button (click)="confirmDeleteTeam(item)" class="btn btn-danger">
+            <i class="fas fa-trash"></i>
+          </button>
         </td>
-    </tr>    
-    </tbody>      
+      </tr>      
+    </tbody>
   </table>
+</div>
+<p *ngIf="!teams?.length" class="text-center mt-4">No teams to display.</p> <!-- Mensaje si no hay equipos -->
+<div *ngIf="isModalVisible" class="modal-backdrop">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Deletion</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the team: <strong>{{ selectedTeam?.name }}</strong>?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="confirmTeamDeletion()">Delete</button>
+
+      </div>
+    </div>
+  </div>
 </div>
