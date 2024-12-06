@@ -85,25 +85,6 @@ export interface IOrder {
   total?: number;
 }
 
-export interface ICategory {
-  id?: number;
-  name?: string;
-  description?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-export interface IProduct {
-  id?: number;
-  name?: string;
-  description?: string;
-  price?: number;
-  stockQuantity?: number;
-  createdAt?: string;
-  updatedAt?: string;
-  category?: ICategory;
-}
-
 export interface ISearch {
   page?: number;
   size?: number;
