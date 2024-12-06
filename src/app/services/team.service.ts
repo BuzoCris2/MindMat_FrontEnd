@@ -41,27 +41,11 @@ export class TeamService extends BaseService<ITeam>{
     );
   }
   
-  /*getAllByUser(): Observable<ITeam[]> {
-    return this.findAllWithParamsAndCustomSource(
-      `byTeacher/${this.authService.getUser()?.id}`,
-      { page: this.search.page, size: this.search.size }
-    ).pipe(
-      tap((response: any) => {
-        if (Array.isArray(response)) {
-          this.teamListSignal.set(response); // Actualiza el signal.
-        } else if (response.data) {
-          this.teamListSignal.set(response.data);
-        }
-      })
-    );
-  } */
-
     getAllByUser(): Observable<ITeam[]> {
       const userId = this.authService.getUser()?.id;
       const url = `teams/byTeacher`; // URL relativa
       return this.http.get<ITeam[]>(url).pipe(
         tap((response) => {
-          console.log('Respuesta del backend:', response); // Debug
           this.teamListSignal.set(response); // Actualiza la señal con la respuesta
         })
       );
@@ -73,23 +57,17 @@ export class TeamService extends BaseService<ITeam>{
   getCountByTeacher() {
     this.findAllWithParamsAndCustomSource(`countByTeacher/${this.authService.getUser()?.id}`, { page: this.search.page, size: this.search.size }).subscribe({
       next: (response: any) => {
-        console.log('Respuesta de conteo:', response);
-        
         // Ajustar asignación según el formato
         if (Array.isArray(response)) {
           this.teamListSignal.set(response); // Si la respuesta es un arreglo directo
         } else if (response.data) {
           this.teamListSignal.set(response.data); // Si la respuesta tiene una propiedad `data`
         } else {
-          console.warn('Formato inesperado de respuesta:', response);
           this.teamListSignal.set([]); // Si la respuesta no es válida, se asegura de que el signal no quede con undefined
         }
-        
-        console.log('Datos actualizados en conteo de teamListSignal:', this.teamListSignal());
-      },
+        },
       error: (err: any) => {
-        console.error('Error al obtener los datos:', err);
-        this.teamListSignal.set([]); // Asegurarse de que no quede undefined si hay error
+         this.teamListSignal.set([]); // Asegurarse de que no quede undefined si hay error
       }
     });
   }
@@ -99,7 +77,6 @@ export class TeamService extends BaseService<ITeam>{
       next: (response: any) => {
         this.alertService.displayAlert('success', response.message, 'center', 'top', ['success-snackbar']);
         this.getAllByUser();
-        console.log(response);
       },
       error: (err: any) => {
         this.alertService.displayAlert('error', 'An error occurred adding the team', 'center', 'top', ['error-snackbar']);

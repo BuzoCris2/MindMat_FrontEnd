@@ -22,7 +22,7 @@ export class GameService extends BaseService<IGame>{
         this.itemListSignal.set(response);
       },
       error: (error : any) => {
-        console.log('error', error);
+       
       }
     });
   }

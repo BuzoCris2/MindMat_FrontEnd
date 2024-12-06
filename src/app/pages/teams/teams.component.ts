@@ -73,8 +73,7 @@ export class TeamsComponent {
     if (isAdmin) {
       this.teamService.getAllByUser().subscribe({
         next: (teams) => {
-          console.log('Equipos cargados para docente:', teams); // Debug
-        },
+ },
         error: (err) => {
           console.error('Error cargando equipos:', err);
         }
@@ -82,8 +81,7 @@ export class TeamsComponent {
     } else {
       this.teamService.getAll().subscribe({
         next: (teams) => {
-          console.log('Todos los equipos cargados:', teams); // Debug
-        },
+},
         error: (err) => {
           console.error('Error cargando todos los equipos:', err);
         }
