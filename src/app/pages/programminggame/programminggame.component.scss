@@ -199,7 +199,6 @@
   height: auto;
 }
 
-/* Barra inferior */
 .footer-nav {
   position: fixed; 
   bottom: 0; 
@@ -296,7 +295,7 @@
   border-radius: 10px; 
 }
 
-/* Animación de elementos */
+
 .meta-animation {
   width: 200px;
   height: auto;
@@ -385,6 +384,14 @@
 .restart-button:hover {
   background-color: #45a049; 
 }
+
+.timer-container {
+  margin-top: 20px; 
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+}
+
 
 @keyframes bounce {
   0%,

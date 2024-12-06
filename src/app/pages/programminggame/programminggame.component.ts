@@ -6,8 +6,11 @@ import { GamesSaveScoreComponent } from '../../components/game/games-save-score/
 import { AlertModalComponent } from '../../components/alert/alert-modal.component';
 import { TimerComponent } from '../../components/timer/timer.component';
 import { GamesKnoledgeBaseComponent } from './../../components/game/games-knoledge-base/games-knoledge-base.component';
+import { AfterViewInit, ViewChild } from '@angular/core';
 
-@Component({
+
+
+@Component({  
   selector: 'app-programminggame',
   templateUrl: './programminggame.component.html',
   styleUrls: ['./programminggame.component.scss'],
@@ -21,7 +24,7 @@ import { GamesKnoledgeBaseComponent } from './../../components/game/games-knoled
   ],
 })
 
-export class ProgrammingGameComponent implements OnInit {
+export class ProgrammingGameComponent implements OnInit, AfterViewInit {
   // Variables principales del juego
   grid: number[] = Array(25).fill(0); 
   roverPosition: number = 0; 
@@ -38,6 +41,13 @@ export class ProgrammingGameComponent implements OnInit {
   showLifeMessage: boolean = false;
   showGameOverPopup: boolean = false;
   showCongratulationsPopup: boolean = false;
+
+  @ViewChild(TimerComponent) timerComponent!: TimerComponent;
+
+  ngAfterViewInit(): void {
+    console.log('Temporizador inicializado:', this.timerComponent);
+    this.timerComponent.startTimer(); // Inicia el temporizador al cargar el componente
+  }
 
 
   // Variables relacionadas con la puntuación y el estado del juego
@@ -187,11 +197,10 @@ export class ProgrammingGameComponent implements OnInit {
   }
 
   restartGame(): void {
-    this.resetGame(); 
-    this.showCongratulationsPopup = false; 
+    this.resetGame(); // Reinicia el juego
+    this.showCongratulationsPopup = false; // Cierra el popup de felicitaciones
+    this.timerComponent.startTimer(); // Reinicia el temporizador
   }
-  
-  
 
   resetGame(): void {
     this.currentTextIndex = 0;
@@ -211,6 +220,22 @@ export class ProgrammingGameComponent implements OnInit {
       console.error('Posiciones conflictivas en el tablero');
     }
   }
+
+
+  onTimeRemaining(timeLeft: number): void {    
+    console.log(`Tiempo restante: ${timeLeft} segundos`);
+  }
+  
+  onTimerEnded(): void {    
+    console.log('¡El tiempo se ha acabado!');
+    this.triggerGameOverPopup();
+  }
+  
+  
+  triggerGameOverPopup(): void {
+    this.showGameOverPopup = true;
+  }
+  
   
 
   closeLifeMessagePopup(): void {

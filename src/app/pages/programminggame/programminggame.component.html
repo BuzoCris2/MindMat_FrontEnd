@@ -77,7 +77,7 @@
           />
         </div>
       </div>
-    </div>
+    </div>    
   
     <!-- Comandos -->
     <div class="col-4">
@@ -95,6 +95,14 @@
         </div>
       </div>      
       <button class="start-button" (click)="executeCommands()">Ejecutar Comandos</button>
+
+      <div class="timer-container">
+        <app-timer 
+          [initialTime]="180" 
+          (timeRemaining)="onTimeRemaining($event)" 
+          (timerEnded)="onTimerEnded()">
+        </app-timer>
+      </div>
     </div>
   </div>
 
