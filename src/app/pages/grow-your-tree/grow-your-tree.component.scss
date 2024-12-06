@@ -75,6 +75,22 @@
     font-family: "Sarabun", sans-serif;
     margin-bottom: 30px; /* Incrementado para añadir más espacio entre el párrafo y otros elementos */
   }
+
+  .pag3 h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    font-family: "Fredoka", sans-serif;
+    margin-bottom: 40px; /* Incrementado para crear más espacio debajo del título */
+  }
+  
+  .pag3 p {
+    font-size: 1.25rem;
+    max-width: 800px; /* Ajustado para darle más espacio al texto */
+    line-height: 1.8; /* Incrementado para mayor legibilidad */
+    font-family: "Sarabun", sans-serif;
+    margin-top: 20px; /* Añadido para crear más espacio entre el título y la explicación */
+    margin-bottom: 30px; /* Espacio adicional debajo del párrafo */
+  }
   
   .pag3Powers img {
     width: 150px;
