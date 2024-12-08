@@ -3,11 +3,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center; /* Alinea los elementos al inicio vertical */
+    align-items: center; 
     margin: 20px;
     width: 96.5%;
     padding: 10px;
-    height: 100%; /* Ajuste dinámico según el contenido */
+    height: 100%; 
     background-color: #f5f5f5;
     border-radius: 20px;
   
@@ -18,18 +18,18 @@
   
   .user-info {
     display: flex;
-    flex-direction: row; /* Alinea los elementos en una fila */
+    flex-direction: row; 
     align-items: center;
-    justify-content: space-between; /* Espaciado entre información y avatar */
-    width: 50%; /* Ocupa la mitad del contenedor principal */
-    text-align: left; /* Alinea el texto a la izquierda */
-    background-color: #fff; /* Fondo blanco */
+    justify-content: space-between; 
+    width: 50%; 
+    text-align: left;
+    background-color: #fff; 
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   
     .user-details {
-      flex: 1; /* Ocupa el espacio disponible */
+      flex: 1; 
       text-align: center;
       h2 {
      
@@ -52,24 +52,24 @@
       flex: 0;
       width: 55%;
       border-radius: 50px;
-      border: 3px solid #4c75e5; /* Borde para resaltar el avatar */
-      margin-left: 10px; /* Espacio entre información y avatar */
+      border: 3px solid #4c75e5;
+      margin-left: 10px; 
     }
   }
   
   
   .actions {
     display: flex;
-    flex-direction: column; /* Botones apilados verticalmente */
+    flex-direction: column; 
     align-items: center;
     margin-left: 30px;
-    justify-content: space-evenly; /* Espaciado uniforme entre botones */
-    width: 50%; /* Ocupa la mitad del contenedor principal */
-    gap: 15px; /* Espaciado adicional entre botones */
+    justify-content: space-evenly; 
+    width: 50%; 
+    gap: 15px; 
   
     /* Añade un diseño responsivo */
     @media (max-width: 768px) {
-      width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
+      width: 100%; 
     }
   
   }

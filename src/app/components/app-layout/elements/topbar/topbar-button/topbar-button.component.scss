@@ -1,0 +1,26 @@
+.topbar-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 55px; /* Ajustar según el diseño */
+    height: 55px;
+    padding: 5px;
+    border-radius: 8px; /* Para bordes redondeados */
+    transition: transform 0.2s, box-shadow 0.2s;
+  
+    &:hover {
+      transform: scale(1.1); /* Efecto de zoom */
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+  
+    .topbar-button-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 5px; /* Bordes redondeados */
+    }
+  }
+  
